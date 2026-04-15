@@ -258,7 +258,7 @@ input.error, select.error { border-color: var(--red); }
 }
 .event-card.xc { border-left-color: var(--green); }
 .event-info { flex: 1; min-width: 0; }
-.event-name { font-weight: 700; font-size: 1rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.event-name { font-weight: 700; font-size: 1rem; color: var(--text); white-space: nowraw; overflow: hidden; text-overflow: ellipsis; }
 .event-sub { font-size: 0.8rem; color: var(--text-soft); margin-top: 2px; }
 .event-status {
   font-size: 0.7rem;
@@ -788,7 +788,7 @@ const SC   = 'sc';  // sportcarnival namespace
 // ââââââââââââââââââââââââââââââââââââââââââââââââââ
 // STATE
 // ââââââââââââââââââââââââââââââââââââââââââââââââââ
-flet carnivalCode = null;
+let carnivalCode = null;
 let carnivalMeta = null;
 let selectedSport = 'athletics';
 let selectedColour = '#1565C0';
@@ -820,80 +820,1333 @@ function setDefaultDate() {
 
 // ââââââââââââââââââââââââââââââââââââââââââââââââââ
 // CARNIVAL CREATION
-// âââââââââââââââââââââââVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸¹
-½ ¤ì(½¹ÍÐ¡ÉÌô	
-!)-159AEIMQUY]aehì(±Ð½ôì(½È¡±Ð¤ôÀì¤ðÐì¤¬¬¤½¬ô¡ÉÍm5Ñ ¹±½½È¡5Ñ ¹É¹½´ ¤¨¡ÉÌ¹±¹Ñ ¥tì(ÉÑÕÉ¸½ì)ô()Õ¹Ñ¥½¸Í±ÑMÁ½ÉÐ¡°¤ì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° ¹ÍÁ½ÉÐµ½ÁÑ¥½¸¤¹½É ¡¼ôø¼¹±ÍÍ1¥ÍÐ¹Éµ½Ù Í±Ñ¤¤ì(°¹±ÍÍ1¥ÍÐ¹ Í±Ñ¤ì(Í±ÑMÁ½ÉÐô°¹ÑÍÐ¹ÍÁ½ÉÐì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% ±¹ÌµÉ½ÕÀ¤¹ÍÑå±¹¥ÍÁ±äôÍ±ÑMÁ½ÉÐôôôáü¹½¹èì)ô()Õ¹Ñ¥½¸Í±Ñ
-½±½ÕÈ¡°¤ì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° ½±½ÕÈµ¡¥ÁÌ¹¡¥À¤¹½É ¡ôø¹±ÍÍ1¥ÍÐ¹Éµ½Ù Í±Ñ¤¤ì(°¹±ÍÍ1¥ÍÐ¹ Í±Ñ¤ì(Í±Ñ
-½±½ÕÈô°¹ÑÍÐ¹½±½ÕÈì)ô()Íå¹Õ¹Ñ¥½¸ÉÑ
-É¹¥Ù° ¤ì(½¹ÍÐÍ¡½½°ô½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÍ¡½½°¤¹Ù±Õ¹ÑÉ¥´ ¤ì(½¹ÍÐ¹µô½Õµ¹Ð¹Ñ±µ¹Ñ	å% µ¹µ¤¹Ù±Õ¹ÑÉ¥´ ¤ì(½¹ÍÐÑô½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÑ¤¹Ù±Õì(½¹ÍÐ±¹ÌôÁÉÍ%¹Ð¡½Õµ¹Ð¹Ñ±µ¹Ñ	å% µ±¹Ì¤¹Ù±Õ¤ì((¥ Í¡½½°¤ìÑ½ÍÐ ¹ÑÈå½ÕÈÍ¡½½°¹µ¤ìÉÑÕÉ¸ìô(¥ ¹µ¤ìÑ½ÍÐ ¹ÑÈÉ¹¥Ù°¹µ¤ìÉÑÕÉ¸ìô(¥ Ñ¤ìÑ½ÍÐ A¥¬Ñ¤ìÉÑÕÉ¸ìô((±Ð½ì(¼¼QÉäÑ¼¥¹¸Õ¹ÕÍ½(½È¡±Ð¤ôÀì¤ðÄÀì¤¬¬¤ì(½ô¹
-½ ¤ì(½¹ÍÐÍ¹ÀôÝ¥Ð¹É¡íI==Qô¼í½ô½µÑ¤¹½¹ Ù±Õ¤ì(¥ Í¹À¹á¥ÍÑÌ ¤¤É¬ì(ô((½¹ÍÐµÑôì(Í¡½½°°¹µ°Ñ°(ÍÁ½ÉÐèÍ±ÑMÁ½ÉÐ°(±¹ÌèÍ±ÑMÁ½ÉÐôôôáü¹Õ±°è±¹Ì°(½±½ÕÈèÍ±Ñ
-½±½ÕÈ°(ÉÑÐè¥ÉÍ¹ÑÍ¹MÉÙÉY±Õ¹Q%5MQ5@°(Í½ÕÉèÍÁ½ÉÑÉ¹¥Ù°(ôì((¼¼]É¥ÑÑ¼½Ñ ¹µÍÁÌ(Ý¥Ð¹É¡íI==Qô¼í½ô½µÑ¤¹ÍÐ¡µÑ¤ì(Ý¥Ð¹É¡íM
-ô¼í½ô½µÑ¤¹ÍÐ¡µÑ¤ì((¼¼MÙ±½±±ä(±½±MÑ½É¹ÍÑ%Ñ´ Í}±ÍÑ}½°½¤ì((É¹¥Ù±
-½ô½ì(É¹¥Ù±5ÑôµÑì(±½Í¡½É ¤ì(Í¡½ÝÍ  ¤ì(Ñ½ÍÐ rL
-É¹¥Ù°ÉÑ
-½è¬½¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼)=%8a%MQ%9(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Íå¹Õ¹Ñ¥½¸©½¥¹
-É¹¥Ù° ¤ì(½¹ÍÐ½ô½Õµ¹Ð¹Ñ±µ¹Ñ	å% ©½¥¸µ½µ¥¹ÁÕÐ¤¹Ù±Õ¹ÑÉ¥´ ¤¹Ñ½UÁÁÉ
-Í ¤ì(¥¡½¹±¹Ñ ôôÐ¤ìÑ½ÍÐ ¹ÑÈÐµ±ÑÑÈ½¤ìÉÑÕÉ¸ìô((½¹ÍÐÍ¹ÀôÝ¥Ð¹É¡íI==Qô¼í½ô½µÑ¤¹½¹ Ù±Õ¤ì(¥ Í¹À¹á¥ÍÑÌ ¤¤ìÑ½ÍÐ 
-É¹¥Ù°¹½Ð½Õ¹P¡¬Ñ¡½¤ìÉÑÕÉ¸ìô((É¹¥Ù±
-½ô½ì(É¹¥Ù±5ÑôÍ¹À¹Ù° ¤ì(±½±MÑ½É¹ÍÑ%Ñ´ Í}±ÍÑ}½°½¤ì(±½Í¡½É ¤ì(Í¡½ÝÍ  ¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼M!	=I(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸±½Í¡½É ¤ì(½¹ÍÐ´ôÉ¹¥Ù±5Ñì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í µ¹µ¤¹ÑáÑ
-½¹Ñ¹Ðô´¹¹µñðPì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í µÍ¡½½°¤¹ÑáÑ
-½¹Ñ¹Ðô´¹Í¡½½°ñðPì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í µÑ¤¹ÑáÑ
-½¹Ñ¹Ðô´¹Ñü½ÉµÑÑ¡´¹Ñ¤èPì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í µÍÁ½ÉÐ¤¹ÑáÑ
-½¹Ñ¹ÐôÍÁ½ÉÑ1°¡´¹ÍÁ½ÉÐ¤ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í µ½¤¹ÑáÑ
-½¹Ñ¹ÐôÉ¹¥Ù±
-½ì((¼¼M¡ÉUI1Ì(½¹ÍÐÑ¥µÉUÉ°ô¡ÑÑÁÌè¼½É¹¥Ù±Ñ¥µ¥¹¹½´ý©½¥¸ôíÉ¹¥Ù±
-½õì(½¹ÍÐÉÍÕ±ÑÍUÉ°ô¡ÑÑÁÌè¼½É¹¥Ù±Ñ¥µ¥¹¹½´ý©½¥¸ôíÉ¹¥Ù±
-½ôÉ½±õÉÍÕ±ÑÍì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í¡ÉµÕÉ°µÑ¥µÈ¤¹ÑáÑ
-½¹Ñ¹ÐôÑ¥µÉUÉ°ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í¡ÉµÕÉ°µÉÍÕ±ÑÌ¤¹ÑáÑ
-½¹Ñ¹ÐôÉÍÕ±ÑÍUÉ°ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í¡ÉµÅÈµÑ¥µÈ¤¹ÍÉô¡ÑÑÁÌè¼½Á¤¹ÅÉÍÉÙÈ¹½´½ØÄ½ÉÑµÅÈµ½¼ýÍ¥éôÄØÁàÄØÀÑôí¹½UI%
-½µÁ½¹¹Ð¡Ñ¥µÉUÉ°¥õì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í¡ÉµÅÈµÉÍÕ±ÑÌ¤¹ÍÉô¡ÑÑÁÌè¼½Á¤¹ÅÉÍÉÙÈ¹½´½ØÄ½ÉÑµÅÈµ½¼ýÍ¥éôÄØÁàÄØÀÑôí¹½UI%
-½µÁ½¹¹Ð¡ÉÍÕ±ÑÍUÉ°¥õì((ÍÝ¥Ñ¡Q Ù¹ÑÌ¤ì(ÑÑ¡1¥ÍÑ¹ÉÌ ¤ì)ô()Õ¹Ñ¥½¸Ñ¡1¥ÍÑ¹ÉÌ ¤ì(¥¡Ù¹ÑÍ1¥ÍÑ¹È¤ì¹É¡íM
-ô¼íÉ¹¥Ù±
-½ô½Ù¹ÑÍ¤¹½ Ù±Õ°Ù¹ÑÍ1¥ÍÑ¹È¤ìÙ¹ÑÍ1¥ÍÑ¹Èô¹Õ±°ìô(¥¡ÉÍÕ±ÑÍ1¥ÍÑ¹È¤ì¹É¡íI==Qô¼íÉ¹¥Ù±
-½ô½ÉÍÕ±ÑÍ¤¹½ Ù±Õ°ÉÍÕ±ÑÍ1¥ÍÑ¹È¤ìÉÍÕ±ÑÍ1¥ÍÑ¹Èô¹Õ±°ìô)ô()Õ¹Ñ¥½¸ÑÑ¡1¥ÍÑ¹ÉÌ ¤ì(Ñ¡1¥ÍÑ¹ÉÌ ¤ì((¼¼Ù¹ÑÌ(Ù¹ÑÍ1¥ÍÑ¹Èô¹É¡íM
-ô¼íÉ¹¥Ù±
-½ô½Ù¹ÑÍ¤¹½¸ Ù±Õ°Í¹Àôøì(É¹ÉÙ¹ÑÌ¡Í¹À¹Ù° ¤¤ì(ô¤ì((¼¼IÍÕ±ÑÌ(ÉÍÕ±ÑÍ1¥ÍÑ¹Èô¹É¡íI==Qô¼íÉ¹¥Ù±
-½ô½ÉÍÕ±ÑÍ¤¹½¸ Ù±Õ°Í¹Àôøì(É¹ÉIÍÕ±ÑÌ¡Í¹À¹Ù° ¤¤ì(ô¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼Y9QL(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸É¹ÉÙ¹ÑÌ¡Ù¹ÑÌ¤ì(½¹ÍÐ±¥ÍÐô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Ù¹ÑÌµ±¥ÍÐ¤ì(¥ Ù¹ÑÌ¤ì(±¥ÍÐ¹¥¹¹É!Q50ôñ¥Ø±ÍÌôµÁÑäµÙ¹ÑÌøñÍÁ¸±ÍÌôµÁÑäµ¥½¸ûÂ~N,ð½ÍÁ¸øñÀù9¼Ù¹ÑÌåÐ¸ñÈùå½ÕÈ¥ÉÍÐÙ¹ÐÑ¼ÐÍÑÉÑ¸ð½Àøð½¥Øùì(ÉÑÕÉ¸ì(ô(½¹ÍÐ¥ÑµÌô=©Ð¹¹ÑÉ¥Ì¡Ù¹ÑÌ¤¹Í½ÉÐ ¡±¤ôø¡lÅt¹½ÉÉñðÀ¤´¡lÅt¹½ÉÉñðÀ¤¤ì(±¥ÍÐ¹¥¹¹É!Q50ô¥ÑµÌ¹µÀ ¡m¥°Ùt¤ôøì(½¹ÍÐ¥ÍaôØ¹ÑåÁôôôáì(ÉÑÕÉ¸(ñ¥Ø±ÍÌôÙ¹ÐµÉí¥Íaüáèôø(ñ¥Ø±ÍÌôÙ¹Ðµ¥¹¼ø(ñ¥Ø±ÍÌôÙ¹Ðµ¹µøíØ¹¹µôð½¥Øø(ñ¥Ø±ÍÌôÙ¹ÐµÍÕøíØ¹É½ÕÁô
-ÜíØ¹¹Éô
-Üí¥Íaü
-É½ÍÌ
-½Õ¹ÑÉäè1¹Iôð½¥Øø(ð½¥Øø(ñ¥Ø±ÍÌôÙ¹ÐµÑ¥½¹Ìø(ñÕÑÑ½¸±ÍÌôÑ¥µÈµÑ¸½¹±¥¬ô½Á¹Q¥µÉ½ÉÙ¹Ð í)M=8¹ÍÑÉ¥¹¥ä¡Ø¤¹ÉÁ± ¼½°ÅÕ½Ðì¥ô¤ø(>Ç¾â<=Á¸Q¥µÈ(ð½ÕÑÑ½¸ø(ñÕÑÑ½¸±ÍÌôÑ¸µ¥½¸½¹±¥¬ô±ÑÙ¹Ð í¥ô¤Ñ¥Ñ±ôIµ½ÙûÂ~^G¾â<ð½ÕÑÑ½¸ø(ð½¥Øø(ð½¥Øùì(ô¤¹©½¥¸ ¤ì)ô()Õ¹Ñ¥½¸½Á¹Ù¹Ð ¤ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹µ¤¹Ù±Õôì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÙ¹Ðµµ½°¤¹±ÍÍ1¥ÍÐ¹ ½Á¸¤ì)ô)Õ¹Ñ¥½¸±½Í5½°¡¤ì(¥¡¹ÑÉÐôôô¹ÕÉÉ¹ÑQÉÐ¤½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÙ¹Ðµµ½°¤¹±ÍÍ1¥ÍÐ¹Éµ½Ù ½Á¸¤ì)ô)Õ¹Ñ¥½¸±½ÍÙ¹Ð ¤ì½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÙ¹Ðµµ½°¤¹±ÍÍ1¥ÍÐ¹Éµ½Ù ½Á¸¤ìô()Õ¹Ñ¥½¸Á¥­Ù¹Ð¡¹µ¤ì½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹µ¤¹Ù±Õô¹µìô()Õ¹Ñ¥½¸Í±ÑIQåÁ¡°¤ì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° mÑµÉÑåÁt¤¹½É ¡ôø¹±ÍÍ1¥ÍÐ¹Éµ½Ù Í±Ñ¤¤ì(°¹±ÍÍ1¥ÍÐ¹ Í±Ñ¤ì(Í±ÑIQåÁô°¹ÑÍÐ¹ÉÑåÁì)ô()Íå¹Õ¹Ñ¥½¸Ù¹Ð ¤ì(½¹ÍÐ¹µô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹µ¤¹Ù±Õ¹ÑÉ¥´ ¤ì(½¹ÍÐô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¤¹Ù±Õì(½¹ÍÐ¹Èô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹È¤¹Ù±Õì(¥ ¹µ¤ìÑ½ÍÐ ¹ÑÈ¸Ù¹Ð¹µ¤ìÉÑÕÉ¸ìô((½¹ÍÐÙ¹ÑÍM¹ÀôÝ¥Ð¹É¡íM
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function genCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let code = '';
+  for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  return code;
+}
+
+function selectSport(el) {
+  document.querySelectorAll('.sport-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSport = el.dataset.sport;
+  document.getElementById('lanes-group').style.display = selectedSport === 'xc' ? 'none' : '';
+}
+
+function selectColour(el) {
+  document.querySelectorAll('#colour-chips .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedColour = el.dataset.colour;
+}
+
+async function createCarnival() {
+  const school = document.getElementById('c-school').value.trim();
+  const name   = document.getElementById('c-name').value.trim();
+  const date   = document.getElementById('c-date').value;
+  const lanes  = parseInt(document.getElementById('c-lanes').value);
+
+  if (!school) { toast('Enter your school name'); return; }
+  if (!name)   { toast('Enter a carnival name');  return; }
+  if (!date)   { toast('Pick a date');            return; }
+
+  let code;
+  // Try to find an unused code
+  for (let i = 0; i < 10; i++) {
+    code = genCode();
+    const snap = await db.ref(`${ROOT}/${code}/meta`).once('value');
+    if (!snap.exists()) break;
+  }
+
+  const meta = {
+    school, name, date,
+    sport: selectedSport,
+    lanes: selectedSport === 'xc' ? null : lanes,
+    colour: selectedColour,
+    createdAt: firebase.database.ServerValue.TIMESTAMP,
+    source: 'sportcarnival'
+  };
+
+  // Write to both namespaces
+  await db.ref(`${ROOT}/${code}/meta`).set(meta);
+  await db.ref(`${SC}/${code}/meta`).set(meta);
+
+  // Save locally
+  localStorage.setItem('sc_last_code', code);
+
+  carnivalCode = code;
+  carnivalMeta = meta;
+  loadDashboard();
+  showDash();
+  toast('â Carnival created! Code: ' + code);
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// JOIN EXISTING
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function joinCarnival() {
+  const code = document.getElementById('join-code-input').value.trim().toUpperCase();
+  if (code.length !== 4) { toast('Enter a 4-letter code'); return; }
+
+  const snap = await db.ref(`${ROOT}/${code}/meta`).once('value');
+  if (!snap.exists()) { toast('Carnival not found â check the code'); return; }
+
+  carnivalCode = code;
+  carnivalMeta = snap.val();
+  localStorage.setItem('sc_last_code', code);
+  loadDashboard();
+  showDash();
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// DASHBOARD
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function loadDashboard() {
+  const m = carnivalMeta;
+  document.getElementById('dash-name').textContent = m.name || 'â';
+  document.getElementById('dash-school').textContent = m.school || 'â';
+  document.getElementById('dash-date').textContent = m.date ? formatDate(m.date) : 'â';
+  document.getElementById('dash-sport').textContent = sportLabel(m.sport);
+  document.getElementById('dash-code').textContent = carnivalCode;
+
+  // Share URLs
+  const timerUrl    = `https://carnivaltiming.com?join=${carnivalCode}`;
+  const resultsUrl  = `https://carnivaltiming.com?join=${carnivalCode}&role=results`;
+  document.getElementById('share-url-timer').textContent   = timerUrl;
+  document.getElementById('share-url-results').textContent = resultsUrl;
+  document.getElementById('share-qr-timer').src   = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(timerUrl)}`;
+  document.getElementById('share-qr-results').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(resultsUrl)}`;
+
+  switchTab('events');
+  attachListeners();
+}
+
+function detachListeners() {
+  if (eventsListener) { db.ref(`${SC}/${carnivalCode}/events`).off('value', eventsListener); eventsListener = null; }
+  if (resultsListener) { db.ref(`${ROOT}/${carnivalCode}/results`).off('value', resultsListener); resultsListener = null; }
+}
+
+function attachListeners() {
+  detachListeners();
+
+  // Events
+  eventsListener = db.ref(`${SC}/${carnivalCode}/events`).on('value', snap => {
+    renderEvents(snap.val());
+  });
+
+  // Results
+  resultsListener = db.ref(`${ROOT}/${carnivalCode}/results`).on('value', snap => {
+    renderResults(snap.val());
+  });
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// EVENTS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function renderEvents(events) {
+  const list = document.getElementById('events-list');
+  if (!events) {
+    list.innerHTML = `<div class="empty-events"><span class="empty-icon">ð</span><p>No events yet.<br>Add your first event to get started.</p></div>`;
+    return;
+  }
+  const items = Object.entries(events).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+  list.innerHTML = items.map(([id, ev]) => {
+    const isXC = ev.type === 'xc';
+    return `
+    <div class="event-card ${isXC ? 'xc' : ''}">
+      <div class="event-info">
+        <div class="event-name">${ev.name}</div>
+        <div class="event-sub">${ev.ageGroup} Â· ${ev.gender} Â· ${isXC ? 'Cross Country' : 'Lane Race'}</div>
+      </div>
+      <div class="event-actions">
+        <button class="timer-btn" onclick="openTimerForEvent(${JSON.stringify(ev).replace(/"/g,'&quot;')})">
+          â±ï¸ Open Timer
+      ð½ÕÑÑ½¸ø(ñÕÑÑ½¸±ÍÌôÑ¸µ¥½¸½¹±¥¬ô±ÑÙ¹Ð í¥ô¤Ñ¥Ñ±ôIµ½ÙûÂ~^G¾â<ð½ÕÑÑ½¸ø(ð½¥Øø(ð½¥Øùì(ô¤¹©½¥¸ ¤ì)ô()Õ¹Ñ¥½¸½Á¹Ù¹Ð ¤ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹µ¤¹Ù±Õôì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÙ¹Ðµµ½°¤¹±ÍÍ1¥ÍÐ¹ ½Á¸¤ì)ô)Õ¹Ñ¥½¸±½Í5½°¡¤ì(¥¡¹ÑÉÐôôô¹ÕÉÉ¹ÑQÉÐ¤½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÙ¹Ðµµ½°¤¹±ÍÍ1¥ÍÐ¹Éµ½Ù ½Á¸¤ì)ô)Õ¹Ñ¥½¸±½ÍÙ¹Ð ¤ì½Õµ¹Ð¹Ñ±µ¹Ñ	å% µÙ¹Ðµµ½°¤¹±ÍÍ1¥ÍÐ¹Éµ½Ù ½Á¸¤ìô()Õ¹Ñ¥½¸Á¥­Ù¹Ð¡¹µ¤ì½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹µ¤¹Ù±Õô¹µìô()Õ¹Ñ¥½¸Í±ÑIQåÁ¡°¤ì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° mÑµÉÑåÁt¤¹½É ¡ôø¹±ÍÍ1¥ÍÐ¹Éµ½Ù Í±Ñ¤¤ì(°¹±ÍÍ1¥ÍÐ¹ Í±Ñ¤ì(Í±ÑIQåÁô°¹ÑÍÐ¹ÉÑåÁì)ô()Íå¹Õ¹Ñ¥½¸Ù¹Ð ¤ì(½¹ÍÐ¹µô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹µ¤¹Ù±Õ¹ÑÉ¥´ ¤ì(½¹ÍÐô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¤¹Ù±Õì(½¹ÍÐ¹Èô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Øµ¹È¤¹Ù±Õì(¥ ¹µ¤ìÑ½ÍÐ ¹ÑÈ¸Ù¹Ð¹µ¤ìÉÑÕÉ¸ìô((½¹ÍÐÙ¹ÑÍM¹ÀôÝ¥Ð¹É¡íM
 ô¼íÉ¹¥Ù±
 ½ô½Ù¹ÑÍ¤¹½¹ Ù±Õ¤ì(½¹ÍÐ½Õ¹ÐôÙ¹ÑÍM¹À¹¹Õµ
 ¡¥±É¸ ¤ì((½¹ÍÐ¥ôÑ¹¹½Ü ¤¹Ñ½MÑÉ¥¹ ÌØ¤ì(Ý¥Ð¹É¡íM
-ô¼íÉ¹¥Ù±
-½ô½Ù¹ÑÌ¼í¥õ¤¹ÍÐ¡ì(¹µ°É½ÕÀè°¹È°(ÑåÁèÍ±ÑIQåÁ°(½ÉÈè½Õ¹Ð°(ÉÑÐè¥ÉÍ¹ÑÍ¹MÉÙÉY±Õ¹Q%5MQ5@(ô¤ì((±½ÍÙ¹Ð ¤ì(Ñ½ÍÐ rLÙ¹Ð¤ì)ô()Íå¹Õ¹Ñ¥½¸±ÑÙ¹Ð¡¥¤ì(¥ ½¹¥É´ Iµ½ÙÑ¡¥ÌÙ¹Ðü¤¤ÉÑÕÉ¸ì(Ý¥Ð¹É¡íM
-ô¼íÉ¹¥Ù±
-½ô½Ù¹ÑÌ¼í¥õ¤¹Éµ½Ù ¤ì(Ñ½ÍÐ Ù¹ÐÉµ½Ù¤ì)ô()Õ¹Ñ¥½¸½Á¹Q¥µÉ½ÉÙ¹Ð¡Ø¤ì(½¹ÍÐÁÉµÌô¹ÜUI1MÉ¡AÉµÌ¡ì(©½¥¸èÉ¹¥Ù±
-½°(É½±èØ¹ÑåÁôôôáüµ¥¸µáèµ¥¸(ô¤ì(Ý¥¹½Ü¹½Á¸¡¡ÑÑÁÌè¼½É¹¥Ù±Ñ¥µ¥¹¹½´üíÁÉµÍõ°}±¹¬¤ì)ô()Õ¹Ñ¥½¸½Á¹Q¥µÉÁÀ ¤ì(Ý¥¹½Ü¹½Á¸¡¡ÑÑÁÌè¼½É¹¥Ù±Ñ¥µ¥¹¹½´ý©½¥¸ôíÉ¹¥Ù±
-½õ°}±¹¬¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼IMU1QL(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸É¹ÉIÍÕ±ÑÌ¡ÉÍÕ±ÑÌ¤ì(½¹ÍÐ±¥ÍÐô½Õµ¹Ð¹Ñ±µ¹Ñ	å% ÉÍÕ±ÑÌµ±¥ÍÐ¤ì(¥ ÉÍÕ±ÑÌ¤ì(±¥ÍÐ¹¥¹¹É!Q50ôñ¥Ø±ÍÌô¹¼µÉÍÕ±ÑÌøñÍÁ¸±ÍÌô¹¼µ¥½¸ûÂ~>ð½ÍÁ¸øñÀùIÍÕ±ÑÌÝ¥±°ÁÁÈ¡ÉÌÉÌ¥¹¥Í ¸ñÈùQ¡äÕÁÑÕÑ½µÑ¥±±ä¸ð½Àøð½¥Øùì(ÉÑÕÉ¸ì(ô((½¹ÍÐ¹ÑÉ¥Ìô=©Ð¹¹ÑÉ¥Ì¡ÉÍÕ±ÑÌ¤¹Í½ÉÐ ¡±¤ôø¡lÅt¹ÁÕ±¥Í¡ÑñðÀ¤´¡lÅt¹ÁÕ±¥Í¡ÑñðÀ¤¤ì(±¥ÍÐ¹¥¹¹É!Q50ô¹ÑÉ¥Ì¹µÀ ¡m­ä°Ét¤ôøì(½¹ÍÐÑ¥Ñ±ômÈ¹°È¹¹È°È¹Ù¹Ñt¹¥±ÑÈ¡	½½±¸¤¹©½¥¸ 
-Ü¤ì(½¹ÍÐÁÕQ¥µôÈ¹ÁÕ±¥Í¡Ðü¹ÜÑ¡È¹ÁÕ±¥Í¡Ð¤¹Ñ½1½±Q¥µMÑÉ¥¹ ¸µT±í¡½ÕÈèÈµ¥¥Ð±µ¥¹ÕÑèÈµ¥¥Ðô¤èì((±ÐÉ½ÝÍ!Ñµ°ôì(¥¡È¹ÑåÁôôô±¹È¹ÉÍÕ±ÑÌ¤ì(É½ÝÍ!Ñµ°ôÈ¹ÉÍÕ±ÑÌ¹µÀ ¡É½Ü°¤¤ôøì(½¹ÍÐÁ±
-±ÍÌô¤ôôôÀü½±è¤ôôôÄüÍ¥±ÙÈè¤ôôôÈüÉ½¹éèì(½¹ÍÐ½¹
-±ÍÌôí!% è½¹µ¡¥ °=,è½¹µ½¬°
-!
-,è½¹µ¡¬õmÉ½Ü¹½¹¥¹tñðì(ÉÑÕÉ¸ñ¥Ø±ÍÌôÉÍÕ±ÐµÉ½Üø(ñÍÁ¸±ÍÌôÉÍÕ±ÐµÁ±íÁ±
-±ÍÍôøíÉ½Ü¹Á±ñð¤¬Åôð½ÍÁ¸ø(ñÍÁ¸±ÍÌôÉÍÕ±Ðµ¹µù1¹íÉ½Ü¹±¹ôíÉ½Ü¹¹µü
-Ü­É½Ü¹¹µèôð½ÍÁ¸ø(ñÍÁ¸±ÍÌôÉÍÕ±ÐµÑ¥µøíµÍQ½Q¥µ¡É½Ü¹Ñ¥µ5Ì¥ôð½ÍÁ¸ø(íÉ½Ü¹½¹¥¹üñÍÁ¸±ÍÌôÉÍÕ±Ðµ½¹¥¹í½¹
-±ÍÍôøíÉ½Ü¹½¹¥¹ôð½ÍÁ¸ùèô(ð½¥Øùì(ô¤¹©½¥¸ ¤ì(ô±Í¥¡È¹ÑåÁôôôáÈ¹Á±Ì¤ì(É½ÝÍ!Ñµ°ôÈ¹Á±Ì¹µÀ ¡É½Ü°¤¤ôøì(½¹ÍÐÁ±
-±ÍÌô¤ôôôÀü½±è¤ôôôÄüÍ¥±ÙÈè¤ôôôÈüÉ½¹éèì(ÉÑÕÉ¸ñ¥Ø±ÍÌôÉÍÕ±ÐµÉ½Üø(ñÍÁ¸±ÍÌôÉÍÕ±ÐµÁ±íÁ±
-±ÍÍôøíÉ½Ü¹Á±ñð¤¬Åôð½ÍÁ¸ø(ñÍÁ¸±ÍÌôÉÍÕ±Ðµ¹µøíÉ½Ü¹¹µñðÑ¡±Ñôð½ÍÁ¸ø(ñÍÁ¸±ÍÌôÉÍÕ±ÐµÑ¥µøíÉ½Ü¹±ÁÍ5ÌüµÍQ½Q¥µ¡É½Ü¹±ÁÍ5Ì¤èPôð½ÍÁ¸ø(ð½¥Øùì(ô¤¹©½¥¸ ¤ì(ô((ÉÑÕÉ¸ñ¥Ø±ÍÌôÉÍÕ±ÐµÉø(ñ¥Ø±ÍÌôÉÍÕ±Ðµ¡Èø(ñ ÐøíÑ¥Ñ±ôð½ Ðø(íÁÕQ¥µüñÍÁ¸±ÍÌôÁÕµÑ¥µøíÁÕQ¥µôð½ÍÁ¸ùèô(ð½¥Øø(ñ¥Ø±ÍÌôÉÍÕ±ÐµÉ½ÝÌøíÉ½ÝÍ!Ñµ±ôð½¥Øø(ð½¥Øùì(ô¤¹©½¥¸ ¤ì)ô()Õ¹Ñ¥½¸µÍQ½Q¥µ¡µÌ¤ì(¥ µÌ¤ÉÑÕÉ¸Pì(½¹ÍÐÑ½Ñ°ô5Ñ ¹É½Õ¹¡µÌ¼ÄÀ¤ì(½¹ÍÐÌôÑ½Ñ°ÄÀÀì(½¹ÍÐÑ½Ñ±MÌô5Ñ ¹±½½È¡Ñ½Ñ°¼ÄÀÀ¤ì(½¹ÍÐÍÌôÑ½Ñ±MÌØÀì(½¹ÍÐµ¥¹Ìô5Ñ ¹±½½È¡Ñ½Ñ±MÌ¼ØÀ¤ì(ÉÑÕÉ¸µ¥¹ÌøÀ(üíµ¥¹ÍôèíMÑÉ¥¹¡ÍÌ¤¹ÁMÑÉÐ È°À¥ô¸íMÑÉ¥¹¡Ì¤¹ÁMÑÉÐ È°À¥õ(èíÍÍô¸íMÑÉ¥¹¡Ì¤¹ÁMÑÉÐ È°À¥õì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼
-MXaA=IP(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Íå¹Õ¹Ñ¥½¸áÁ½ÉÑ
-MX ¤ì(½¹ÍÐÍ¹ÀôÝ¥Ð¹É¡íI==Qô¼íÉ¹¥Ù±
-½ô½ÉÍÕ±ÑÍ¤¹½¹ Ù±Õ¤ì(¥ Í¹À¹á¥ÍÑÌ ¤¤ìÑ½ÍÐ 9¼ÉÍÕ±ÑÌÑ¼áÁ½ÉÐåÐ¤ìÉÑÕÉ¸ìô((±ÐÍØôA±±É½ÕÀ±¹È±Ù¹Ð±9µ±1¹±Q¥µq¸ì(=©Ð¹Ù±ÕÌ¡Í¹À¹Ù° ¤¤¹½É ¡Èôøì(¥¡È¹ÑåÁôôô±¹È¹ÉÍÕ±ÑÌ¤ì(È¹ÉÍÕ±ÑÌ¹½É ¡É½Üôøì(ÍØ¬ôíÉ½Ü¹Á±ñðô°íÈ¹ñðô°íÈ¹¹Éñðô°íÈ¹Ù¹Ññðô°íÉ½Ü¹¹µñðô°íÉ½Ü¹±¹ñðô°íµÍQ½Q¥µ¡É½Ü¹Ñ¥µ5Ì¥õq¹ì(ô¤ì(ô±Í¥¡È¹ÑåÁôôôáÈ¹Á±Ì¤ì(È¹Á±Ì¹½É ¡É½Üôøì(ÍØ¬ôíÉ½Ü¹Á±ñðô°íÈ¹ñðô°íÈ¹¹Éñðô°íÈ¹Ù¹Ññðô°íÉ½Ü¹¹µñðô°°íÉ½Ü¹±ÁÍ5ÌüµÍQ½Q¥µ¡É½Ü¹±ÁÍ5Ì¤èõq¹ì(ô¤ì(ô(ô¤ì((½¹ÍÐ±½ô¹Ü	±½¡mÍÙt°íÑåÁèÑáÐ½ÍØô¤ì(½¹ÍÐô½Õµ¹Ð¹ÉÑ±µ¹Ð ¤ì(¹¡ÉôUI0¹ÉÑ=©ÑUI0¡±½¤ì(¹½Ý¹±½ôíÉ¹¥Ù±
-½õ}ÉÍÕ±ÑÌ¹ÍÙì(¹±¥¬ ¤ì(Ñ½ÍÐ rL
-MX½Ý¹±½¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼Q	L(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸ÍÝ¥Ñ¡Q¡¹µ¤ì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° ¹Ñ¤¹½É ¡ÐôøÐ¹±ÍÍ1¥ÍÐ¹Ñ½± Ñ¥Ù°Ð¹ÑÍÐ¹Ñôôô¹µ¤¤ì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° ¹Ñµ½¹Ñ¹Ð¤¹½É ¡ôø¹±ÍÍ1¥ÍÐ¹Ñ½± Ñ¥Ù°¹¥ôôôÑ´í¹µõ¤¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼M!I¼
-=Ad(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸½Áå
-½ ¤ì(¹Ù¥Ñ½È¹±¥Á½É¹ÝÉ¥ÑQáÐ¡É¹¥Ù±
-½¤¹Ñ¡¸  ¤ôøÑ½ÍÐ 
-½½Á¥è¬É¹¥Ù±
-½¤¤ì)ô)Õ¹Ñ¥½¸½ÁåQ¥µÉ1¥¹¬ ¤ì(½¹ÍÐÕÉ°ô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í¡ÉµÕÉ°µÑ¥µÈ¤¹ÑáÑ
-½¹Ñ¹Ðì(¹Ù¥Ñ½È¹±¥Á½É¹ÝÉ¥ÑQáÐ¡ÕÉ°¤¹Ñ¡¸  ¤ôøÑ½ÍÐ Q¥µÈ±¥¹¬½Á¥¤¤ì)ô)Õ¹Ñ¥½¸½ÁåIÍÕ±ÑÍ1¥¹¬ ¤ì(½¹ÍÐÕÉ°ô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Í¡ÉµÕÉ°µÉÍÕ±ÑÌ¤¹ÑáÑ
-½¹Ñ¹Ðì(¹Ù¥Ñ½È¹±¥Á½É¹ÝÉ¥ÑQáÐ¡ÕÉ°¤¹Ñ¡¸  ¤ôøÑ½ÍÐ IÍÕ±ÑÌ±¥¹¬½Á¥¤¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼!1AIL(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@)Õ¹Ñ¥½¸½ÉµÑÑ¡¤ì(¥ ¤ÉÑÕÉ¸Pì(ÉÑÕÉ¸¹ÜÑ¡¬PÄÈèÀÀèÀÀ¤¹Ñ½1½±ÑMÑÉ¥¹ ¸µT°íäè¹ÕµÉ¥°µ½¹Ñ è±½¹°åÈè¹ÕµÉ¥ô¤ì)ô)Õ¹Ñ¥½¸ÍÁ½ÉÑ1°¡Ì¤ì(ÉÑÕÉ¸íÑ¡±Ñ¥ÌèÑ¡±Ñ¥Ì°ÍÝ¥µµ¥¹èMÝ¥µµ¥¹°áè
-É½ÍÌ
-½Õ¹ÑÉä°µ¥áè5¥áõmÍtñðÌñðPì)ô()±ÐÑ½ÍÑQ¥µÈì)Õ¹Ñ¥½¸Ñ½ÍÐ¡µÍ¤ì(½¹ÍÐ°ô½Õµ¹Ð¹Ñ±µ¹Ñ	å% Ñ½ÍÐ¤ì(°¹ÑáÑ
-½¹Ñ¹ÐôµÍì(°¹±ÍÍ1¥ÍÐ¹ Í¡½Ü¤ì(±ÉQ¥µ½ÕÐ¡Ñ½ÍÑQ¥µÈ¤ì(Ñ½ÍÑQ¥µÈôÍÑQ¥µ½ÕÐ  ¤ôø°¹±ÍÍ1¥ÍÐ¹Éµ½Ù Í¡½Ü¤°ÈàÀÀ¤ì)ô((¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¼¼%9%PPÉÍÑ½É±ÍÐÍÍÍ¥½¸(¼¼VCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCVCV@(¡Íå¹Õ¹Ñ¥½¸¥¹¥Ð ¤ì(½¹ÍÐÁÉµÌô¹ÜUI1MÉ¡AÉµÌ¡±½Ñ¥½¸¹ÍÉ ¤ì(½¹ÍÐÕÉ±
-½ôÁÉµÌ¹Ð ½¤ñðÁÉµÌ¹Ð ©½¥¸¤ì(½¹ÍÐÍÑ½É
-½ô±½±MÑ½É¹Ñ%Ñ´ Í}±ÍÑ}½¤ì(½¹ÍÐ½ôÕÉ±
-½ñðÍÑ½É
-½ì((¥¡½¤ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% ©½¥¸µ½µ¥¹ÁÕÐ¤¹Ù±Õô½ì(ÑÉäì(½¹ÍÐÍ¹ÀôÝ¥Ð¹É¡íI==Qô¼í½ô½µÑ¤¹½¹ Ù±Õ¤ì(¥¡Í¹À¹á¥ÍÑÌ ¤¤ì(É¹¥Ù±
-½ô½ì(É¹¥Ù±5ÑôÍ¹À¹Ù° ¤ì(±½Í¡½É ¤ì(Í¡½ÝÍ  ¤ì(ÉÑÕÉ¸ì(ô(ôÑ ¡¤íô(ô(Í¡½ÝMÉ¸ ¡½µµÍÉ¸¤ì)ô¤ ¤ì(ð½ÍÉ¥ÁÐø(ð½½äø(ð½¡Ñµ
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1565C0">
+<title>Sport Carnival Â· School Sport Management</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ð</text></svg>">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue: #1565C0;
+  --blue-dark: #0D47A1;
+  --blue-light: #E3F2FD;
+  --blue-mid: #1976D2;
+  --orange: #F57C00;
+  --orange-light: #FFF3E0;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --red: #C62828;
+  --red-light: #FFEBEE;
+  --bg: #F0F4F8;
+  --surface: #FFFFFF;
+  --surface2: #F8FAFC;
+  --border: #E0E7EF;
+  --text: #1A237E;
+  --text-soft: #5C6BC0;
+  --text-muted: #90A4AE;
+  --shadow: 0 2px 8px rgba(21,101,192,0.10);
+  --shadow-lg: 0 8px 32px rgba(21,101,192,0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ââ SCREENS ââ */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ââ TOPBAR ââ */
+.topbar {
+  background: var(--blue);
+  color: white;
+  padding: 0 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.topbar-logo { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; flex: 1; }
+.topbar-logo span { color: #FFD54F; }
+.topbar-back {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+.topbar-back:hover { background: rgba(255,255,255,0.25); }
+
+/* ââ HERO ââ */
+.hero {
+  background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, #42A5F5 100%);
+  color: white;
+  padding: 56px 24px 48px;
+  text-align: center;
+}
+.hero-icon { font-size: 4rem; margin-bottom: 16px; display: block; }
+.hero h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+.hero p { font-size: 1.1rem; opacity: 0.9; max-width: 480px; margin: 0 auto 32px; line-height: 1.5; }
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ââ BUTTONS ââ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 30px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  text-decoration: none;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--orange); color: white; box-shadow: 0 4px 12px rgba(245,124,0,0.35); }
+.btn-primary:hover { box-shadow: 0 6px 16px rgba(245,124,0,0.45); }
+.btn-secondary { background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.4); }
+.btn-secondary:hover { background: rgba(255,255,255,0.25); }
+.btn-blue { background: var(--blue); color: white; box-shadow: var(--shadow); }
+.btn-blue:hover { background: var(--blue-dark); }
+.btn-outline { background: white; color: var(--blue); border: 2px solid var(--blue); }
+.btn-outline:hover { background: var(--blue-light); }
+.btn-green { background: var(--green); color: white; }
+.btn-red { background: var(--red); color: white; }
+.btn-sm { padding: 8px 16px; font-size: 0.85rem; border-radius: 20px; }
+.btn-icon { background: none; border: none; cursor: pointer; padding: 6px; border-radius: 8px; font-size: 1.1rem; }
+.btn-icon:hover { background: var(--border); }
+.btn-full { width: 100%; justify-content: center; border-radius: 12px; }
+
+/* ââ HOW IT WORKS ââ */
+.how-section { padding: 48px 24px; max-width: 700px; margin: 0 auto; }
+.how-section h2 { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 32px; color: var(--blue-dark); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+.step {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--blue);
+}
+.step-num { width: 36px; height: 36px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin: 0 auto 12px; }
+.step-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+.step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--blue-dark); }
+.step p { font-size: 0.85rem; color: var(--text-soft); line-height: 1.4; }
+
+/* ââ JOIN CARD ââ */
+.join-section { padding: 0 24px 48px; max-width: 500px; margin: 0 auto; }
+.card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+}
+.card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; color: var(--blue-dark); }
+
+/* ââ FORMS ââ */
+.form-screen { max-width: 560px; margin: 0 auto; padding: 24px 20px; }
+.form-screen h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; color: var(--blue-dark); }
+.form-screen .subtitle { color: var(--text-soft); font-size: 0.95rem; margin-bottom: 28px; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 6px; }
+.form-group .hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+input[type=text], input[type=date], input[type=number], select, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  background: white;
+  transition: border-color 0.15s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--blue); }
+input.error, select.error { border-color: var(--red); }
+
+.sport-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+.sport-option {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: white;
+}
+.sport-option:hover { border-color: var(--blue); background: var(--blue-light); }
+.sport-option.selected { border-color: var(--blue); background: var(--blue-light); }
+.sport-option .sport-icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+.sport-option .sport-name { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+
+.row { display: flex; gap: 12px; }
+.row .form-group { flex: 1; }
+
+/* ââ DASHBOARD ââ */
+#dash-screen { padding-bottom: 40px; }
+
+.dash-header {
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+  color: white;
+  padding: 24px 20px 20px;
+}
+.dash-carnival-name { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+.dash-meta { font-size: 0.9rem; opacity: 0.85; display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.dash-meta span { display: flex; align-items: center; gap: 6px; }
+.dash-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+}
+.dash-code-val { font-family: monospace; font-size: 1.3rem; font-weight: 800; letter-spacing: 3px; color: #FFD54F; }
+.copy-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+.copy-btn:hover { background: rgba(255,255,255,0.35); }
+
+/* ââ TABS ââ */
+.tabs {
+  background: white;
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 56px;
+  z-index: 90;
+}
+.tab {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s;
+}
+.tab:hover { color: var(--blue); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+
+.tab-content { display: none; padding: 20px; max-width: 700px; margin: 0 auto; }
+.tab-content.active { display: block; }
+
+/* ââ EVENTS LIST ââ */
+.events-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.event-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 4px solid var(--blue);
+}
+.event-card.xc { border-left-color: var(--green); }
+.event-info { flex: 1; min-width: 0; }
+.event-name { font-weight: 700; font-size: 1rem; color: var(--text); white-space: nowraw; overflow: hidden; text-overflow: ellipsis; }
+.event-sub { font-size: 0.8rem; color: var(--text-soft); margin-top: 2px; }
+.event-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--bg);
+  color: var(--text-muted);
+}
+.event-status.done { background: var(--green-light); color: var(--green); }
+.event-status.live { background: #FFF3E0; color: var(--orange); }
+.event-actions { display: flex; gap: 8px; align-items: center; }
+.timer-btn {
+  background: var(--orange);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.timer-btn:hover { background: #E65100; }
+
+.add-event-btn {
+  background: white;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.15s;
+  width: 100%;
+}
+.add-event-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+/* ââ RESULTS ââ */
+.results-list { display: flex; flex-direction: column; gap: 16px; }
+.result-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.result-header {
+  background: var(--blue-light);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.result-header h4 { font-size: 0.95rem; font-weight: 700; color: var(--blue-dark); }
+.result-header .pub-time { font-size: 0.75rem; color: var(--text-soft); }
+.result-rows { padding: 8px 0; }
+.result-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--bg);
+  font-size: 0.9rem;
+}
+.result-row:last-child { border-bottom: none; }
+.result-place { font-weight: 800; font-size: 1rem; color: var(--blue); width: 28px; }
+.result-place.gold { color: #F9A825; }
+.result-place.silver { color: #78909C; }
+.result-place.bronze { color: #8D6E63; }
+.result-name { flex: 1; font-weight: 600; }
+.result-time { font-family: monospace; font-weight: 700; color: var(--text-soft); font-size: 0.9rem; }
+.result-confidence { font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; }
+.conf-high { background: var(--green-light); color: var(--green); }
+.conf-ok { background: #FFF8E1; color: #F57F17; }
+.conf-check { background: var(--orange-light); color: var(--orange); }
+
+.no-results {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+.no-results .no-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+.no-results p { font-size: 0.95rem; }
+
+/* ââ SHARE TAB ââ */
+.share-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  margin-bottom: 16px;
+}
+.share-card h3 { font-weight: 700; margin-bottom: 8px; color: var(--blue-dark); }
+.share-card p { font-size: 0.9rem; color: var(--text-soft); margin-bottom: 16px; }
+.qr-img { width: 160px; height: 160px; border-radius: 8px; border: 3px solid var(--border); }
+.share-url {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: var(--blue);
+  font-family: monospace;
+  word-break: break-all;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+}
+
+/* ââ ADD EVENT MODAL ââ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: flex-end;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white;
+  border-radius: 20px 20px 0 0;
+  padding: 24px 20px 40px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+.modal h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; color: var(--blue-dark); }
+
+/* ââ TOAST ââ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #1A237E;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 999;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ââ CODE INPUT ââ */
+.code-input {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 1.4rem;
+  font-family: monospace;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ââ CHIPS ââ */
+.chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 2px solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  color: var(--text-soft);
+  transition: all 0.12s;
+}
+.chip:hover { border-color: var(--blue); color: var(--blue); }
+.chip.selected { background: var(--blue); border-color: var(--blue); color: white; }
+
+/* ââ EMPTY STATE ââ */
+.empty-events {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--text-muted);
+}
+.empty-events .empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+/* ââ SECTION HEADER ââ */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.section-header h3 { font-size: 1.1rem; font-weight: 700; color: var(--blue-dark); }
+
+/* ââ TIMER LINK BANNER ââ */
+.timer-banner {
+  background: var(--orange-light);
+  border: 2px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.timer-banner-icon { font-size: 1.8rem; }
+.timer-banner-text { flex: 1; }
+.timer-banner-text strong { display: block; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
+.timer-banner-text span { font-size: 0.82rem; color: var(--text-soft); }
+
+/* ââ FOOTER ââ */
+.home-footer {
+  text-align: center;
+  padding: 32px 24px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+.home-footer a { color: var(--blue); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
+     SCREEN: HOME
+âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div id="home-screen" class="screen active">
+  <div class="topbar">
+    <span class="topbar-logo">Sport<span>Carnival</span></span>
+  </div>
+
+  <div class="hero">
+    <span class="hero-icon">ð</span>
+    <h1>Run your carnival. Live.</h1>
+    <p>Set up events, connect timers, and publish results instantly â all from your phone.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showCreate()">â¦ New Carnival</button>
+      <button class="btn btn-secondary" onclick="showJoin()">Manage Existing â</button>
+    </div>
+  </div>
+
+  <div class="how-section">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <span class="step-icon">ð</span>
+        <h3>Set up</h3>
+        <p>Create your carnival, add events and age groups in minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <span class="step-icon">â±ï¸</span>
+        <h3>Time it</h3>
+        <p>Timers scan a QR code and are instantly connected at their lane.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <span class="step-icon">ð</span>
+        <h3>Publish</h3>
+        <p>Results are live on your school page the moment a race finishes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="join-section">
+    <div class="card">
+      <h3>ð Manage an existing carnival</h3>
+      <div class="form-group" style="margin-bottom:12px">
+        <input type="text" id="join-code-input" class="code-input" placeholder="ABCD" maxlength="4" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <button class="btn btn-blue btn-full" onclick="joinCarnival()">Open Carnival â</button>
+    </div>
+  </div>
+
+  <div class="home-footer">
+    Live timing powered by <a href="https://carnivaltiming.com" target="_blank">carnivaltiming.com</a>
+    &nbsp;Â·&nbsp; Results on <a href="https://schoolsportportal.com.au" target="_blank">schoolsportportal.com.au</a>
+  </div>
+</div>
+
+<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
+     SCREEN: CREATE CARNIVAL
+âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div id="create-screen" class="screen">
+  <div class="topbar">
+    <button class="topbar-back" onclick="showHome()">â Back</button>
+    <span class="topbar-logo">New <span>Carnival</span></span>
+  </div>
+
+  <div class="form-screen">
+    <h2>Create a carnival</h2>
+    <p class="subtitle">You'll get a code to share with timers on the day.</p>
+
+    <div class="form-group">
+      <label>School name</label>
+      <input type="text" id="c-school" placeholder="e.g. Williamstown Primary School">
+    </div>
+
+    <div class="form-group">
+      <label>Carnival name</label>
+      <input type="text" id="c-name" placeholder="e.g. 2026 Athletics Carnival">
+    </div>
+
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="c-date">
+    </div>
+
+    <div class="form-group">
+      <label>Sport type</label>
+      <div class="sport-grid">
+        <div class="sport-option selected" data-sport="athletics" onclick="selectSport(this)">
+          <span class="sport-icon">ð</span>
+          <span class="sport-name">Athletics</span>
+        </div>
+        <div class="sport-option" data-sport="swimming" onclick="selectSport(this)">
+          <span class="sport-icon">ð</span>
+          <span class="sport-name">Swimming</span>
+        </div>
+        <div class="sport-option" data-sport="xc" onclick="selectSport(this)">
+          <span class="sport-icon">ð¿</span>
+          <span class="sport-name">Cross Country</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" id="lanes-group">
+      <label>Number of lanes / tracks</label>
+      <select id="c-lanes">
+        <option value="4">4 lanes</option>
+        <option value="6">6 lanes</option>
+        <option value="8" selected>8 lanes</option>
+        <option value="10">10 lanes</option>
+        <option value="12">12 lanes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Accent colour</label>
+      <div class="chip-group" id="colour-chips">
+        <div class="chip selected" data-colour="#1565C0" onclick="selectColour(this)">ðµ Blue</div>
+        <div class="chip" data-colour="#C62828" onclick="selectColour(this)">ð´ Red</div>
+        <div class="chip" data-colour="#2E7D32" onclick="selectColour(this)">ð¢ Green</div>
+        <div class="chip" data-colour="#F57C00" onclick="selectColour(this)">ð  Orange</div>
+        <div class="chip" data-colour="#6A1B9A" onclick="selectColour(this)">ð£ Purple</div>
+        <div class="chip" data-colour="#00838F" onclick="selectColour(this)">ð©µ Teal</div>
+      </div>
+    </div>
+
+    <button class="btn btn-blue btn-full" style="margin-top:12px" onclick="createCarnival()">
+      â¦ Create Carnival
+    </button>
+  </div>
+</div>
+
+<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
+     SCREEN: DASHBOARD
+âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div id="dash-screen" class="screen">
+  <div class="topbar">
+    <button class="topbar-back" onclick="showHome()">â Home</button>
+    <span class="topbar-logo">Sport<span>Carnival</span></span>
+  </div>
+
+  <div class="dash-header">
+    <div class="dash-carnival-name" id="dash-name">â</div>
+    <div class="dash-meta">
+      <span>ð« <span id="dash-school">â</span></span>
+      <span>ð <span id="dash-date">â</span></span>
+      <span>ð <span id="dash-sport">â</span></span>
+    </div>
+    <div class="dash-code">
+      Code: <span class="dash-code-val" id="dash-code">â</span>
+      <button class="copy-btn" onclick="copyCode()">Copy</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="events" onclick="switchTab('events')">
+      <span class="tab-icon">ð</span>Events
+    </div>
+    <div class="tab" data-tab="results" onclick="switchTab('results')">
+      <span class="tab-icon">ð</span>Results
+    </div>
+    <div class="tab" data-tab="share" onclick="switchTab('share')">
+      <span class="tab-icon">ð</span>Share
+    </div>
+  </div>
+
+  <!-- Events Tab -->
+  <div id="tab-events" class="tab-content active">
+    <div class="timer-banner">
+      <span class="timer-banner-icon">â±ï¸</span>
+      <div class="timer-banner-text">
+        <strong>Ready to time a race?</strong>
+        <span>Click "Open Timer" next to an event, or open carnivaltiming.com directly.</span>
+      </div>
+      <button class="btn btn-sm" style="background:var(--orange);color:white;white-space:nowrap;" onclick="openTimerApp()">Open Timer</button>
+    </div>
+
+    <div class="section-header">
+      <h3>Events</h3>
+      <button class="btn btn-sm btn-outline" onclick="openAddEvent()">+ Add Event</button>
+    </div>
+
+    <div class="events-list" id="events-list">
+      <div class="empty-events">
+        <span class="empty-icon">ð</span>
+        <p>No events yet.<br>Add your first event to get started.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Tab -->
+  <div id="tab-results" class="tab-content">
+    <div class="section-header">
+      <h3>Published Results</h3>
+      <button class="btn btn-sm btn-outline" onclick="exportCSV()">â¬ Export CSV</button>
+    </div>
+    <div class="results-list" id="results-list">
+      <div class="no-results">
+        <span class="no-icon">ð</span>
+        <p>Results will appear here as races finish.<br>They update automatically â no refresh needed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Tab -->
+  <div id="tab-share" class="tab-content">
+    <div class="share-card">
+      <h3>Timer Join Link</h3>
+      <p>Share this with timers so they can join on the day.</p>
+      <img id="share-qr-timer" class="qr-img" src="" alt="QR Code">
+      <div class="share-url" id="share-url-timer">â</div>
+      <button class="btn btn-blue btn-sm" onclick="copyTimerLink()">Copy Link</button>
+    </div>
+
+    <div class="share-card">
+      <h3>Results Viewer Link</h3>
+      <p>Share with parents and spectators to watch live results.</p>
+      <img id="share-qr-results" class="qr-img" src="" alt="QR Code">
+      <div class="share-url" id="share-url-results">â</div>
+      <button class="btn btn-outline btn-sm" onclick="copyResultsLink()">Copy Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
+     MODAL: ADD EVENT
+âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div class="modal-overlay" id="add-event-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>Add Event</h3>
+
+    <div class="form-group">
+      <label>Event name</label>
+      <input type="text" id="ev-name" placeholder="e.g. 100m Sprint">
+      <div class="hint">You can also pick a common event below</div>
+    </div>
+
+    <div class="chip-group" style="margin-bottom:20px">
+      <div class="chip" onclick="pickEvent('100m')">100m</div>
+      <div class="chip" onclick="pickEvent('200m')">200m</div>
+      <div class="chip" onclick="pickEvent('400m')">400m</div>
+      <div class="chip" onclick="pickEvent('800m')">800m</div>
+      <div class="chip" onclick="pickEvent('1500m')">1500m</div>
+      <div class="chip" onclick="pickEvent('50m Freestyle')">50m Free</div>
+      <div class="chip" onclick="pickEvent('100m Freestyle')">100m Free</div>
+      <div class="chip" onclick="pickEvent('50m Backstroke')">50m Back</div>
+      <div class="chip" onclick="pickEvent('50m Breaststroke')">50m Breast</div>
+      <div class="chip" onclick="pickEvent('Cross Country')">XC Run</div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Age group</label>
+        <select id="ev-age">
+          <option value="8 Years">8 Years</option>
+          <option value="9 Years">9 Years</option>
+          <option value="10 Years">10 Years</option>
+          <option value="11 Years">11 Years</option>
+          <option value="12 Years">12 Years</option>
+          <option value="13 Years">13 Years</option>
+          <option value="Open">Open</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select id="ev-gender">
+          <option value="Boys">Boys</option>
+          <option value="Girls">Girls</option>
+          <option value="Mixed">Mixed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Race type</label>
+      <div class="chip-group">
+        <div class="chip selected" data-racetype="lane" onclick="selectRaceType(this)">ð Lane based</div>
+        <div class="chip" data-racetype="xc" onclick="selectRaceType(this)">ð¿ Cross country</div>
+      </div>
+    </div>
+
+    <button class="btn btn-blue btn-full" style="margin-top:8px" onclick="addEvent()">Add Event</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// FIREBASE
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+firebase.initializeApp({
+  apiKey: "AIzaSyA-bNl8XqvZ7DQ6YftL9teXbqxYICBlPF8",
+  authDomain: "willy-district-sport.firebaseapp.com",
+  databaseURL: "https://willy-district-sport-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "willy-district-sport",
+  storageBucket: "willy-district-sport.firebasestorage.app"
+});
+const db = firebase.database();
+const ROOT = 'fl';
+const SC   = 'sc';  // sportcarnival namespace
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// STATE
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+let carnivalCode = null;
+let carnivalMeta = null;
+let selectedSport = 'athletics';
+let selectedColour = '#1565C0';
+let selectedRaceType = 'lane';
+let eventsListener = null;
+let resultsListener = null;
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// SCREEN NAVIGATION
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function showHome()   { showScreen('home-screen');   detachListeners(); }
+function showCreate() { showScreen('create-screen'); setDefaultDate(); }
+function showDash()   { showScreen('dash-screen'); }
+
+function showJoin() {
+  document.getElementById('join-code-input').focus();
+  document.getElementById('join-code-input').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function setDefaultDate() {
+  const d = new Date();
+  document.getElementById('c-date').value = d.toISOString().split('T')[0];
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// CARNIVAL CREATION
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function genCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let code = '';
+  for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  return code;
+}
+
+function selectSport(el) {
+  document.querySelectorAll('.sport-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSport = el.dataset.sport;
+  document.getElementById('lanes-group').style.display = selectedSport === 'xc' ? 'none' : '';
+}
+
+function selectColour(el) {
+  document.querySelectorAll('#colour-chips .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedColour = el.dataset.colour;
+}
+
+async function createCarnival() {
+  const school = document.getElementById('c-school').value.trim();
+  const name   = document.getElementById('c-name').value.trim();
+  const date   = document.getElementById('c-date').value;
+  const lanes  = parseInt(document.getElementById('c-lanes').value);
+
+  if (!school) { toast('Enter your school name'); return; }
+  if (!name)   { toast('Enter a carnival name');  return; }
+  if (!date)   { toast('Pick a date');            return; }
+
+  let code;
+  // Try to find an unused code
+  for (let i = 0; i < 10; i++) {
+    code = genCode();
+    const snap = await db.ref(`${ROOT}/${code}/meta`).once('value');
+    if (!snap.exists()) break;
+  }
+
+  const meta = {
+    school, name, date,
+    sport: selectedSport,
+    lanes: selectedSport === 'xc' ? null : lanes,
+    colour: selectedColour,
+    createdAt: firebase.database.ServerValue.TIMESTAMP,
+    source: 'sportcarnival'
+  };
+
+  // Write to both namespaces
+  await db.ref(`${ROOT}/${code}/meta`).set(meta);
+  await db.ref(`${SC}/${code}/meta`).set(meta);
+
+  // Save locally
+  localStorage.setItem('sc_last_code', code);
+
+  carnivalCode = code;
+  carnivalMeta = meta;
+  loadDashboard();
+  showDash();
+  toast('â Carnival created! Code: ' + code);
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// JOIN EXISTING
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function joinCarnival() {
+  const code = document.getElementById('join-code-input').value.trim().toUpperCase();
+  if (code.length !== 4) { toast('Enter a 4-letter code'); return; }
+
+  const snap = await db.ref(`${ROOT}/${code}/meta`).once('value');
+  if (!snap.exists()) { toast('Carnival not found â check the code'); return; }
+
+  carnivalCode = code;
+  carnivalMeta = snap.val();
+  localStorage.setItem('sc_last_code', code);
+  loadDashboard();
+  showDash();
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// DASHBOARD
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function loadDashboard() {
+  const m = carnivalMeta;
+  document.getElementById('dash-name').textContent = m.name || 'â';
+  document.getElementById('dash-school').textContent = m.school || 'â';
+  document.getElementById('dash-date').textContent = m.date ? formatDate(m.date) : 'â';
+  document.getElementById('dash-sport').textContent = sportLabel(m.sport);
+  document.getElementById('dash-code').textContent = carnivalCode;
+
+  // Share URLs
+  const timerUrl    = `https://carnivaltiming.com?join=${carnivalCode}`;
+  const resultsUrl  = `https://carnivaltiming.com?join=${carnivalCode}&role=results`;
+  document.getElementById('share-url-timer').textContent   = timerUrl;
+  document.getElementById('share-url-results').textContent = resultsUrl;
+  document.getElementById('share-qr-timer').src   = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(timerUrl)}`;
+  document.getElementById('share-qr-results').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(resultsUrl)}`;
+
+  switchTab('events');
+  attachListeners();
+}
+
+function detachListeners() {
+  if (eventsListener) { db.ref(`${SC}/${carnivalCode}/events`).off('value', eventsListener); eventsListener = null; }
+  if (resultsListener) { db.ref(`${ROOT}/${carnivalCode}/results`).off('value', resultsListener); resultsListener = null; }
+}
+
+function attachListeners() {
+  detachListeners();
+
+  // Events
+  eventsListener = db.ref(`${SC}/${carnivalCode}/events`).on('value', snap => {
+    renderEvents(snap.val());
+  });
+
+  // Results
+  resultsListener = db.ref(`${ROOT}/${carnivalCode}/results`).on('value', snap => {
+    renderResults(snap.val());
+  });
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// EVENTS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function renderEvents(events) {
+  const list = document.getElementById('events-list');
+  if (!events) {
+    list.innerHTML = `<div class="empty-events"><span class="empty-icon">ð</span><p>No events yet.<br>Add your first event to get started.</p></div>`;
+    return;
+  }
+  const items = Object.entries(events).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+  list.innerHTML = items.map(([id, ev]) => {
+    const isXC = ev.type === 'xc';
+    return `
+    <div class="event-card ${isXC ? 'xc' : ''}">
+      <div class="event-info">
+        <div class="event-name">${ev.name}</div>
+        <div class="event-sub">${ev.ageGroup} Â· ${ev.gender} Â· ${isXC ? 'Cross Country' : 'Lane Race'}</div>
+      </div>
+      <div class="event-actions">
+        <button class="timer-btn" onclick="openTimerForEvent(${JSON.stringify(ev).replace(/"/g,'&quot;')})">
+          â±ï¸ Open Timer
+        </button>
+        <button class="btn-icon" onclick="deleteEvent('${id}')" title="Remove">ðï¸</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddEvent() {
+  document.getElementById('ev-name').value = '';
+  document.getElementById('add-event-modal').classList.add('open');
+}
+function closeModal(e) {
+  if (e.target === e.currentTarget) document.getElementById('add-event-modal').classList.remove('open');
+}
+function closeAddEvent() { document.getElementById('add-event-modal').classList.remove('open'); }
+
+function pickEvent(name) { document.getElementById('ev-name').value = name; }
+
+function selectRaceType(el) {
+  document.querySelectorAll('[data-racetype]').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedRaceType = el.dataset.racetype;
+}
+
+async function addEvent() {
+  const name   = document.getElementById('ev-name').value.trim();
+  const age    = document.getElementById('ev-age').value;
+  const gender = document.getElementById('ev-gender').value;
+  if (!name) { toast('Enter an event name'); return; }
+
+  const eventsSnap = await db.ref(`${SC}/${carnivalCode}/events`).once('value');
+  const count = eventsSnap.numChildren();
+
+  const id = Date.now().toString(36);
+  await db.ref(`${SC}/${carnivalCode}/events/${id}`).set({
+    name, ageGroup: age, gender,
+    type: selectedRaceType,
+    order: count,
+    createdAt: firebase.database.ServerValue.TIMESTAMP
+  });
+
+  closeAddEvent();
+  toast('â Event added');
+}
+
+async function deleteEvent(id) {
+  if (!confirm('Remove this event?')) return;
+  await db.ref(`${SC}/${carnivalCode}/events/${id}`).remove();
+  toast('Event removed');
+}
+
+function openTimerForEvent(ev) {
+  const params = new URLSearchParams({
+    join: carnivalCode,
+    role: ev.type === 'xc' ? 'admin-xc' : 'admin'
+  });
+  window.open(`https://carnivaltiming.com?${params}`, '_blank');
+}
+
+function openTimerApp() {
+  window.open(`https://carnivaltiming.com?join=${carnivalCode}`, '_blank');
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// RESULTS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function renderResults(results) {
+  const list = document.getElementById('results-list');
+  if (!results) {
+    list.innerHTML = `<div class="no-results"><span class="no-icon">ð</span><p>Results will appear here as races finish.<br>They update automatically.</p></div>`;
+    return;
+  }
+
+  const entries = Object.entries(results).sort((a,b) => (b[1].publishedAt||0) - (a[1].publishedAt||0));
+  list.innerHTML = entries.map(([key, r]) => {
+    const title = [r.age, r.gender, r.event].filter(Boolean).join(' Â· ');
+    const pubTime = r.publishedAt ? new Date(r.publishedAt).toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}) : '';
+
+    let rowsHtml = '';
+    if (r.type === 'lane' && r.results) {
+      rowsHtml = r.results.map((row, i) => {
+        const placeClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+        const confClass = {HIGH:'conf-high', OK:'conf-ok', CHECK:'conf-check'}[row.confidence] || '';
+        return `<div class="result-row">
+          <span class="result-place ${placeClass}">${row.place || i+1}</span>
+          <span class="result-name">Lane ${row.lane}${row.name ? ' Â· '+row.name : ''}</span>
+          <span class="result-time">${msToTime(row.timeMs)}</span>
+          ${row.confidence ? `<span class="result-confidence ${confClass}">${row.confidence}</span>` : ''}
+        </div>`;
+      }).join('');
+    } else if (r.type === 'xc' && r.places) {
+      rowsHtml = r.places.map((row, i) => {
+        const placeClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+        return `<div class="result-row">
+          <span class="result-place ${placeClass}">${row.place || i+1}</span>
+          <span class="result-name">${row.name || 'Athlete'}</span>
+          <span class="result-time">${row.elapsedMs ? msToTime(row.elapsedMs) : 'â'}</span>
+        </div>`;
+      }).join('');
+    }
+
+    return `<div class="result-card">
+      <div class="result-header">
+        <h4>${title}</h4>
+        ${pubTime ? `<span class="pub-time">${pubTime}</span>` : ''}
+      </div>
+      <div class="result-rows">${rowsHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+function msToTime(ms) {
+  if (!ms) return 'â';
+  const total = Math.round(ms / 10);
+  const cs = total % 100;
+  const totalSecs = Math.floor(total / 100);
+  const secs = totalSecs % 60;
+  const mins = Math.floor(totalSecs / 60);
+  return mins > 0
+    ? `${mins}:${String(secs).padStart(2,'0')}.${String(cs).padStart(2,'0')}`
+    : `${secs}.${String(cs).padStart(2,'0')}`;
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// CSV EXPORT
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function exportCSV() {
+  const snap = await db.ref(`${ROOT}/${carnivalCode}/results`).once('value');
+  if (!snap.exists()) { toast('No results to export yet'); return; }
+
+  let csv = 'Place,Age Group,Gender,Event,Name,Lane,Time\n';
+  Object.values(snap.val()).forEach(r => {
+    if (r.type === 'lane' && r.results) {
+      r.results.forEach(row => {
+        csv += `${row.place||''},${r.age||''},${r.gender||''},${r.event||''},${row.name||''},${row.lane||''},${msToTime(row.timeMs)}\n`;
+      });
+    } else if (r.type === 'xc' && r.places) {
+      r.places.forEach(row => {
+        csv += `${row.place||''},${r.age||''},${r.gender||''},${r.event||''},${row.name||''},,${row.elapsedMs ? msToTime(row.elapsedMs) : ''}\n`;
+      });
+    }
+  });
+
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${carnivalCode}_results.csv`;
+  a.click();
+  toast('â CSV downloaded');
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// TABS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === `tab-${name}`));
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// SHARE / COPY
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function copyCode() {
+  navigator.clipboard.writeText(carnivalCode).then(() => toast('Code copied: ' + carnivalCode));
+}
+function copyTimerLink() {
+  const url = document.getElementById('share-url-timer').textContent;
+  navigator.clipboard.writeText(url).then(() => toast('Timer link copied'));
+}
+function copyResultsLink() {
+  const url = document.getElementById('share-url-results').textContent;
+  navigator.clipboard.writeText(url).then(() => toast('Results link copied'));
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// HELPERS
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+function formatDate(d) {
+  if (!d) return 'â';
+  return new Date(d + 'T12:00:00').toLocaleDateString('en-AU', {day:'numeric', month:'long', year:'numeric'});
+}
+function sportLabel(s) {
+  return {athletics:'Athletics', swimming:'Swimming', xc:'Cross Country', mixed:'Mixed'}[s] || s || 'â';
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// INIT â restore last session
+// ââââââââââââââââââââââââââââââââââââââââââââââââââ
+(async function init() {
+  const params = new URLSearchParams(location.search);
+  const urlCode = params.get('code') || params.get('join');
+  const storedCode = localStorage.getItem('sc_last_code');
+  const code = urlCode || storedCode;
+
+  if (code) {
+    document.getElementById('join-code-input').value = code;
+    try {
+      const snap = await db.ref(`${ROOT}/${code}/meta`).once('value');
+      if (snap.exists()) {
+        carnivalCode = code;
+        carnivalMeta = snap.val();
+        loadDashboard();
+        showDash();
+        return;
+      }
+    } catch(e) {}
+  }
+  showScreen('home-screen');
+})();
+</script>
+</body>
+</html>
