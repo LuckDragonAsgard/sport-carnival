@@ -2883,6 +2883,16 @@ function vfSampleStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
   return out;
 }
 
+// Sample a horizontal band (track mode — side-on camera, one strip per lane)
+function vfSampleHStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
+  const sh = Math.max(1, Math.floor(canvasH / numStrips));
+  const y  = Math.min(stripIdx * sh, canvasH - 1);
+  const data = ctx.getImageData(0, y, canvasW, sh).data;
+  const out = [];
+  for (let i=0;i<data.length;i+=20) out.push((data[i]*77+data[i+1]*150+data[i+2]*29)>>8);
+  return out;
+}
+
 // Sample full frame (track/XC mode)
 function vfSampleFrame(ctx, canvasW, canvasH) {
   const data = ctx.getImageData(0,0,canvasW,canvasH).data;
@@ -2982,61 +2992,82 @@ async function vfAutoScanSwim() {
   vfFinishScan();
 }
 
-// ── TRACK / XC MODE SCAN ──────────────────────────────────────────────────────
-// Whole-frame detection. Time order = place order.
+// ── TRACK MODE SCAN ─────────────────────────────────────────────────────────
+// Camera at side of finish line. Each lane = horizontal band of frame.
+// Lane 1 = top strip, Lane N = bottom strip. Fully automatic — no manual marking.
 async function vfAutoScanTrack() {
   vfScanning=true; vfDetections=[];
-  const dur=vfVideoEl.duration;
+  const N=vfLaneCount, dur=vfVideoEl.duration;
   const bar=document.getElementById('vf-scan-bar');
   const lbl=document.getElementById('vf-scan-label');
   const offscr=document.createElement('canvas');
 
-  lbl.textContent='Calibrating…';
-  let calPrev=null,calSum=0,calN=0;
-  for (let t=0;t<=Math.min(1.2,dur);t+=0.2) {
+  lbl.textContent='Calibrating noise floor…';
+
+  // Calibrate: measure per-strip baseline noise from first 1.5 s
+  const stripBaselines = new Array(N).fill(0);
+  const stripCounts    = new Array(N).fill(0);
+  const prevCal        = new Array(N).fill(null);
+
+  for (let t=0; t<=Math.min(1.5,dur); t+=0.25) {
     await vfSeek(t);
     offscr.width=vfVideoEl.videoWidth||640; offscr.height=vfVideoEl.videoHeight||360;
-    offscr.getContext('2d').drawImage(vfVideoEl,0,0);
-    const s=vfSampleFrame(offscr.getContext('2d'),offscr.width,offscr.height);
-    if(calPrev){calSum+=vfPixelDiff(s,calPrev);calN++;}
-    calPrev=s;
+    const ctx=offscr.getContext('2d'); ctx.drawImage(vfVideoEl,0,0);
+    for (let i=0;i<N;i++) {
+      const s=vfSampleHStrip(ctx,offscr.width,offscr.height,i,N);
+      const d=vfPixelDiff(s,prevCal[i]);
+      if(prevCal[i]){stripBaselines[i]+=d; stripCounts[i]++;}
+      prevCal[i]=s;
+    }
   }
-  const threshold=Math.max(6,(calN?calSum/calN:5)*3.5);
+  const thresholds = stripBaselines.map((b,i)=>
+    Math.max(6, stripCounts[i]>0 ? (b/stripCounts[i])*4 : 10)
+  );
 
-  lbl.textContent='Scanning for crossings…';
-  let prev=null,roughPeaks=[],inEvt=false,peakD=0,peakT=0;
-  const STEP=0.1,MIN_GAP=0.5;
+  // Scan: find first motion crossing per lane
+  lbl.textContent=`Scanning ${N} lanes…`;
+  const laneResult = new Array(N).fill(null);
+  const prevScan   = new Array(N).fill(null);
+  const laneFound  = new Array(N).fill(false);
+  const STEP=0.08;
 
-  for (let t=0;t<=dur;t+=STEP) {
+  for (let t=0; t<=dur && !laneFound.every(Boolean); t+=STEP) {
     await vfSeek(t);
     offscr.width=vfVideoEl.videoWidth||640; offscr.height=vfVideoEl.videoHeight||360;
-    offscr.getContext('2d').drawImage(vfVideoEl,0,0);
-    const s=vfSampleFrame(offscr.getContext('2d'),offscr.width,offscr.height);
-    const d=vfPixelDiff(s,prev); prev=s;
-    if(d>threshold){
-      if(!inEvt){inEvt=true;peakD=d;peakT=t;}
-      else if(d>peakD){peakD=d;peakT=t;}
-    } else if(inEvt&&d<threshold*0.4){roughPeaks.push({t:peakT});inEvt=false;}
+    const ctx=offscr.getContext('2d'); ctx.drawImage(vfVideoEl,0,0);
+    for (let i=0;i<N;i++) {
+      if(laneFound[i]) continue;
+      const s=vfSampleHStrip(ctx,offscr.width,offscr.height,i,N);
+      const d=vfPixelDiff(s,prevScan[i]);
+      if(d>thresholds[i] && prevScan[i]) { laneResult[i]={roughT:t}; laneFound[i]=true; }
+      prevScan[i]=s;
+    }
     bar.style.width=Math.round(t/dur*70)+'%';
   }
-  if(inEvt) roughPeaks.push({t:peakT});
-  roughPeaks=roughPeaks.filter((p,i)=>i===0||p.t-roughPeaks[i-1].t>=MIN_GAP);
 
-  for (let pi=0;pi<roughPeaks.length;pi++) {
-    lbl.textContent=`Refining crossing ${pi+1}/${roughPeaks.length}…`;
-    const center=roughPeaks[pi].t;
-    const lo=Math.max(0,center-0.35),hi=Math.min(dur,center+0.35);
+  // Refine each detected lane to frame accuracy (~1/60 s)
+  let refined=0;
+  for (let i=0;i<N;i++) {
+    if(!laneResult[i]) continue;
+    lbl.textContent=`Refining Lane ${i+1}…`;
+    const center=laneResult[i].roughT;
+    const lo=Math.max(0,center-0.3), hi=Math.min(dur,center+0.3);
     let rPrev=null,rPeak=0,rPeakT=center;
     for (let t=lo;t<=hi;t+=1/60) {
       await vfSeek(t);
       offscr.getContext('2d').drawImage(vfVideoEl,0,0);
-      const s=vfSampleFrame(offscr.getContext('2d'),offscr.width,offscr.height);
-      const d=vfPixelDiff(s,rPrev); if(d>rPeak){rPeak=d;rPeakT=t;} rPrev=s;
+      const s=vfSampleHStrip(offscr.getContext('2d'),offscr.width,offscr.height,i,N);
+      const d=vfPixelDiff(s,rPrev);
+      if(d>rPeak){rPeak=d;rPeakT=t;}
+      rPrev=s;
     }
     const elapsed=vfCalcElapsed(rPeakT);
-    if(elapsed>0) vfDetections.push({frameTime:rPeakT,elapsedMs:elapsed,lane:null});
-    bar.style.width=(70+Math.round((pi+1)/roughPeaks.length*28))+'%';
+    if(elapsed>0) vfDetections.push({lane:i+1, frameTime:rPeakT, elapsedMs:elapsed});
+    refined++;
+    bar.style.width=(70+Math.round(refined/N*28))+'%';
   }
+
+  vfDetections.sort((a,b)=>a.elapsedMs-b.elapsedMs);
   vfDetections.forEach((d,i)=>d.place=i+1);
   vfFinishScan();
 }
