@@ -886,8 +886,43 @@
         <div id="starter-race-info" class="text-muted text-sm"></div>
         <div class="clock mt-8" id="starter-clock">0:00.00</div>
       </div>
-      <button class="btn btn-go" id="starter-go-btn" onclick="starterGo()">GO</button>
-      <button class="btn btn-secondary mt-8" onclick="starterRecall()">RECALL</button>
+
+      <!-- Gun detection panel -->
+      <div style="margin-top:16px;padding:16px;background:var(--surface-2);border-radius:12px">
+        <!-- Idle state -->
+        <div id="starter-listen-idle">
+          <div style="font-size:0.8rem;color:var(--muted);text-align:center;margin-bottom:12px">Point mic toward the starting pistol</div>
+          <button class="btn btn-primary" style="width:100%;font-size:1.1rem;padding:16px" onclick="starterListenStart()">
+            🎙️ Listen for Gun
+          </button>
+        </div>
+        <!-- Listening state -->
+        <div id="starter-listen-active" class="hidden">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;animation:vf-pulse 0.8s infinite;flex-shrink:0"></div>
+            <div style="font-size:0.9rem;font-weight:700;color:#ef4444;flex:1">Listening…</div>
+            <div id="starter-cal-lbl" style="font-size:0.72rem;color:var(--muted)">Calibrating</div>
+          </div>
+          <!-- Volume bar -->
+          <div style="background:var(--surface);border-radius:4px;height:14px;overflow:hidden;margin-bottom:10px">
+            <div id="starter-vol-bar" style="height:100%;width:0%;background:var(--accent);border-radius:4px;transition:width 0.04s"></div>
+          </div>
+          <!-- Sensitivity -->
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+            <span style="font-size:0.75rem;color:var(--muted)">Sensitivity:</span>
+            <button class="btn btn-secondary" style="font-size:0.75rem;padding:4px 10px" data-sens="high" onclick="starterSetSens('high')">High</button>
+            <button class="btn btn-primary"   style="font-size:0.75rem;padding:4px 10px" data-sens="med"  onclick="starterSetSens('med')">Med</button>
+            <button class="btn btn-secondary" style="font-size:0.75rem;padding:4px 10px" data-sens="low"  onclick="starterSetSens('low')">Low</button>
+          </div>
+          <button class="btn btn-secondary" style="width:100%;font-size:0.85rem" onclick="starterListenStop()">Stop Listening</button>
+        </div>
+      </div>
+
+      <!-- Manual fallback + recall -->
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-secondary" style="flex:1;font-size:0.85rem" id="starter-go-btn" onclick="starterGo()">Manual GO</button>
+        <button class="btn btn-secondary" style="flex:1;font-size:0.85rem;color:var(--danger);border-color:var(--danger)" onclick="starterRecall()">RECALL</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2225,6 +2260,17 @@ function medalCls(p) { return p===1?'p1':p===2?'p2':p===3?'p3':'pN'; }
 // ════════════════════════════════════════
 // STARTER VIEW
 // ════════════════════════════════════════
+// ── Starter audio state ──────────────────────────────────────────────────────
+let starterAudioCtx    = null;
+let starterAnalyser    = null;
+let starterMicStream   = null;
+let starterListening   = false;
+let starterNoiseFloor  = 0;
+let starterNoiseCount  = 0;
+let starterSensitivity = 'med';
+let starterListenRafId = null;
+const STARTER_SENS_MULT = { high:3, med:5, low:9 };
+
 function initStarterView() {
   watchConn('starter-dot');
   const raceRef = cRef('race/current');
@@ -2232,23 +2278,117 @@ function initStarterView() {
     const race = snap.val();
     const w = document.getElementById('starter-waiting');
     const a = document.getElementById('starter-armed');
-    if (!race || race.state==='idle') { w.classList.remove('hidden'); a.classList.add('hidden'); return; }
+    if (!race || race.state==='idle') {
+      w.classList.remove('hidden'); a.classList.add('hidden');
+      starterListenStop(); return;
+    }
     if (race.state==='armed') {
       w.classList.add('hidden'); a.classList.remove('hidden');
-      document.getElementById('starter-race-info').textContent = `${race.age} ${race.gender} · ${race.event}`;
-    } else { w.classList.remove('hidden'); a.classList.add('hidden'); }
+      document.getElementById('starter-race-info').textContent =
+        `${race.age} ${race.gender} · ${race.event}`;
+    } else {
+      w.classList.remove('hidden'); a.classList.add('hidden');
+      starterListenStop();
+    }
   });
   activeListeners.push(()=>raceRef.off());
 }
 
+// ── Manual GO (with countdown) ────────────────────────────────────────────────
 function starterGo() {
   document.getElementById('starter-go-btn').setAttribute('disabled','');
   showCountdown(async ()=>{
     await cRef('race/current').update({ state:'live', startedAtServer:firebase.database.ServerValue.TIMESTAMP });
   });
 }
+function starterRecall() { starterListenStop(); broadcastRecall(); }
 
-function starterRecall() { broadcastRecall(); }
+// ── Gun detection ─────────────────────────────────────────────────────────────
+function starterSetSens(s) {
+  starterSensitivity = s;
+  document.querySelectorAll('[data-sens]').forEach(b => {
+    const active = b.dataset.sens === s;
+    b.className = active ? 'btn btn-primary' : 'btn btn-secondary';
+    b.style.fontSize = '0.75rem'; b.style.padding = '4px 10px';
+  });
+}
+
+async function starterListenStart() {
+  try {
+    starterMicStream = await navigator.mediaDevices.getUserMedia({audio:true, video:false});
+    starterAudioCtx  = new (window.AudioContext||window.webkitAudioContext)();
+    const source = starterAudioCtx.createMediaStreamSource(starterMicStream);
+    starterAnalyser  = starterAudioCtx.createAnalyser();
+    starterAnalyser.fftSize = 256;
+    source.connect(starterAnalyser);
+    starterListening  = true;
+    starterNoiseFloor = 0;
+    starterNoiseCount = 0;
+    document.getElementById('starter-listen-idle').classList.add('hidden');
+    document.getElementById('starter-listen-active').classList.remove('hidden');
+    document.getElementById('starter-cal-lbl').textContent = 'Calibrating…';
+    starterListenRafId = requestAnimationFrame(starterListenLoop);
+  } catch(e) {
+    toast('Microphone access denied');
+  }
+}
+
+function starterListenStop() {
+  starterListening = false;
+  if (starterListenRafId) { cancelAnimationFrame(starterListenRafId); starterListenRafId=null; }
+  if (starterMicStream)   { starterMicStream.getTracks().forEach(t=>t.stop()); starterMicStream=null; }
+  if (starterAudioCtx)    { starterAudioCtx.close().catch(()=>{}); starterAudioCtx=null; }
+  const idle   = document.getElementById('starter-listen-idle');
+  const active = document.getElementById('starter-listen-active');
+  const bar    = document.getElementById('starter-vol-bar');
+  if (idle)   idle.classList.remove('hidden');
+  if (active) active.classList.add('hidden');
+  if (bar)    bar.style.width = '0%';
+}
+
+function starterListenLoop() {
+  starterListenRafId = null;
+  if (!starterListening || !starterAnalyser) return;
+
+  const data = new Uint8Array(starterAnalyser.frequencyBinCount);
+  starterAnalyser.getByteTimeDomainData(data);
+
+  // RMS
+  let sum = 0;
+  for (let i=0; i<data.length; i++) { const v=(data[i]-128)/128; sum+=v*v; }
+  const rms = Math.sqrt(sum / data.length);
+
+  // Volume bar (0-100%)
+  const bar = document.getElementById('starter-vol-bar');
+  if (bar) bar.style.width = Math.min(100, Math.round(rms*500)) + '%';
+
+  if (starterNoiseCount < 40) {
+    // First ~0.7s: calibrate noise floor
+    starterNoiseFloor = (starterNoiseFloor * starterNoiseCount + rms) / (starterNoiseCount + 1);
+    starterNoiseCount++;
+    if (starterNoiseCount >= 40) {
+      const calLbl = document.getElementById('starter-cal-lbl');
+      if (calLbl) calLbl.textContent = 'Ready';
+    }
+  } else {
+    const mult      = STARTER_SENS_MULT[starterSensitivity] || 5;
+    const threshold = Math.max(0.06, starterNoiseFloor * mult);
+    if (rms > threshold) {
+      // GUN DETECTED — fire GO immediately (no countdown, gun already fired)
+      starterListenStop();
+      toast('🔫 Gun detected — GO fired!');
+      vibrate([200,60,200]);
+      flash('go', 600);
+      cRef('race/current').update({
+        state:'live',
+        startedAtServer: firebase.database.ServerValue.TIMESTAMP
+      });
+      return;
+    }
+  }
+
+  starterListenRafId = requestAnimationFrame(starterListenLoop);
+}
 
 // ════════════════════════════════════════
 // OBSERVER VIEW (Lane Race)
