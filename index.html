@@ -1065,92 +1065,54 @@
   </div>
   <div class="content">
 
-    <!-- CAPTURE MODE -->
+    <!-- LIVE DETECTION -->
     <div id="vf-capture-panel">
-      <video id="vf-video-preview" class="vf-preview" autoplay muted playsinline></video>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
-        <div id="vf-rec-indicator" class="vf-rec hidden">
-          <div class="vf-rec-dot"></div><span id="vf-rec-elapsed">0:00</span>
-        </div>
-        <div id="vf-race-status" style="font-size:0.82rem;color:var(--muted)">Waiting…</div>
+      <!-- Canvas shows live camera + lane-strip overlay -->
+      <canvas id="vf-live-canvas" class="vf-canvas"></canvas>
+      <video id="vf-video-preview" style="display:none" autoplay muted playsinline></video>
+
+      <!-- Status bar -->
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+        <div id="vf-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0"></div>
+        <div id="vf-race-status" style="font-size:0.85rem;font-weight:600;color:var(--text);flex:1">Starting camera…</div>
+        <div id="vf-detect-count" style="font-size:0.78rem;color:var(--muted)"></div>
       </div>
-      <div style="margin-top:12px;display:flex;gap:10px">
-        <button id="vf-rec-btn" class="btn btn-primary" style="flex:1" onclick="vfToggleRecord()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px"><circle cx="12" cy="12" r="8"/></svg>
-          Record
-        </button>
-        <button id="vf-review-btn" class="btn btn-secondary" style="flex:1;display:none" onclick="vfEnterReview()">
-          Review →
-        </button>
-      </div>
-      <!-- Reaction offset -->
-      <div style="display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px;background:var(--surface-2);border-radius:8px">
-        <div style="flex:1">
-          <div style="font-size:0.78rem;font-weight:600;color:var(--text)">Reaction offset</div>
-          <div style="font-size:0.71rem;color:var(--muted)">ms subtracted for GO→record lag</div>
+
+      <!-- Settings -->
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;gap:4px">
+          <button id="vf-mode-swim-btn" class="btn btn-primary"    style="font-size:0.8rem;padding:6px 12px" onclick="vfSetMode('swim')">Swim</button>
+          <button id="vf-mode-track-btn" class="btn btn-secondary" style="font-size:0.8rem;padding:6px 12px" onclick="vfSetMode('track')">Track</button>
         </div>
+        <div id="vf-lane-row" style="display:flex;gap:4px;align-items:center">
+          <span style="font-size:0.78rem;color:var(--muted)">Lanes:</span>
+          <button class="vf-lane-btn active" data-lanes="4" onclick="vfSetLanes(4)">4</button>
+          <button class="vf-lane-btn" data-lanes="6" onclick="vfSetLanes(6)">6</button>
+          <button class="vf-lane-btn" data-lanes="8" onclick="vfSetLanes(8)">8</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:0.78rem;color:var(--muted)">Progress top</span>
+          <input type="number" id="vf-progress-input" value="2" min="1" max="8"
+            style="width:42px;padding:4px 6px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
+        </div>
+      </div>
+
+      <!-- Offset -->
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px">
+        <div style="flex:1;font-size:0.76rem;color:var(--muted)">Camera lag offset (ms subtracted for GO→detect lag)</div>
         <input type="number" id="vf-offset-input" value="75" min="0" max="999"
-          style="width:64px;padding:5px 7px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem;text-align:center">
-        <span style="font-size:0.78rem;color:var(--muted)">ms</span>
-      </div>
-      <div id="vf-offline-banner" class="hidden" style="margin-top:10px;padding:8px 12px;background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.3);border-radius:8px;font-size:0.75rem;color:#ffaa00">
-        Offline mode — tap Record manually at GO. Time = elapsed since you tapped Record, minus offset.
-      </div>
-      <div style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:8px">
-        Point camera at finish line. Auto-starts on GO when online.
-      </div>
-    </div>
-
-    <!-- REVIEW MODE -->
-    <div id="vf-review-panel" class="hidden">
-      <canvas id="vf-canvas" class="vf-canvas"></canvas>
-      <video id="vf-review-video" style="display:none" preload="auto"></video>
-
-      <!-- Time from GO -->
-      <div style="margin-top:12px">
-        <div id="vf-time-big" class="vf-time-big">+0.000 s</div>
-        <div id="vf-time-sub" class="vf-time-sub">from GO · frame <span id="vf-frame-num">0</span></div>
+          style="width:52px;padding:4px 6px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
       </div>
 
-      <!-- Scrubber -->
-      <input type="range" id="vf-scrubber" class="vf-scrubber" min="0" max="1000" value="0"
-        style="width:100%;margin:10px 0"
-        oninput="vfScrub(this.value)">
-
-      <!-- Frame step controls -->
-      <div class="vf-frame-row">
-        <button class="vf-step" ontouchstart="vfStepStart(-1)" ontouchend="vfStepEnd()" onmousedown="vfStepStart(-1)" onmouseup="vfStepEnd()">‹‹</button>
-        <button class="vf-step" onclick="vfStep(-1)">‹</button>
-        <div style="text-align:center;flex:1;font-size:0.78rem;color:var(--muted)">tap ‹ › to step one frame</div>
-        <button class="vf-step" onclick="vfStep(1)">›</button>
-        <button class="vf-step" ontouchstart="vfStepStart(1)" ontouchend="vfStepEnd()" onmousedown="vfStepStart(1)" onmouseup="vfStepEnd()">››</button>
-      </div>
-
-      <!-- Mark button -->
-      <button class="btn btn-primary" style="width:100%;margin-top:12px;font-size:1rem;padding:14px" onclick="vfMarkAthlete();vfShowLanePicker()">
-        Mark Athlete at This Frame
-      </button>
-
-      <!-- Lane picker overlay (shown over review panel) -->
-      <div id="vf-lane-picker" class="hidden" style="margin-top:12px;padding:16px;background:var(--surface-2);border-radius:10px;border:1px solid var(--border)">
-        <div style="font-size:0.85rem;font-weight:700;margin-bottom:4px;color:var(--text)">Which lane?</div>
-        <div id="vf-pending-time" style="font-size:1.6rem;font-weight:700;color:var(--accent);margin-bottom:12px"></div>
-        <div id="vf-lane-btn-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px">
-          <!-- populated dynamically by vfShowLanePicker() -->
-        </div>
-        <button class="btn btn-secondary" style="width:100%" onclick="vfCancelMark()">Cancel</button>
-      </div>
-
-      <!-- Athlete mark list -->
+      <!-- Results -->
       <div style="margin-top:14px">
-        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:8px">Marked finishes</div>
-        <div id="vf-mark-list"></div>
+        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Finishes</div>
+        <div id="vf-mark-list"><div class="text-muted text-sm text-center mt-8">Waiting for race…</div></div>
       </div>
 
       <!-- Publish -->
-      <div style="margin-top:16px;display:flex;gap:10px">
-        <button class="btn btn-secondary" style="flex:1" onclick="vfBackToCapture()">← Re-record</button>
-        <button id="vf-publish-btn" class="btn btn-primary" style="flex:1" onclick="vfPublish()">
+      <div style="margin-top:16px">
+        <button id="vf-publish-btn" class="btn btn-primary" style="width:100%" onclick="vfPublish()">
           Publish Times →
         </button>
       </div>
@@ -2740,29 +2702,24 @@ async function exportCSV() {
 }
 
 // ════════════════════════════════════════
-// VIDEO FINISH  v8 — swim + track modes
-// ════════════════════════════════════════
+// ── VIDEO FINISH ─────────────────────────────────────────────────────────────
+// STATE
 let vfStream           = null;
-let vfRecorder         = null;
-let vfChunks           = [];
-let vfVideoEl          = null;
-let vfRecStartServerMs = 0;
 let vfRaceStartMs      = 0;
 let vfOfflineMode      = false;
-let vfMode             = 'swim';  // 'swim' | 'track'
+let vfMode             = 'swim';    // 'swim' | 'track'
 let vfLaneCount        = 4;
 let vfDetections       = [];
-let vfStepTimer        = null;
-let vfRecording        = false;
-let vfScanning         = false;
+let vfLiveRafId        = null;
+let vfLiveOffscr       = null;
+let vfLiveState        = 'idle';    // 'calibrating'|'ready'|'detecting'|'done'
+let vfLiveThresholds   = null;
+let vfLivePrev         = null;
+let vfLaneFound        = [];
+let vfCalData          = null;
 
-function vfGetOffset() { return parseInt(document.getElementById('vf-offset-input')?.value||75,10)||0; }
-
-function vfCalcElapsed(t) {
-  const off = vfGetOffset();
-  if (vfOfflineMode||!vfRaceStartMs) return Math.round(t*1000 - off);
-  return Math.round(vfRecStartServerMs + t*1000 - vfRaceStartMs - off);
-}
+function vfGetOffset()   { return parseInt(document.getElementById('vf-offset-input')?.value||75,10)||0; }
+function vfGetProgress() { return parseInt(document.getElementById('vf-progress-input')?.value||2,10)||2; }
 
 // ── Mode / lane UI ────────────────────────────────────────────────────────────
 function vfSetMode(mode) {
@@ -2770,13 +2727,12 @@ function vfSetMode(mode) {
   document.getElementById('vf-mode-swim-btn').className  = mode==='swim'  ? 'btn btn-primary'   : 'btn btn-secondary';
   document.getElementById('vf-mode-track-btn').className = mode==='track' ? 'btn btn-primary'   : 'btn btn-secondary';
   document.getElementById('vf-lane-row').style.display   = mode==='swim'  ? 'flex' : 'none';
+  if (vfLiveState !== 'idle') vfRestartCalibration();
 }
-
 function vfSetLanes(n) {
   vfLaneCount = n;
-  document.querySelectorAll('.vf-lane-btn').forEach(b => {
-    b.classList.toggle('active', parseInt(b.dataset.lanes)===n);
-  });
+  document.querySelectorAll('.vf-lane-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.lanes)===n));
+  if (vfLiveState !== 'idle') vfRestartCalibration();
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -2784,6 +2740,7 @@ function initVideoFinish() {
   requestWakeLock(); syncClock();
   vfSetMode('swim');
 
+  // Watch race state from Firebase
   const ref = cRef('race/current');
   ref.on('value', snap => {
     const rc = snap.val();
@@ -2791,89 +2748,164 @@ function initVideoFinish() {
     if (rc.state==='live' && rc.startedAtServer) {
       vfRaceStartMs = rc.startedAtServer;
       vfOfflineMode = false;
-      document.getElementById('vf-offline-banner').classList.add('hidden');
-      document.getElementById('vf-race-status-cap').textContent = 'LIVE — recording';
-      if (vfStream && !vfRecording) vfStartRecording();
+      if (vfLiveState === 'ready') {
+        vfLiveState = 'detecting';
+        vfLivePrev  = new Array(vfLaneCount).fill(null);
+        vfLaneFound = new Array(vfLaneCount).fill(false);
+        vfSetStatus('\uD83D\uDD34 Detecting…', '#ef4444');
+      }
+      // if still calibrating it will switch automatically when cal finishes
     } else if (rc.state==='armed') {
-      document.getElementById('vf-race-status-cap').textContent = 'Race armed — ready';
+      vfSetStatus('\u26A1 Ready — waiting for GO', '#eab308');
     }
   });
   activeListeners.push(() => ref.off());
 
-  setTimeout(() => {
-    if (!vfRaceStartMs) {
-      vfOfflineMode = true;
-      document.getElementById('vf-offline-banner').classList.remove('hidden');
-      document.getElementById('vf-race-status-cap').textContent = 'Offline — tap Record at GO';
-    }
-  }, 3000);
-
+  // Start camera
   navigator.mediaDevices.getUserMedia({
     video: { facingMode:'environment', width:{ideal:1920}, height:{ideal:1080} },
     audio: false
   }).then(stream => {
     vfStream = stream;
-    const p = document.getElementById('vf-video-preview');
-    p.srcObject = stream; p.play();
-    document.getElementById('vf-rec-btn').disabled = false;
-    toast('Camera ready');
-  }).catch(() => toast('Camera access denied'));
-}
-
-// ── Recording ─────────────────────────────────────────────────────────────────
-function vfStartRecording() {
-  if (!vfStream||vfRecording) return;
-  vfChunks=[]; vfRecording=true;
-  vfRecStartServerMs = nowServer();
-  const mime=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm','video/mp4']
-    .find(m=>MediaRecorder.isTypeSupported(m))||'';
-  vfRecorder = new MediaRecorder(vfStream,mime?{mimeType:mime}:{});
-  vfRecorder.ondataavailable = e=>{if(e.data.size>0)vfChunks.push(e.data);};
-  vfRecorder.onstop = vfOnRecordStop;
-  vfRecorder.start(100);
-  document.getElementById('vf-rec-indicator').classList.remove('hidden');
-  document.getElementById('vf-rec-btn').textContent='Stop & analyse';
-  document.getElementById('vf-rec-btn').classList.add('btn-danger');
-}
-
-function vfToggleRecord() {
-  if (!vfStream){toast('Camera not ready');return;}
-  if (!vfRecording) {
-    if (vfOfflineMode) vfRaceStartMs=0;
-    vfStartRecording();
-    toast(vfOfflineMode?'Recording — this tap = GO':'Recording');
-  } else {
-    vfRecorder.stop(); vfRecording=false;
-    document.getElementById('vf-rec-indicator').classList.add('hidden');
-    document.getElementById('vf-rec-btn').textContent='Record';
-    document.getElementById('vf-rec-btn').classList.remove('btn-danger');
-  }
-}
-
-function vfOnRecordStop() {
-  const blob = new Blob(vfChunks,{type:vfRecorder.mimeType||'video/webm'});
-  document.getElementById('vf-capture-panel').classList.add('hidden');
-  document.getElementById('vf-review-panel').classList.remove('hidden');
-  document.getElementById('vf-scanning-state').classList.remove('hidden');
-  document.getElementById('vf-results-state').classList.add('hidden');
-  document.getElementById('vf-scrub-controls').classList.add('hidden');
-
-  vfVideoEl = document.getElementById('vf-review-video');
-  vfVideoEl.src = URL.createObjectURL(blob);
-  vfVideoEl.addEventListener('loadedmetadata', () => {
-    const s=document.getElementById('vf-scrubber');
-    s.max=vfVideoEl.duration; s.step=1/60;
-    // Start the right scan
-    vfMode==='swim' ? vfAutoScanSwim() : vfAutoScanTrack();
-  },{once:true});
-  vfVideoEl.addEventListener('seeked', () => {
-    const c=document.getElementById('vf-canvas');
-    if(c.width){c.getContext('2d').drawImage(vfVideoEl,0,0,c.width,c.height); vfUpdateTimeBig();}
+    const vid = document.getElementById('vf-video-preview');
+    vid.srcObject = stream; vid.play();
+    vid.addEventListener('playing', () => {
+      vfStartCalibration();
+      toast('Camera ready — calibrating…');
+    }, {once:true});
+  }).catch(() => {
+    toast('Camera access denied');
+    vfSetStatus('Camera denied', '#ef4444');
   });
 }
 
+function vfSetStatus(text, dotColor) {
+  const el  = document.getElementById('vf-race-status');
+  const dot = document.getElementById('vf-status-dot');
+  if (el)  el.textContent = text;
+  if (dot) dot.style.background = dotColor || 'var(--muted)';
+}
+function vfStartCalibration() {
+  vfLiveState = 'calibrating';
+  vfCalData = {
+    baselines: new Array(vfLaneCount).fill(0),
+    counts:    new Array(vfLaneCount).fill(0),
+    prev:      new Array(vfLaneCount).fill(null),
+    startMs:   Date.now()
+  };
+  vfSetStatus('Calibrating…', '#6b7280');
+  if (!vfLiveRafId) vfLiveRafId = requestAnimationFrame(vfLiveFrame);
+}
+function vfRestartCalibration() {
+  vfDetections = []; vfRenderDetections();
+  vfLiveState = 'idle';
+  vfStartCalibration();
+}
+
+// ── Live detection loop ───────────────────────────────────────────────────────
+function vfLiveFrame() {
+  vfLiveRafId = null;
+  if (vfLiveState === 'idle' || vfLiveState === 'done') return;
+
+  const vid = document.getElementById('vf-video-preview');
+  if (!vid || !vid.videoWidth) { vfLiveRafId = requestAnimationFrame(vfLiveFrame); return; }
+
+  if (!vfLiveOffscr) vfLiveOffscr = document.createElement('canvas');
+  const oc = vfLiveOffscr;
+  oc.width = vid.videoWidth; oc.height = vid.videoHeight;
+  const ctx = oc.getContext('2d');
+  ctx.drawImage(vid, 0, 0);
+
+  // Push frame to visible canvas with overlay
+  vfDrawOverlay(oc, ctx);
+
+  const N = vfLaneCount;
+  const sample = i => vfMode==='swim'
+    ? vfSampleStrip(ctx, oc.width, oc.height, i, N)
+    : vfSampleHStrip(ctx, oc.width, oc.height, i, N);
+
+  if (vfLiveState === 'calibrating') {
+    const cal = vfCalData;
+    for (let i=0; i<N; i++) {
+      const s = sample(i);
+      if (cal.prev[i]) { cal.baselines[i] += vfPixelDiff(s, cal.prev[i]); cal.counts[i]++; }
+      cal.prev[i] = s;
+    }
+    if (Date.now() - cal.startMs >= 2000) {
+      vfLiveThresholds = cal.baselines.map((b,i) =>
+        Math.max(6, cal.counts[i]>0 ? (b/cal.counts[i])*4 : 10)
+      );
+      vfLivePrev  = new Array(N).fill(null);
+      vfLaneFound = new Array(N).fill(false);
+      if (vfRaceStartMs && nowServer() > vfRaceStartMs) {
+        vfLiveState = 'detecting';
+        vfSetStatus('\uD83D\uDD34 Detecting…', '#ef4444');
+      } else {
+        vfLiveState = 'ready';
+        vfSetStatus('\u2713 Ready — waiting for GO', '#22c55e');
+      }
+    }
+  } else if (vfLiveState === 'detecting') {
+    const nowMs = nowServer();
+    for (let i=0; i<N; i++) {
+      if (vfLaneFound[i]) continue;
+      const s = sample(i);
+      if (vfLivePrev[i] && vfPixelDiff(s, vfLivePrev[i]) > vfLiveThresholds[i]) {
+        const elapsedMs = nowMs - vfRaceStartMs - vfGetOffset();
+        if (elapsedMs > 100) {
+          const still = oc.toDataURL('image/jpeg', 0.8);
+          vfDetections.push({ lane:i+1, elapsedMs, still });
+          vfDetections.sort((a,b) => a.elapsedMs - b.elapsedMs);
+          vfDetections.forEach((d,j) => d.place = j+1);
+          vfLaneFound[i] = true;
+          vfRenderDetections();
+          const lbl = vfMode==='track' ? `Lane ${i+1}` : `Strip ${i+1}`;
+          toast(`${lbl}: ${fmtMs(elapsedMs)}`);
+          const dc = document.getElementById('vf-detect-count');
+          if (dc) dc.textContent = `${vfDetections.length}/${N}`;
+        }
+      }
+      vfLivePrev[i] = s;
+    }
+    if (vfLaneFound.every(Boolean)) {
+      vfLiveState = 'done';
+      vfSetStatus('\u2713 All done', '#22c55e');
+      return;
+    }
+  }
+  vfLiveRafId = requestAnimationFrame(vfLiveFrame);
+}
+
+// Draw camera frame + lane dividers onto visible canvas
+function vfDrawOverlay(offscr, srcCtx) {
+  const canvas = document.getElementById('vf-live-canvas');
+  if (!canvas) return;
+  canvas.width = offscr.width; canvas.height = offscr.height;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(offscr, 0, 0);
+  const N = vfLaneCount, w = canvas.width, h = canvas.height;
+  ctx.save();
+  ctx.lineWidth = 2;
+  ctx.font = `bold ${Math.max(12, Math.floor(h/20))}px sans-serif`;
+  for (let i=0; i<N; i++) {
+    const found = vfLaneFound[i];
+    ctx.strokeStyle = found ? 'rgba(34,197,94,0.8)' : 'rgba(20,184,166,0.6)';
+    ctx.fillStyle   = found ? 'rgba(34,197,94,0.95)': 'rgba(20,184,166,0.9)';
+    if (vfMode === 'swim') {
+      const x = Math.round(i * w / N);
+      if (i>0) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+      ctx.fillText(`L${i+1}`, x+4, 22);
+    } else {
+      const y = Math.round(i * h / N);
+      if (i>0) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+      ctx.fillText(`L${i+1}`, 6, y+22);
+    }
+  }
+  ctx.restore();
+}
+
 // ── Pixel helpers ─────────────────────────────────────────────────────────────
-// Sample a vertical strip of the canvas (lane strip)
+// Sample a vertical strip (swim: camera at end wall)
 function vfSampleStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
   const sw = Math.max(1, Math.floor(canvasW / numStrips));
   const x  = Math.min(stripIdx * sw, canvasW - 1);
@@ -2882,8 +2914,7 @@ function vfSampleStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
   for (let i=0;i<data.length;i+=20) out.push((data[i]*77+data[i+1]*150+data[i+2]*29)>>8);
   return out;
 }
-
-// Sample a horizontal band (track mode — side-on camera, one strip per lane)
+// Sample a horizontal band (track: camera at side of finish line)
 function vfSampleHStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
   const sh = Math.max(1, Math.floor(canvasH / numStrips));
   const y  = Math.min(stripIdx * sh, canvasH - 1);
@@ -2892,279 +2923,42 @@ function vfSampleHStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
   for (let i=0;i<data.length;i+=20) out.push((data[i]*77+data[i+1]*150+data[i+2]*29)>>8);
   return out;
 }
-
-// Sample full frame (track/XC mode)
-function vfSampleFrame(ctx, canvasW, canvasH) {
-  const data = ctx.getImageData(0,0,canvasW,canvasH).data;
-  const out=[];
-  for (let i=0;i<data.length;i+=40) out.push((data[i]*77+data[i+1]*150+data[i+2]*29)>>8);
-  return out;
-}
-
 function vfPixelDiff(a,b) {
-  if(!a||!b||a.length!==b.length) return 0;
-  let s=0; for(let i=0;i<a.length;i++) s+=Math.abs(a[i]-b[i]);
+  if (!a||!b||a.length!==b.length) return 0;
+  let s=0; for (let i=0;i<a.length;i++) s+=Math.abs(a[i]-b[i]);
   return s/a.length;
 }
 
-function vfSeek(t) {
-  vfVideoEl.currentTime=t;
-  return new Promise(r=>vfVideoEl.addEventListener('seeked',r,{once:true}));
-}
-
-// ── SWIM MODE SCAN ─────────────────────────────────────────────────────────────
-// Camera at end wall, looking down pool. Each lane = vertical strip of frame.
-// We detect the FIRST significant motion in each strip independently.
-async function vfAutoScanSwim() {
-  vfScanning=true; vfDetections=[];
-  const N=vfLaneCount, dur=vfVideoEl.duration;
-  const bar=document.getElementById('vf-scan-bar');
-  const lbl=document.getElementById('vf-scan-label');
-  const offscr=document.createElement('canvas');
-
-  lbl.textContent='Calibrating noise floor…';
-
-  // Calibrate: measure per-strip baseline noise from first 1.5s
-  const stripBaselines = new Array(N).fill(0);
-  const stripCounts    = new Array(N).fill(0);
-  const prevCal        = new Array(N).fill(null);
-
-  for (let t=0; t<=Math.min(1.5,dur); t+=0.25) {
-    await vfSeek(t);
-    offscr.width=vfVideoEl.videoWidth||640; offscr.height=vfVideoEl.videoHeight||360;
-    const ctx=offscr.getContext('2d'); ctx.drawImage(vfVideoEl,0,0);
-    for (let i=0;i<N;i++) {
-      const s=vfSampleStrip(ctx,offscr.width,offscr.height,i,N);
-      const d=vfPixelDiff(s,prevCal[i]);
-      if(prevCal[i]){stripBaselines[i]+=d; stripCounts[i]++;}
-      prevCal[i]=s;
-    }
-  }
-  const thresholds = stripBaselines.map((b,i)=>
-    Math.max(6, stripCounts[i]>0 ? (b/stripCounts[i])*4 : 10)
-  );
-
-  // Scan: find first crossing per lane
-  lbl.textContent=`Scanning ${N} lanes…`;
-  const laneResult = new Array(N).fill(null);   // {roughT}
-  const prevScan   = new Array(N).fill(null);
-  const laneFound  = new Array(N).fill(false);
-  const STEP=0.08;
-
-  for (let t=0; t<=dur && !laneFound.every(Boolean); t+=STEP) {
-    await vfSeek(t);
-    offscr.width=vfVideoEl.videoWidth||640; offscr.height=vfVideoEl.videoHeight||360;
-    const ctx=offscr.getContext('2d'); ctx.drawImage(vfVideoEl,0,0);
-    for (let i=0;i<N;i++) {
-      if(laneFound[i]) continue;
-      const s=vfSampleStrip(ctx,offscr.width,offscr.height,i,N);
-      const d=vfPixelDiff(s,prevScan[i]);
-      if(d>thresholds[i] && prevScan[i]) { laneResult[i]={roughT:t}; laneFound[i]=true; }
-      prevScan[i]=s;
-    }
-    bar.style.width=Math.round(t/dur*70)+'%';
-  }
-
-  // Refine each detected lane
-  let refined=0;
-  for (let i=0;i<N;i++) {
-    if(!laneResult[i]) continue;
-    lbl.textContent=`Refining Lane ${i+1}…`;
-    const center=laneResult[i].roughT;
-    const lo=Math.max(0,center-0.3), hi=Math.min(dur,center+0.3);
-    let rPrev=null,rPeak=0,rPeakT=center;
-    for (let t=lo;t<=hi;t+=1/60) {
-      await vfSeek(t);
-      offscr.getContext('2d').drawImage(vfVideoEl,0,0);
-      const s=vfSampleStrip(offscr.getContext('2d'),offscr.width,offscr.height,i,N);
-      const d=vfPixelDiff(s,rPrev);
-      if(d>rPeak){rPeak=d;rPeakT=t;}
-      rPrev=s;
-    }
-    const elapsed=vfCalcElapsed(rPeakT);
-    if(elapsed>0) vfDetections.push({lane:i+1, frameTime:rPeakT, elapsedMs:elapsed});
-    refined++;
-    bar.style.width=(70+Math.round(refined/N*28))+'%';
-  }
-
-  vfDetections.sort((a,b)=>a.elapsedMs-b.elapsedMs);
-  vfDetections.forEach((d,i)=>d.place=i+1);
-  vfFinishScan();
-}
-
-// ── TRACK MODE SCAN ─────────────────────────────────────────────────────────
-// Camera at side of finish line. Each lane = horizontal band of frame.
-// Lane 1 = top strip, Lane N = bottom strip. Fully automatic — no manual marking.
-async function vfAutoScanTrack() {
-  vfScanning=true; vfDetections=[];
-  const N=vfLaneCount, dur=vfVideoEl.duration;
-  const bar=document.getElementById('vf-scan-bar');
-  const lbl=document.getElementById('vf-scan-label');
-  const offscr=document.createElement('canvas');
-
-  lbl.textContent='Calibrating noise floor…';
-
-  // Calibrate: measure per-strip baseline noise from first 1.5 s
-  const stripBaselines = new Array(N).fill(0);
-  const stripCounts    = new Array(N).fill(0);
-  const prevCal        = new Array(N).fill(null);
-
-  for (let t=0; t<=Math.min(1.5,dur); t+=0.25) {
-    await vfSeek(t);
-    offscr.width=vfVideoEl.videoWidth||640; offscr.height=vfVideoEl.videoHeight||360;
-    const ctx=offscr.getContext('2d'); ctx.drawImage(vfVideoEl,0,0);
-    for (let i=0;i<N;i++) {
-      const s=vfSampleHStrip(ctx,offscr.width,offscr.height,i,N);
-      const d=vfPixelDiff(s,prevCal[i]);
-      if(prevCal[i]){stripBaselines[i]+=d; stripCounts[i]++;}
-      prevCal[i]=s;
-    }
-  }
-  const thresholds = stripBaselines.map((b,i)=>
-    Math.max(6, stripCounts[i]>0 ? (b/stripCounts[i])*4 : 10)
-  );
-
-  // Scan: find first motion crossing per lane
-  lbl.textContent=`Scanning ${N} lanes…`;
-  const laneResult = new Array(N).fill(null);
-  const prevScan   = new Array(N).fill(null);
-  const laneFound  = new Array(N).fill(false);
-  const STEP=0.08;
-
-  for (let t=0; t<=dur && !laneFound.every(Boolean); t+=STEP) {
-    await vfSeek(t);
-    offscr.width=vfVideoEl.videoWidth||640; offscr.height=vfVideoEl.videoHeight||360;
-    const ctx=offscr.getContext('2d'); ctx.drawImage(vfVideoEl,0,0);
-    for (let i=0;i<N;i++) {
-      if(laneFound[i]) continue;
-      const s=vfSampleHStrip(ctx,offscr.width,offscr.height,i,N);
-      const d=vfPixelDiff(s,prevScan[i]);
-      if(d>thresholds[i] && prevScan[i]) { laneResult[i]={roughT:t}; laneFound[i]=true; }
-      prevScan[i]=s;
-    }
-    bar.style.width=Math.round(t/dur*70)+'%';
-  }
-
-  // Refine each detected lane to frame accuracy (~1/60 s)
-  let refined=0;
-  for (let i=0;i<N;i++) {
-    if(!laneResult[i]) continue;
-    lbl.textContent=`Refining Lane ${i+1}…`;
-    const center=laneResult[i].roughT;
-    const lo=Math.max(0,center-0.3), hi=Math.min(dur,center+0.3);
-    let rPrev=null,rPeak=0,rPeakT=center;
-    for (let t=lo;t<=hi;t+=1/60) {
-      await vfSeek(t);
-      offscr.getContext('2d').drawImage(vfVideoEl,0,0);
-      const s=vfSampleHStrip(offscr.getContext('2d'),offscr.width,offscr.height,i,N);
-      const d=vfPixelDiff(s,rPrev);
-      if(d>rPeak){rPeak=d;rPeakT=t;}
-      rPrev=s;
-    }
-    const elapsed=vfCalcElapsed(rPeakT);
-    if(elapsed>0) vfDetections.push({lane:i+1, frameTime:rPeakT, elapsedMs:elapsed});
-    refined++;
-    bar.style.width=(70+Math.round(refined/N*28))+'%';
-  }
-
-  vfDetections.sort((a,b)=>a.elapsedMs-b.elapsedMs);
-  vfDetections.forEach((d,i)=>d.place=i+1);
-  vfFinishScan();
-}
-
-// ── Show results after scan ───────────────────────────────────────────────────
-function vfFinishScan() {
-  vfScanning=false;
-  document.getElementById('vf-scan-bar').style.width='100%';
-  setTimeout(()=>{
-    document.getElementById('vf-scanning-state').classList.add('hidden');
-    document.getElementById('vf-results-state').classList.remove('hidden');
-    document.getElementById('vf-scrub-controls').classList.remove('hidden');
-    const c=document.getElementById('vf-canvas');
-    c.width=vfVideoEl.videoWidth||640; c.height=vfVideoEl.videoHeight||360;
-    vfRenderDetections();
-    const n=vfDetections.length;
-    document.getElementById('vf-result-count').textContent =
-      n ? `${n} finish${n===1?'':'es'} detected` : 'Nothing detected — Re-scan or Add manually';
-    if(n>0){
-      vfVideoEl.currentTime=vfDetections[0].frameTime;
-      document.getElementById('vf-scrubber').value=vfDetections[0].frameTime;
-    }
-    toast(n?`${n} finish${n===1?'':'es'} found`:'Nothing detected');
-  },400);
-}
-
-// ── Render results ────────────────────────────────────────────────────────────
+// ── Results ───────────────────────────────────────────────────────────────────
 function vfRenderDetections() {
-  const list=document.getElementById('vf-mark-list');
-  if(!vfDetections.length){
+  const list  = document.getElementById('vf-mark-list');
+  if (!vfDetections.length) {
     list.innerHTML='<div class="text-muted text-sm text-center mt-8">No finishes yet</div>'; return;
   }
-  list.innerHTML=vfDetections.map((d,i)=>`
-    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:10px 0;border-bottom:1px solid var(--border)">
+  const progN = vfGetProgress();
+  list.innerHTML = vfDetections.map((d,i) => `
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);flex-wrap:wrap">
       <span class="place-badge">${ordinal(d.place||i+1)}</span>
-      ${d.lane?`<span style="color:var(--accent);font-weight:700;min-width:44px">Lane ${d.lane}</span>`:''}
-      <span style="font-weight:700;font-size:1rem;min-width:76px">${fmtMs(d.elapsedMs)}</span>
-      <button class="vf-mark-btn" onclick="vfJumpTo(${i})">Go</button>
-      <button class="vf-mark-btn" style="color:var(--danger)" onclick="vfRemove(${i})">✕</button>
+      ${d.lane ? `<span style="color:var(--accent);font-weight:700;min-width:52px">Lane ${d.lane}</span>` : ''}
+      <span style="font-weight:700;font-size:1rem;min-width:76px;font-family:monospace">${fmtMs(d.elapsedMs)}</span>
+      ${(d.place||i+1) <= progN ? '<span style="background:#16a34a;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700">PROGRESSES</span>' : ''}
+      ${d.still ? `<img src="${d.still}" style="width:60px;height:34px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">` : ''}
+      <button class="vf-mark-btn" style="color:var(--danger);margin-left:auto" onclick="vfRemove(${i})">&#x2715;</button>
     </div>`).join('');
 }
-
-function vfJumpTo(i){
-  if(!vfVideoEl||!vfDetections[i])return;
-  vfVideoEl.currentTime=vfDetections[i].frameTime;
-  document.getElementById('vf-scrubber').value=vfDetections[i].frameTime;
-}
-function vfRemove(i){
+function vfRemove(i) {
   vfDetections.splice(i,1);
-  vfDetections.forEach((d,j)=>d.place=j+1);
+  vfDetections.forEach((d,j) => d.place=j+1);
   vfRenderDetections();
-  const n=vfDetections.length;
-  document.getElementById('vf-result-count').textContent=n?`${n} finish${n===1?'':'es'} detected`:'No finishes — add manually';
-}
-function vfRescan(){
-  document.getElementById('vf-results-state').classList.add('hidden');
-  document.getElementById('vf-scrub-controls').classList.add('hidden');
-  document.getElementById('vf-scanning-state').classList.remove('hidden');
-  document.getElementById('vf-scan-bar').style.width='0%';
-  vfDetections=[];
-  vfMode==='swim'?vfAutoScanSwim():vfAutoScanTrack();
-}
-function vfManualAdd(){
-  if(!vfVideoEl)return;
-  const elapsed=vfCalcElapsed(vfVideoEl.currentTime);
-  if(elapsed<=0){toast('Scrub to the finish frame first');return;}
-  vfDetections.push({frameTime:vfVideoEl.currentTime,elapsedMs:elapsed,lane:null});
-  vfDetections.sort((a,b)=>a.elapsedMs-b.elapsedMs);
-  vfDetections.forEach((d,i)=>d.place=i+1);
-  vfRenderDetections();
-  document.getElementById('vf-result-count').textContent=`${vfDetections.length} finishes detected`;
-  toast(`Added ${fmtMs(elapsed)}`);
-}
-
-// ── Scrub / step ──────────────────────────────────────────────────────────────
-function vfStep(delta){
-  if(!vfVideoEl)return;
-  vfVideoEl.currentTime=Math.max(0,Math.min(vfVideoEl.duration,vfVideoEl.currentTime+delta/60));
-  document.getElementById('vf-scrubber').value=vfVideoEl.currentTime;
-  vfUpdateTimeBig();
-}
-function vfStepStart(dir){vfStep(dir);vfStepTimer=setInterval(()=>vfStep(dir),80);}
-function vfStepEnd(){clearInterval(vfStepTimer);}
-function vfScrub(val){if(!vfVideoEl)return;vfVideoEl.currentTime=parseFloat(val);vfUpdateTimeBig();}
-function vfUpdateTimeBig(){
-  if(!vfVideoEl)return;
-  const e=vfCalcElapsed(vfVideoEl.currentTime);
-  document.getElementById('vf-time-big').textContent=e>0?fmtMs(e):'—';
 }
 
 // ── Publish ───────────────────────────────────────────────────────────────────
-async function vfPublish(){
-  if(!vfDetections.length){toast('Nothing to publish');return;}
-  const payload={};
-  vfDetections.forEach((d,i)=>{
-    const k=d.lane?String(d.lane):`place_${i+1}`;
-    payload[k]={place:d.place||i+1, elapsedMs:d.elapsedMs, ...(d.lane?{lane:d.lane}:{})};
+async function vfPublish() {
+  if (!vfDetections.length) { toast('Nothing to publish'); return; }
+  const payload = {};
+  vfDetections.forEach((d,i) => {
+    const k = d.lane ? String(d.lane) : `place_${i+1}`;
+    payload[k] = { place:d.place||i+1, elapsedMs:d.elapsedMs, ...(d.lane?{lane:d.lane}:{}) };
   });
   await cRef('race/current/videoFinish').set({
     marks:payload, mode:vfMode, lanes:vfLaneCount,
@@ -3173,26 +2967,16 @@ async function vfPublish(){
     publishedAt:firebase.database.ServerValue.TIMESTAMP
   });
   toast('Video finish times published!');
-  document.getElementById('vf-publish-btn').disabled=true;
+  document.getElementById('vf-publish-btn').disabled = true;
 }
 
 // ── Cleanup ───────────────────────────────────────────────────────────────────
-function vfBackToCapture(){
-  document.getElementById('vf-review-panel').classList.add('hidden');
-  document.getElementById('vf-capture-panel').classList.remove('hidden');
-  vfDetections=[];
-  if(vfVideoEl){vfVideoEl.src='';vfVideoEl=null;}
-  document.getElementById('vf-rec-btn').textContent='Record';
-  document.getElementById('vf-rec-btn').classList.remove('btn-danger');
-  document.getElementById('vf-rec-btn').disabled=false;
-}
-function vfExit(){
-  if(vfStream){vfStream.getTracks().forEach(t=>t.stop());vfStream=null;}
-  if(vfRecorder&&vfRecording){try{vfRecorder.stop();}catch{}}
-  vfRecording=false;vfDetections=[];
+function vfExit() {
+  if (vfLiveRafId) { cancelAnimationFrame(vfLiveRafId); vfLiveRafId=null; }
+  if (vfStream)    { vfStream.getTracks().forEach(t=>t.stop()); vfStream=null; }
+  vfLiveState='idle'; vfDetections=[];
   enterRole('role');
 }
-
 // ════════════════════════════════════════
 // DEMO / SEED
 // ════════════════════════════════════════
