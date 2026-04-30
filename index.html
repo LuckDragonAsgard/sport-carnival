@@ -1647,6 +1647,7 @@ async function createCarnival() {
     createdAt: firebase.database.ServerValue.TIMESTAMP };
 
   await db.ref('meta').set(carnivalMeta);
+  if (typeof _scWriteMeta === 'function') _scWriteMeta();
   localStorage.setItem('fl_last_code', code);
 
   toast(`Carnival created — ${code}`);
@@ -2181,6 +2182,10 @@ async function adminPublish() {
       publishedAt:firebase.database.ServerValue.TIMESTAMP
     });
     await cRef('race/current').update({state:'done'});
+    if (typeof _scPublishResult === 'function') _scPublishResult(key, {
+      type:'lane', age:raceState.age, gender:raceState.gender, event:eventName,
+      raceId:raceState.raceId, results:allRows
+    });
     dqSet.clear();
     toast('<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Results published!');
   });
@@ -2778,17 +2783,21 @@ async function xcAdminPublish() {
   const finishes = xcState.finishes||{};
   const places   = Object.keys(finishes).sort((a,b)=>parseInt(a)-parseInt(b));
   const key = fbEnc(`xc-${xcState.age}-${xcState.gender}-${xcState.event}-${xcState.raceId}`);
+  const xcPlaces = places.map(p=>({
+    place:parseInt(p),
+    name:  finishes[p]?.name||'',
+    elapsedMs: finishes[p]?.elapsedMs
+  }));
   await cRef(`results/${key}`).set({
     type:'xc', age:xcState.age, gender:xcState.gender, event:xcState.event,
-    raceId:xcState.raceId,
-    places: places.map(p=>({
-      place:parseInt(p),
-      name:  finishes[p]?.name||'',
-      elapsedMs: finishes[p]?.elapsedMs
-    })),
+    raceId:xcState.raceId, places: xcPlaces,
     publishedAt:firebase.database.ServerValue.TIMESTAMP
   });
   await cRef('xc/current').update({state:'done'});
+  if (typeof _scPublishResult === 'function') _scPublishResult(key, {
+    type:'xc', age:xcState.age, gender:xcState.gender, event:xcState.event,
+    raceId:xcState.raceId, places: xcPlaces
+  });
   toast('XC results published!');
 }
 
@@ -3386,6 +3395,87 @@ function showShareModal() {
   }
 }
 
+</script>
+
+<!-- ══ SportCarnival integration (willy-district-sport Firebase) ══ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════
+// SPORTCARNIVAL INTEGRATION — v8.3.1
+// Mirrors CT published results into willy-district-sport Firebase
+// so sportcarnival.com.au shows live results automatically.
+// Does NOT interfere with CT's own WebSocket backend.
+// ════════════════════════════════════════════════════════════
+(function() {
+  const SC_FB_CONFIG = {
+    apiKey: "AIzaSyA-bNl8XqvZ7DQ6YftL9teXbqxYICBlPF8",
+    authDomain: "willy-district-sport.firebaseapp.com",
+    databaseURL: "https://willy-district-sport-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "willy-district-sport"
+  };
+
+  let _scDb = null, _scReady = false;
+
+  try {
+    // Use a named Firebase app so it doesn't conflict with any other Firebase usage
+    const _scApp = firebase.initializeApp(SC_FB_CONFIG, 'sc-mirror');
+    _scDb = firebase.database(_scApp);
+    firebase.auth(_scApp).signInAnonymously()
+      .then(() => { _scReady = true; console.log('[SC] Firebase ready'); })
+      .catch(e => console.warn('[SC] Anon auth failed:', e && e.message));
+  } catch(e) {
+    console.warn('[SC] Firebase init failed:', e && e.message);
+  }
+
+  /**
+   * Write carnival meta to carnivalResults/{code}/meta
+   * Called once when the carnival is created.
+   * Skipped for demo carnivals.
+   */
+  window._scWriteMeta = function() {
+    if (!_scReady || !_scDb) return;
+    if (!window.carnivalCode || !window.carnivalMeta) return;
+    if (window.carnivalMeta.isDemo) return; // don't pollute Firebase with demos
+    _scDb.ref('carnivalResults/' + window.carnivalCode + '/meta').set({
+      school:       window.carnivalMeta.school || '',
+      sport:        window.carnivalMeta.sport  || 'track',
+      name:         window.carnivalMeta.name   || '',
+      carnivalName: window.carnivalMeta.name   || '',
+      createdAt:    Date.now()
+    }).catch(function(e) { console.warn('[SC] meta write failed:', e && e.message); });
+  };
+
+  /**
+   * Mirror a published result to carnivalResults/{code}/results/{key}
+   * Maps timeMs → elapsedMs so sportcarnival.com.au fmtTime() works correctly.
+   * Called after each adminPublish() or xcAdminPublish().
+   */
+  window._scPublishResult = function(key, payload) {
+    if (!_scReady || !_scDb) return;
+    if (!window.carnivalCode) return;
+    if (window.carnivalMeta && window.carnivalMeta.isDemo) return;
+    try {
+      // Deep-clone and map timeMs → elapsedMs for lane results
+      var scPayload = JSON.parse(JSON.stringify(payload));
+      if (scPayload.results && Array.isArray(scPayload.results)) {
+        scPayload.results = scPayload.results.map(function(r) {
+          var row = Object.assign({}, r);
+          if (row.timeMs != null && row.elapsedMs == null) row.elapsedMs = row.timeMs;
+          return row;
+        });
+      }
+      scPayload.publishedAt = Date.now();
+      _scDb.ref('carnivalResults/' + window.carnivalCode + '/results/' + key)
+        .set(scPayload)
+        .then(function() { console.log('[SC] result published:', key); })
+        .catch(function(e) { console.warn('[SC] result write failed:', e && e.message); });
+    } catch(e) {
+      console.warn('[SC] _scPublishResult error:', e && e.message);
+    }
+  };
+})();
 </script>
 </body>
 </html><!-- v8.3.0 new helper functions injected below </script> to keep patch clean -->
