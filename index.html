@@ -722,7 +722,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-timer" class="screen">
   <div class="header">
-    <div class="conn-dot" id="timer-dot"></div>
+    <div class="conn-dot" id="timer-dot"></div><span id="timer-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div>
       <div class="header-title" id="timer-lane-label">Lane 1</div>
       <div class="header-sub" id="timer-event-label"></div>
@@ -772,7 +772,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-admin" class="screen">
   <div class="header">
-    <div class="conn-dot" id="admin-dot"></div>
+    <div class="conn-dot" id="admin-dot"></div><span id="admin-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div class="header-title">Race Control</div>
     <div class="header-right"><span class="text-muted text-xs" id="admin-school-lbl"></span></div>
   </div>
@@ -850,6 +850,10 @@
       <div class="text-xs text-muted" style="padding:0 4px 8px;line-height:1.4;">Published time = <strong>trimmed mean</strong>. 3+ timers: drop fastest &amp; slowest, mean the rest. 2 timers: plain mean. 1 timer: that value.</div>
       <div id="admin-splits-list"></div>
       <button class="btn btn-primary mt-16 hidden" id="admin-publish-btn" onclick="adminPublish()"><svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' style='vertical-align:middle'><rect x='8' y='2' width='8' height='4' rx='1' ry='1'/><path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/></svg> Publish Results</button>
+      <div id="admin-export-btns" class="hidden" style="display:none;gap:8px;margin-top:8px">
+        <button class="btn btn-secondary" style="flex:1" onclick="adminExportCSV()">⬇ Export CSV</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="adminPrintResults()">🖨 Print</button>
+      </div>
     </div>
 
     <!-- Done panel -->
@@ -872,7 +876,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-starter" class="screen">
   <div class="header">
-    <div class="conn-dot" id="starter-dot"></div>
+    <div class="conn-dot" id="starter-dot"></div><span id="starter-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div class="header-title">Starter</div>
     <div class="header-right"><span id="starter-event-lbl" class="text-muted text-xs"></span></div>
   </div>
@@ -914,7 +918,10 @@
             <button class="btn btn-primary"   style="font-size:0.75rem;padding:4px 10px" data-sens="med"  onclick="starterSetSens('med')">Med</button>
             <button class="btn btn-secondary" style="font-size:0.75rem;padding:4px 10px" data-sens="low"  onclick="starterSetSens('low')">Low</button>
           </div>
-          <button class="btn btn-secondary" style="width:100%;font-size:0.85rem" onclick="starterListenStop()">Stop Listening</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-secondary" style="flex:1;font-size:0.85rem" onclick="starterListenStop()">Stop Listening</button>
+            <button class="btn btn-secondary" style="font-size:0.85rem;padding:8px 12px" title="Recalibrate noise floor" onclick="starterRecalibrate()">↺ Recal</button>
+          </div>
         </div>
       </div>
 
@@ -932,7 +939,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-observer" class="screen">
   <div class="header">
-    <div class="conn-dot" id="observer-dot"></div>
+    <div class="conn-dot" id="observer-dot"></div><span id="observer-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div class="header-title">Live Results</div>
     <div class="header-right"><span id="observer-event-lbl" class="text-muted text-xs"></span></div>
   </div>
@@ -951,7 +958,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-marshal" class="screen">
   <div class="header">
-    <div class="conn-dot" id="marshal-dot"></div>
+    <div class="conn-dot" id="marshal-dot"></div><span id="marshal-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div class="header-title">Finish Marshal</div>
     <div class="header-right"><span id="marshal-event-lbl" class="text-xs text-muted"></span></div>
   </div>
@@ -1010,7 +1017,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-admin-xc" class="screen">
   <div class="header">
-    <div class="conn-dot" id="xc-admin-dot"></div>
+    <div class="conn-dot" id="xc-admin-dot"></div><span id="xc-admin-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div class="header-title">XC Race Control</div>
     <div class="header-right"><span class="text-xs text-muted" id="xc-admin-school-lbl"></span></div>
   </div>
@@ -1088,7 +1095,7 @@
 ════════════════════════════════════════ -->
 <div id="screen-video-finish" class="screen">
   <div class="header">
-    <div class="conn-dot" id="vf-dot"></div>
+    <div class="conn-dot" id="vf-dot"></div><span id="vf-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div>
       <div class="header-title">Video Finish</div>
       <div class="header-sub" id="vf-header-sub">Waiting for race…</div>
@@ -1118,6 +1125,7 @@
         <div style="display:flex;gap:4px">
           <button id="vf-mode-swim-btn" class="btn btn-primary"    style="font-size:0.8rem;padding:6px 12px" onclick="vfSetMode('swim')">Swim</button>
           <button id="vf-mode-track-btn" class="btn btn-secondary" style="font-size:0.8rem;padding:6px 12px" onclick="vfSetMode('track')">Track</button>
+          <button id="vf-cam-flip-btn" class="btn btn-secondary" style="font-size:0.8rem;padding:6px 10px" title="Switch front/back camera" onclick="vfFlipCamera()">📷↕</button>
         </div>
         <div id="vf-lane-row" style="display:flex;gap:4px;align-items:center">
           <span style="font-size:0.78rem;color:var(--muted)">Lanes:</span>
@@ -1141,7 +1149,10 @@
 
       <!-- Results -->
       <div style="margin-top:14px">
-        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Finishes</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Finishes</div>
+          <button class="btn btn-secondary" style="font-size:0.72rem;padding:4px 10px" onclick="vfManualAdd()">+ Add Manual</button>
+        </div>
         <div id="vf-mark-list"><div class="text-muted text-sm text-center mt-8">Waiting for race…</div></div>
       </div>
 
@@ -1521,8 +1532,11 @@ function cleanListeners() {
 
 function watchConn(dotId) {
   db.ref('.info/connected').on('value', snap => {
-    const el = document.getElementById(dotId);
-    if (el) el.classList.toggle('live', snap.val()===true);
+    const el  = document.getElementById(dotId);
+    const txt = document.getElementById(dotId + '-lbl');
+    const live = snap.val() === true;
+    if (el)  el.classList.toggle('live', live);
+    if (txt) { txt.textContent = live ? 'LIVE' : 'OFFLINE'; txt.style.color = live ? 'var(--success)' : 'var(--danger)'; }
   });
 }
 
@@ -1927,6 +1941,8 @@ function renderTimerView(lane, race) {
   } else {
     mySplit.classList.add('hidden');
     if (race.state==='live') { stopBtn.textContent = 'STOP'; stopBtn.removeAttribute('disabled'); }
+    const expBtns = document.getElementById('admin-export-btns');
+    if (expBtns) { if (race.state==='done') { expBtns.style.display='flex'; expBtns.classList.remove('hidden'); } else { expBtns.style.display='none'; } }
   }
 
   // All splits this lane
@@ -1963,6 +1979,8 @@ async function timerStop() {
   vibrate([100]);
   flash('go', 300);
   toast(`Stopped — ${fmtSec(elapsed)}`);
+  // 3-second undo window
+  _showTimerUndo(myLane, key, elapsed);
 }
 
 // ════════════════════════════════════════
@@ -2077,6 +2095,7 @@ function renderAdminView(race) {
 }
 
 async function adminArm() {
+  if (!await _confirmModal('Arm this race?', 'All connected timers and the Starter will be notified.', 'ARM RACE →')) return;
   const age   = document.getElementById('admin-age-sel').value;
   const event = document.getElementById('admin-event-sel').value;
   const lanes = {};
@@ -2085,6 +2104,8 @@ async function adminArm() {
     const v = inp.value.trim();
     if (v) lanes[n] = { name:v };
   });
+  // Persist lane names for this age/gender/event
+  _saveLaneNames(age, adminGender, event, lanes);
   await cRef('race/current').set({
     raceId: genId(6), age, gender:adminGender, event,
     state:'armed', lanes, splits:{},
@@ -2214,6 +2235,10 @@ function adminNewRace() {
   dqSet.clear();
   cRef('race/current').set({state:'idle'});
   document.querySelectorAll('.admin-lane-name-input').forEach(inp=>inp.value='');
+  // Try to reload saved names for current selection
+  const age   = document.getElementById('admin-age-sel')?.value;
+  const event = document.getElementById('admin-event-sel')?.value;
+  if (age && event) _loadLaneNames(age, adminGender, event);
 }
 
 async function adminPublishFromDone() {
@@ -2368,21 +2393,16 @@ function starterListenLoop() {
     starterNoiseCount++;
     if (starterNoiseCount >= 40) {
       const calLbl = document.getElementById('starter-cal-lbl');
-      if (calLbl) calLbl.textContent = 'Ready';
+      const nfPct  = Math.round(Math.min(100, starterNoiseFloor * 2000));
+      if (calLbl) calLbl.textContent = `Ready (noise: ${nfPct}%)`;
     }
   } else {
     const mult      = STARTER_SENS_MULT[starterSensitivity] || 5;
     const threshold = Math.max(0.06, starterNoiseFloor * mult);
     if (rms > threshold) {
-      // GUN DETECTED — fire GO immediately (no countdown, gun already fired)
+      // GUN DETECTED — show 1-second cancellable countdown
       starterListenStop();
-      toast('🔫 Gun detected — GO fired!');
-      vibrate([200,60,200]);
-      flash('go', 600);
-      cRef('race/current').update({
-        state:'live',
-        startedAtServer: firebase.database.ServerValue.TIMESTAMP
-      });
+      starterGunCountdown();
       return;
     }
   }
@@ -2720,6 +2740,7 @@ function selectXCGender(g) {
 }
 
 async function xcAdminArm() {
+  if (!await _confirmModal('Arm this XC race?', 'All connected timers and the Starter will be notified.', 'ARM RACE →')) return;
   const age  = document.getElementById('xc-age-sel').value;
   const event= document.getElementById('xc-event-sel').value;
   await cRef('xc/current').set({
@@ -2913,9 +2934,24 @@ function initVideoFinish() {
       vfStartCalibration();
       toast('Camera ready — calibrating…');
     }, {once:true});
-  }).catch(() => {
-    toast('Camera access denied');
-    vfSetStatus('Camera denied', '#ef4444');
+  }).catch(err => {
+    const msg = err && err.name === 'NotFoundError'
+      ? 'No camera found on this device'
+      : err && err.name === 'NotAllowedError'
+        ? 'Camera access denied — check browser permissions'
+        : 'Camera error: ' + (err?.message || err);
+    toast(msg);
+    vfSetStatus('⚠ ' + msg, '#ef4444');
+    // Show retry button on the canvas area
+    const canvas = document.getElementById('vf-live-canvas');
+    if (canvas) {
+      canvas.style.display = 'none';
+      const errDiv = document.createElement('div');
+      errDiv.id = 'vf-cam-error';
+      errDiv.style.cssText = 'text-align:center;padding:32px 16px;background:var(--surface-2);border-radius:12px;margin-bottom:10px';
+      errDiv.innerHTML = `<div style="font-size:2rem;margin-bottom:8px">📷</div><div style="color:var(--danger);font-weight:600;margin-bottom:16px">${msg}</div><button class="btn btn-primary" onclick="vfRetryCamera()">Retry Camera</button>`;
+      canvas.parentNode.insertBefore(errDiv, canvas);
+    }
   });
 }
 
@@ -3352,4 +3388,324 @@ function showShareModal() {
 
 </script>
 </body>
-</html>
+</html><!-- v8.3.0 new helper functions injected below </script> to keep patch clean -->
+<script>
+// ════════════════════════════════════════════════════════════
+// v8.3.0 HELPERS
+// ════════════════════════════════════════════════════════════
+
+// ── TASK 5: Generic confirm modal ────────────────────────────
+function _confirmModal(title, body, confirmLabel) {
+  return new Promise(resolve => {
+    const el = document.createElement('div');
+    el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    el.innerHTML = `
+      <div style="background:var(--surface);border-radius:16px;padding:24px;max-width:320px;width:100%;text-align:center">
+        <div style="font-weight:700;font-size:1.05rem;margin-bottom:8px">${title}</div>
+        <div style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">${body}</div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-secondary" style="flex:1" id="_conf-cancel">Cancel</button>
+          <button class="btn btn-primary"   style="flex:1" id="_conf-ok">${confirmLabel}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(el);
+    el.querySelector('#_conf-cancel').onclick = () => { document.body.removeChild(el); resolve(false); };
+    el.querySelector('#_conf-ok').onclick     = () => { document.body.removeChild(el); resolve(true);  };
+  });
+}
+
+// ── TASK 6: Gun countdown + recalibrate ──────────────────────
+let _starterCountdownTimer = null;
+
+function starterGunCountdown() {
+  // Cancel any existing
+  if (_starterCountdownTimer) { clearTimeout(_starterCountdownTimer); _starterCountdownTimer = null; }
+
+  const el = document.createElement('div');
+  el.id = 'starter-gun-overlay';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px';
+  el.innerHTML = `
+    <div style="font-size:5rem;animation:vf-pulse 0.5s infinite">🔫</div>
+    <div style="font-size:1.8rem;font-weight:900;color:#ef4444;letter-spacing:.02em" id="_gcd-lbl">FIRING IN 1s…</div>
+    <button class="btn btn-secondary" style="font-size:1.1rem;padding:14px 36px;background:var(--surface)" id="_gcd-cancel">TAP TO CANCEL</button>`;
+  document.body.appendChild(el);
+
+  let cancelled = false;
+  el.querySelector('#_gcd-cancel').onclick = () => {
+    cancelled = true;
+    clearTimeout(_starterCountdownTimer);
+    document.body.removeChild(el);
+    toast('GO cancelled');
+    // Restart listening
+    starterListenStart();
+  };
+
+  _starterCountdownTimer = setTimeout(() => {
+    if (cancelled) return;
+    if (document.body.contains(el)) document.body.removeChild(el);
+    // FIRE GO
+    toast('🔫 Gun detected — GO!');
+    vibrate([200,60,200]);
+    flash('go', 600);
+    cRef('race/current').update({
+      state:'live',
+      startedAtServer: firebase.database.ServerValue.TIMESTAMP
+    });
+  }, 1000);
+}
+
+function starterRecalibrate() {
+  starterNoiseFloor = 0;
+  starterNoiseCount = 0;
+  const calLbl = document.getElementById('starter-cal-lbl');
+  if (calLbl) calLbl.textContent = 'Calibrating…';
+  toast('Recalibrating noise floor…');
+}
+
+// ── TASK 7: VF camera flip + retry ───────────────────────────
+let vfFacingMode = 'environment';
+
+function vfFlipCamera() {
+  vfFacingMode = (vfFacingMode === 'environment') ? 'user' : 'environment';
+  toast(`Switching to ${vfFacingMode === 'user' ? 'front' : 'back'} camera…`);
+  // Remove existing error div if present
+  const errDiv = document.getElementById('vf-cam-error');
+  if (errDiv) errDiv.remove();
+  const canvas = document.getElementById('vf-live-canvas');
+  if (canvas) canvas.style.display = '';
+  // Stop existing stream
+  if (typeof vfStream !== 'undefined' && vfStream) {
+    vfStream.getTracks().forEach(t => t.stop());
+    vfStream = null;
+  }
+  // Restart camera with new facing mode
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: vfFacingMode, width:{ideal:1920}, height:{ideal:1080} },
+    audio: false
+  }).then(stream => {
+    vfStream = stream;
+    const vid = document.getElementById('vf-video-preview');
+    vid.srcObject = stream; vid.play();
+    vid.addEventListener('playing', () => {
+      vfRestartCalibration();
+      toast('Camera switched — calibrating…');
+    }, {once:true});
+  }).catch(err => {
+    toast('Camera switch failed: ' + (err?.message || err));
+    vfSetStatus('⚠ Camera error', '#ef4444');
+  });
+}
+
+function vfRetryCamera() {
+  const errDiv = document.getElementById('vf-cam-error');
+  if (errDiv) errDiv.remove();
+  const canvas = document.getElementById('vf-live-canvas');
+  if (canvas) canvas.style.display = '';
+  vfSetStatus('Starting camera…', 'var(--muted)');
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: vfFacingMode, width:{ideal:1920}, height:{ideal:1080} },
+    audio: false
+  }).then(stream => {
+    vfStream = stream;
+    const vid = document.getElementById('vf-video-preview');
+    vid.srcObject = stream; vid.play();
+    vid.addEventListener('playing', () => {
+      vfStartCalibration();
+      toast('Camera ready — calibrating…');
+    }, {once:true});
+  }).catch(err => {
+    const msg = err?.name === 'NotFoundError' ? 'No camera found' : 'Camera error: ' + (err?.message || err);
+    toast(msg);
+    vfSetStatus('⚠ ' + msg, '#ef4444');
+  });
+}
+
+// ── TASK 8: VF manual add finish ─────────────────────────────
+function vfManualAdd() {
+  const maxLane = typeof vfLaneCount !== 'undefined' ? vfLaneCount : 8;
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+  el.innerHTML = `
+    <div style="background:var(--surface);border-radius:16px;padding:24px;max-width:320px;width:100%">
+      <div style="font-weight:700;font-size:1rem;margin-bottom:16px">Add Manual Finish</div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:0.8rem;color:var(--muted)">Lane</label>
+        <select id="_mf-lane" style="width:100%;margin-top:4px;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:1rem">
+          ${Array.from({length:maxLane},(_,i)=>`<option value="${i+1}">Lane ${i+1}</option>`).join('')}
+        </select>
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="font-size:0.8rem;color:var(--muted)">Time (seconds, e.g. 12.45)</label>
+        <input type="number" id="_mf-time" step="0.01" min="0" placeholder="0.00"
+          style="width:100%;margin-top:4px;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:1rem;box-sizing:border-box">
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-secondary" style="flex:1" id="_mf-cancel">Cancel</button>
+        <button class="btn btn-primary"   style="flex:1" id="_mf-ok">Add Finish</button>
+      </div>
+    </div>`;
+  document.body.appendChild(el);
+  el.querySelector('#_mf-cancel').onclick = () => document.body.removeChild(el);
+  el.querySelector('#_mf-ok').onclick = () => {
+    const lane  = parseInt(el.querySelector('#_mf-lane').value);
+    const timeSec = parseFloat(el.querySelector('#_mf-time').value);
+    if (!isFinite(timeSec) || timeSec <= 0) { toast('Enter a valid time'); return; }
+    const elapsedMs = Math.round(timeSec * 1000);
+    if (typeof vfDetections !== 'undefined') {
+      vfDetections.push({ lane, elapsedMs, manual: true });
+      if (typeof vfRenderDetections === 'function') vfRenderDetections();
+    }
+    document.body.removeChild(el);
+    toast(`Lane ${lane} manually added — ${timeSec.toFixed(2)}s`);
+  };
+  setTimeout(() => el.querySelector('#_mf-time').focus(), 100);
+}
+
+// ── TASK 9: Athlete name persistence ─────────────────────────
+function _laneKey(age, gender, event) {
+  return `ct_lanes_${age}_${gender}_${event}`.replace(/\s+/g,'_');
+}
+function _saveLaneNames(age, gender, event, lanes) {
+  try { localStorage.setItem(_laneKey(age, gender, event), JSON.stringify(lanes)); } catch(e){}
+}
+function _loadLaneNames(age, gender, event) {
+  try {
+    const saved = localStorage.getItem(_laneKey(age, gender, event));
+    if (!saved) return;
+    const lanes = JSON.parse(saved);
+    document.querySelectorAll('.admin-lane-name-input').forEach(inp => {
+      const n = inp.dataset.lane;
+      if (lanes[n]?.name) inp.value = lanes[n].name;
+    });
+    toast('Names loaded from last heat ↑');
+  } catch(e){}
+}
+
+// Auto-load names when dropdowns change (attach after admin view inits)
+function _attachLaneNameAutoLoad() {
+  const ageSel   = document.getElementById('admin-age-sel');
+  const eventSel = document.getElementById('admin-event-sel');
+  const load = () => {
+    const age   = ageSel?.value;
+    const event = eventSel?.value;
+    if (age && event && typeof adminGender !== 'undefined') _loadLaneNames(age, adminGender, event);
+  };
+  if (ageSel)   ageSel.addEventListener('change', load);
+  if (eventSel) eventSel.addEventListener('change', load);
+}
+// Call after a short delay so initAdminView has run
+const _origInitAdminView = typeof initAdminView === 'function' ? initAdminView : null;
+
+// ── TASK 10: Timer undo ───────────────────────────────────────
+let _timerUndoTimer = null;
+
+function _showTimerUndo(lane, splitKey, elapsedMs) {
+  // Clear any existing undo
+  if (_timerUndoTimer) { clearTimeout(_timerUndoTimer); _timerUndoTimer = null; }
+  const existing = document.getElementById('timer-undo-bar');
+  if (existing) existing.remove();
+
+  const bar = document.createElement('div');
+  bar.id = 'timer-undo-bar';
+  bar.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:16px;z-index:9997;box-shadow:0 4px 24px rgba(0,0,0,.4)';
+  const timeLeft = document.createElement('span');
+  timeLeft.style.cssText = 'font-size:0.85rem;color:var(--muted)';
+  timeLeft.textContent = 'Undo stop (3s)';
+  const undoBtn = document.createElement('button');
+  undoBtn.className = 'btn btn-secondary';
+  undoBtn.style.cssText = 'font-size:0.85rem;padding:6px 16px;color:var(--accent);border-color:var(--accent)';
+  undoBtn.textContent = '↩ Undo';
+  bar.appendChild(timeLeft);
+  bar.appendChild(undoBtn);
+  document.body.appendChild(bar);
+
+  let secs = 3;
+  const tick = setInterval(() => {
+    secs--;
+    if (secs <= 0) { clearInterval(tick); bar.remove(); }
+    else timeLeft.textContent = `Undo stop (${secs}s)`;
+  }, 1000);
+
+  undoBtn.onclick = async () => {
+    clearInterval(tick);
+    clearTimeout(_timerUndoTimer);
+    bar.remove();
+    try {
+      await cRef(`race/current/splits/${lane}/${splitKey}`).remove();
+      const splitBtn = document.getElementById('timer-stop-btn');
+      if (splitBtn) { splitBtn.textContent = 'STOP'; splitBtn.removeAttribute('disabled'); }
+      toast('↩ Stop undone — tap STOP again when ready');
+    } catch(e) {
+      toast('Could not undo — split already synced');
+    }
+  };
+
+  _timerUndoTimer = setTimeout(() => { clearInterval(tick); bar.remove(); }, 3000);
+}
+
+// ── TASK 12: Results export ───────────────────────────────────
+function adminExportCSV() {
+  if (!raceState) { toast('No race data'); return; }
+  const lanes  = raceState.lanes  || {};
+  const splits = raceState.splits || {};
+  const results = [];
+  Object.keys(lanes).forEach(lane => {
+    const vals = Object.values(splits[lane]||{}).map(s=>s.elapsedMs).filter(Boolean);
+    const mean = vals.length ? trimmedMean(vals) : null;
+    if (mean != null) results.push({ lane, name: lanes[lane]?.name || `Lane ${lane}`, timeMs: mean });
+  });
+  results.sort((a,b) => a.timeMs - b.timeMs);
+  let place = 1;
+  results.forEach(r => { r.place = place++; });
+
+  const event   = raceState.event   || '';
+  const age     = raceState.age     || '';
+  const gender  = raceState.gender  || '';
+  const header  = 'Place,Lane,Name,Time\r\n';
+  const rows    = results.map(r => `${r.place},${r.lane},"${r.name}",${fmtSec(r.timeMs)}`).join('\r\n');
+  const csv     = header + rows;
+  const blob    = new Blob([csv], {type:'text/csv'});
+  const url     = URL.createObjectURL(blob);
+  const a       = document.createElement('a');
+  a.href = url;
+  a.download = `${age}-${gender}-${event}-results.csv`.replace(/\s+/g,'_');
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV downloaded');
+}
+
+function adminPrintResults() {
+  if (!raceState) { toast('No race data'); return; }
+  const lanes  = raceState.lanes  || {};
+  const splits = raceState.splits || {};
+  const results = [];
+  Object.keys(lanes).forEach(lane => {
+    const vals = Object.values(splits[lane]||{}).map(s=>s.elapsedMs).filter(Boolean);
+    const mean = vals.length ? trimmedMean(vals) : null;
+    if (mean != null) results.push({ lane, name: lanes[lane]?.name || `Lane ${lane}`, timeMs: mean });
+  });
+  results.sort((a,b) => a.timeMs - b.timeMs);
+  let place = 1;
+  results.forEach(r => { r.place = place++; });
+
+  const medals = ['🥇','🥈','🥉'];
+  const rows   = results.map(r =>
+    `<tr><td style="text-align:center;font-size:1.4rem">${medals[r.place-1]||r.place}</td><td>${r.lane}</td><td style="font-weight:600">${r.name}</td><td style="font-family:monospace;font-size:1.1rem">${fmtSec(r.timeMs)}</td></tr>`
+  ).join('');
+
+  const win = window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Results</title>
+  <style>body{font-family:sans-serif;padding:32px;max-width:600px;margin:auto}h1{font-size:1.4rem;margin-bottom:4px}h2{font-size:1rem;color:#666;margin-bottom:24px;font-weight:400}table{width:100%;border-collapse:collapse}th{text-align:left;border-bottom:2px solid #ddd;padding:8px 12px;font-size:.85rem;text-transform:uppercase;color:#888}td{padding:10px 12px;border-bottom:1px solid #eee}@media print{button{display:none}}</style>
+  </head><body>
+  <h1>${raceState.event||'Race Results'}</h1>
+  <h2>${raceState.age||''} ${raceState.gender||''} &mdash; ${new Date().toLocaleDateString('en-AU')}</h2>
+  <table><thead><tr><th>Place</th><th>Lane</th><th>Athlete</th><th>Time</th></tr></thead><tbody>${rows}</tbody></table>
+  <p style="margin-top:32px;font-size:.75rem;color:#aaa">Generated by Carnival Timing &mdash; carnivaltiming.com</p>
+  <button onclick="window.print()" style="margin-top:16px;padding:10px 24px;font-size:1rem;cursor:pointer">🖨 Print</button>
+  </body></html>`);
+  win.document.close();
+}
+
+// Attach lane-name autoload after DOM is ready
+setTimeout(_attachLaneNameAutoLoad, 1500);
+</script>
