@@ -1,5 +1,5 @@
 HTTP 200 
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/html; charset=utf-8
 
 <!DOCTYPE html>
 <html lang="en-AU">
@@ -424,7 +424,14 @@ Content-Type: text/plain; charset=utf-8
     .xc-name-input:focus { border-bottom-color: var(--accent); }
 
     /* ── Admin Lane Input Row ── */
-    .admin-lane-row {
+    .status-btn {
+  padding: 3px 7px; border-radius: 6px; font-size: .72rem; font-weight: 700;
+  border: 1.5px solid var(--border); background: var(--surface2); color: var(--muted);
+  cursor: pointer; letter-spacing: .04em; transition: all .15s;
+}
+.status-btn.active-dns { background: rgba(245,158,11,.18); color: #f59e0b; border-color: #f59e0b; }
+.status-btn.active-dnf { background: rgba(239,68,68,.18); color: #ef4444; border-color: #ef4444; }
+.admin-lane-row {
       display: flex; align-items: center;
       gap: 8px; padding: 6px 0;
       border-bottom: 1px solid var(--surface3);
@@ -488,7 +495,80 @@ Content-Type: text/plain; charset=utf-8
     .demo-banner-hint { font-size: 0.78rem; color: var(--muted); }
     .demo-banner-hint strong { color: var(--text); }
     .demo-qr { margin-top: 10px; }
-  </style>
+  
+    /* ── XC Photo Burst + Finish Card ── */
+    .finish-photo-wrap {
+      width:100%;background:var(--surface3);border-radius:10px;
+      overflow:hidden;margin-bottom:8px;position:relative;
+      aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+    }
+    .finish-photo-wrap img { width:100%;height:100%;object-fit:cover;display:block; }
+    .finish-photo-capturing {
+      color:var(--muted);font-size:0.8rem;text-align:center;padding:16px;
+    }
+    .finish-photo-wrap .ocr-badge {
+      position:absolute;top:6px;right:6px;
+      background:rgba(20,184,166,0.9);color:#fff;
+      font-size:0.7rem;font-weight:700;padding:3px 7px;border-radius:20px;
+    }
+    .bib-scan-row { display:flex;gap:6px;margin-bottom:8px; }
+    /* Qualifier badge */
+    .qualifier-chip {
+      display:inline-flex;align-items:center;gap:4px;
+      background:rgba(234,179,8,0.2);color:#eab308;
+      font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:20px;
+      border:1px solid rgba(234,179,8,0.4);
+    }
+    /* Finish card share overlay */
+    #finish-card-overlay {
+      position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9990;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:16px;gap:12px;
+    }
+    #finish-card-overlay canvas,
+    #finish-card-overlay img { max-width:min(320px,85vw);border-radius:12px; }
+    #finish-card-overlay .card-actions { display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
+
+  
+    /* v8.5.2 — auto-detect */
+    #xc-line-setup-overlay {
+      display:none;position:fixed;inset:0;z-index:9996;background:#000;
+      flex-direction:column;
+    }
+    #xc-line-setup-overlay video {
+      width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
+    }
+    #xc-line-canvas-overlay {
+      position:absolute;inset:0;width:100%;height:100%;touch-action:none;
+    }
+    #xc-line-instruction {
+      position:absolute;top:16px;left:0;right:0;text-align:center;
+      color:#fff;font-size:1rem;font-weight:600;
+      background:rgba(0,0,0,.65);padding:10px;pointer-events:none;
+    }
+    #xc-line-setup-btns {
+      position:absolute;bottom:0;left:0;right:0;
+      display:flex;gap:10px;padding:16px;background:rgba(0,0,0,.7);
+    }
+    .xc-detect-bar {
+      display:flex;align-items:center;gap:10px;
+      padding:8px 14px;background:var(--surface-2);border-bottom:1px solid var(--border);
+    }
+    .xc-detect-pulse {
+      width:12px;height:12px;border-radius:50%;background:#ef4444;flex-shrink:0;
+      animation:xcpulse 1s infinite;
+    }
+    @keyframes xcpulse {
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.4;transform:scale(.8)}
+    }
+    .xc-auto-countdown {
+      display:inline-block;width:28px;height:28px;border-radius:50%;
+      background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;
+      text-align:center;line-height:28px;flex-shrink:0;
+    }
+
+    </style>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a56db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='6'/><path d='M15.477 12.89 17 22l-5-3-5 3 1.523-9.11'/></svg>"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://carnivaltiming.com/"><meta property="og:title" content="Carnival Timing — Live Race Management for School Carnivals"><meta property="og:description" content="Real-time race timing for school athletics, swimming and cross country carnivals. Multi-device, live results, QR pairing. Free to use."><meta property="og:url" content="https://carnivaltiming.com/"><meta property="og:type" content="website"><meta property="og:locale" content="en_AU"><meta property="og:site_name" content="Carnival Timing"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Carnival Timing — Live Race Management for School Carnivals"><meta name="twitter:description" content="Real-time race timing for school athletics, swimming and cross country carnivals. Multi-device, live results, QR pairing. Free to use."><script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -505,8 +585,14 @@ Content-Type: text/plain; charset=utf-8
   "email": "info@sportportal.com.au",
   "areaServed": {"@type": "Country", "name": "Australia"},
   "knowsAbout": ["School sport", "Athletics carnivals", "Swimming carnivals", "Cross country", "Live event timing"]
-}</script></head>
+}</script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
 <body>
+
+<!-- XC photo burst camera elements -->
+<video id="xc-cam" autoplay playsinline muted style="display:none;position:absolute;width:1px;height:1px"></video>
+<canvas id="xc-cap" style="display:none"></canvas>
+
 <div id="reconnect-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#f59e0b;color:#000;text-align:center;padding:8px 16px;font-size:.9rem;font-weight:600;letter-spacing:.02em;">
   ⚡ Reconnecting…
 </div>
@@ -599,6 +685,21 @@ Content-Type: text/plain; charset=utf-8
       </div>
     </div>
 
+
+    <!-- ── School Sport Portal upsell ── -->
+    <div style="margin-top:24px;background:linear-gradient(135deg,#0d1b3e 0%,#1a3a6e 60%,#1a56db 100%);border-radius:14px;padding:18px 20px;color:#fff">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:1.1rem">🏅</span>
+        <span style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#fcd34d">School Sport Portal</span>
+      </div>
+      <div style="font-size:0.98rem;font-weight:700;margin-bottom:6px;line-height:1.3">Want persistent results, house points &amp; district qualifiers?</div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.75);margin-bottom:14px;line-height:1.5">Carnival Timing is free and always will be. School Sport Portal adds automatic house point tallies, event program builder, district qualifier tracking and permanent public results pages — for $1/student/year.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="https://schoolsportportal.com.au" target="_blank" style="background:#f59e0b;color:#0d1b3e;padding:9px 18px;border-radius:7px;font-size:0.85rem;font-weight:700;text-decoration:none;display:inline-block">See School Sport Portal →</a>
+        <a href="https://schoolsportportal.com.au#demo" target="_blank" style="border:1.5px solid rgba(255,255,255,0.3);color:#fff;padding:8px 16px;border-radius:7px;font-size:0.85rem;font-weight:600;text-decoration:none;display:inline-block">Live demo</a>
+      </div>
+    </div>
+
     <div class="text-center text-muted text-xs mt-32">
       Works offline · No app install · Free to use<br>
       <span style="opacity:0.5">Carnival Timing · carnivaltiming.com</span>
@@ -663,6 +764,19 @@ Content-Type: text/plain; charset=utf-8
     <div class="form-group">
       <label>Accent Colour <span style="font-weight:400;text-transform:none;font-size:0.85em">(optional)</span></label>
       <input type="text" id="setup-colour" placeholder="#14b8a6 — leave blank for teal">
+    </div>
+        <div class="form-group">
+      <label>Houses <span style="color:var(--muted);font-size:.8rem;font-weight:400">(optional — for points tally)</span></label>
+      <input type="text" id="setup-houses" placeholder="Red, Blue, Green, Yellow">
+      <div style="color:var(--muted);font-size:.75rem;margin-top:4px">Comma-separated. Leave blank to skip house points.</div>
+    </div>
+    <div class="form-group">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <label style="margin:0">Event Program <span style="color:var(--muted);font-size:.8rem;font-weight:400">(optional)</span></label>
+        <button type="button" class="btn btn-secondary" style="padding:4px 10px;font-size:.8rem" onclick="addProgramRow()">+ Add Event</button>
+      </div>
+      <div id="program-rows" style="max-height:240px;overflow-y:auto"></div>
+      <div style="color:var(--muted);font-size:.75rem;margin-top:4px">Pre-load your day's schedule. Use "Next Event →" in Race Control to auto-advance.</div>
     </div>
     <button class="btn btn-primary mt-8" onclick="createCarnival()">Create Carnival →</button>
   </div>
@@ -826,7 +940,17 @@ Content-Type: text/plain; charset=utf-8
         <div class="card-title">Lane Assignments</div>
         <div id="admin-lane-inputs"></div>
       </div>
-      <button class="btn btn-primary" onclick="adminArm()">ARM RACE →</button>
+      <div class="card" id="admin-house-card" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="card-title" style="margin:0">House Points</div>
+          <button type="button" class="btn btn-secondary" style="padding:4px 10px;font-size:.78rem;color:#ef4444;border-color:#ef4444" onclick="adminResetHousePoints()">Reset</button>
+        </div>
+        <div id="admin-house-standings"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="adminArm()" style="flex:1">ARM RACE →</button>
+        <button class="btn btn-secondary" id="admin-next-event-btn" onclick="adminNextEvent()" style="flex:1;display:none">Next Event →</button>
+      </div>
     </div>
 
     <!-- Live panel -->
@@ -974,6 +1098,22 @@ Content-Type: text/plain; charset=utf-8
 
     <!-- LIVE -->
     <div id="marshal-live" class="hidden" style="display:flex;flex-direction:column;height:100%">
+      
+      <!-- Auto-detect toggle bar -->
+      <div id="xc-auto-bar" style="display:none" class="xc-detect-bar">
+        <div class="xc-detect-pulse"></div>
+        <div style="flex:1;font-size:.85rem;font-weight:600;color:var(--text)" id="xc-detect-status">Setting up…</div>
+        <input type="range" id="xc-sensitivity" min="8" max="55" value="22"
+          style="width:70px" title="Sensitivity"
+          oninput="xcDiffThreshold=+this.value;document.getElementById('xc-sens-val').textContent=this.value"
+          >
+        <span id="xc-sens-val" style="font-size:.7rem;color:var(--muted);min-width:18px">22</span>
+        <button class="btn btn-secondary btn-sm" onclick="xcStopAutoMode()" style="font-size:.7rem">✕ Off</button>
+      </div>
+      <!-- Auto-detect mode button -->
+      <button id="xc-auto-mode-btn" class="btn btn-secondary btn-sm"
+        style="width:100%;border-radius:0;border-left:none;border-right:none;border-top:none;padding:8px;font-size:.8rem"
+        onclick="xcStartAutoMode()">🎯 Switch to Auto-Detect (no tapping)</button>
       <!-- Big tap button — always visible, always tappable -->
       <button class="btn-tap" id="marshal-tap-btn" onclick="marshalTap()"
         style="flex-shrink:0;border-radius:0;margin:0;width:100%">
@@ -991,12 +1131,21 @@ Content-Type: text/plain; charset=utf-8
 
       <!-- Inline bib numpad -->
       <div id="marshal-bib-pad" class="hidden"
-        style="flex-shrink:0;padding:16px;background:var(--surface-2);border-top:2px solid var(--accent)">
-        <div style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:4px"
-          id="marshal-bib-for">Enter bib for 1st place</div>
-        <div style="font-size:2.2rem;font-weight:700;color:var(--accent);letter-spacing:0.12em;min-height:2.6rem;margin-bottom:10px"
+        style="flex-shrink:0;padding:14px 16px 16px;background:var(--surface-2);border-top:2px solid var(--accent)">
+        <!-- Finish photo preview -->
+        <div class="finish-photo-wrap" id="finish-photo-wrap">
+          <div class="finish-photo-capturing" id="finish-photo-status">📷 Capturing…</div>
+          <img id="finish-photo-img" src="" style="display:none">
+        </div>
+        <!-- Bib label + OCR row -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <div style="font-size:0.82rem;font-weight:700;color:var(--text);flex:1"
+            id="marshal-bib-for">Enter bib for 1st place</div>
+          <button class="btn btn-secondary btn-sm" id="ocr-btn" onclick="runBibOCR()" style="flex-shrink:0;font-size:0.72rem">🔍 Auto</button>
+        </div>
+        <div style="font-size:2.2rem;font-weight:700;color:var(--accent);letter-spacing:0.12em;min-height:2.6rem;margin-bottom:4px"
           id="marshal-bib-display">_</div>
-        <div id="marshal-bib-name" style="font-size:0.95rem;font-weight:600;color:var(--text-2);min-height:1.2rem;margin-bottom:6px;letter-spacing:0.01em"></div>
+        <div id="marshal-bib-name" style="font-size:0.92rem;font-weight:600;color:var(--text-2);min-height:1.1rem;margin-bottom:6px"></div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:280px">
           <button class="btn btn-secondary" style="padding:14px;font-size:1.1rem" onclick="bibDigit('1')">1</button>
           <button class="btn btn-secondary" style="padding:14px;font-size:1.1rem" onclick="bibDigit('2')">2</button>
@@ -1070,7 +1219,14 @@ Content-Type: text/plain; charset=utf-8
         <button class="btn btn-primary hidden" id="xc-publish-btn" onclick="xcAdminPublish()"><svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' style='vertical-align:middle'><rect x='8' y='2' width='8' height='4' rx='1' ry='1'/><path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/></svg> Publish Results</button>
       </div>
       <hr class="divider">
-      <div class="card-title">Finishers <span id="xc-count-lbl" class="text-muted text-xs"></span></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div class="card-title" style="margin-bottom:0;flex:1">Finishers <span id="xc-count-lbl" class="text-muted text-xs"></span></div>
+        <label style="font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:6px">
+          🏅 Qual spots
+          <input type="number" id="xc-qual-spots" value="10" min="0" max="99"
+            style="width:52px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:0.82rem;text-align:center">
+        </label>
+      </div>
       <div id="xc-finishers-list"></div>
     </div>
   </div>
@@ -1371,7 +1527,46 @@ let selSport = 'track';
 let selTier  = 'school';
 let activeListeners = [];
 let countdownRunning = false;
-let dqSet = new Set(); // lanes DQ'd in current done panel
+let dqSet = new Set();
+let dnsSet = new Set();
+let dnfSet = new Set();
+let programIndex = 0;
+// Program builder rows
+const programRows = [];
+function addProgramRow(age='', gender='boys', event='') {
+  const id = Date.now() + Math.random();
+  programRows.push(id);
+  const container = document.getElementById('program-rows');
+  if (!container) return;
+  const row = document.createElement('div');
+  row.id = `prog-row-${id}`;
+  row.style.cssText = 'display:grid;grid-template-columns:1fr 90px 1fr 28px;gap:5px;margin-bottom:6px;align-items:center';
+  row.innerHTML = `<input class="prog-age" data-pid="${id}" placeholder="9 Years" value="${age}"
+      style="padding:7px 8px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.82rem;width:100%">
+    <select class="prog-gender" data-pid="${id}"
+      style="padding:7px 6px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.82rem;width:100%">
+      <option value="boys" ${gender==='boys'?'selected':''}>Boys</option>
+      <option value="girls" ${gender==='girls'?'selected':''}>Girls</option>
+      <option value="mixed" ${gender==='mixed'?'selected':''}>Mixed</option>
+    </select>
+    <input class="prog-event" data-pid="${id}" placeholder="100m" value="${event}"
+      style="padding:7px 8px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.82rem;width:100%">
+    <button type="button" onclick="removeProgramRow(${id})"
+      style="background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px;border-radius:6px">✕</button>`;
+  container.appendChild(row);
+}
+function removeProgramRow(id) {
+  const idx = programRows.indexOf(id);
+  if (idx > -1) programRows.splice(idx, 1);
+  document.getElementById(`prog-row-${id}`)?.remove();
+}
+function getProgramData() {
+  return programRows.map(id => ({
+    age: document.querySelector(`.prog-age[data-pid="${id}"]`)?.value.trim()||'',
+    gender: document.querySelector(`.prog-gender[data-pid="${id}"]`)?.value||'boys',
+    event: document.querySelector(`.prog-event[data-pid="${id}"]`)?.value.trim()||''
+  })).filter(r => r.age && r.event);
+} // lanes DQ'd in current done panel
 
 // ── Event Lists ──
 const EVENTS = {
@@ -1415,7 +1610,7 @@ const BIB_LOOKUP = {
   55:{n:'Clem Godde',s:'St Marys PS'},56:{n:'Tom McCutcheon',s:'St Marys PS'},
   57:{n:'Julen Smith-Gorrochategui',s:'Williamstown North PS'},58:{n:'Alex McQueen',s:'Williamstown North PS'},
   59:{n:'Jordan Pisanelli',s:'Williamstown North PS'},60:{n:'Oswald Burleigh',s:'Williamstown North PS'},
-  61:{n:"Elias D\'Souza",s:'Williamstown PS'},62:{n:'Thomas Reid',s:'Williamstown PS'},
+  61:{n:"Elias D'Souza",s:'Williamstown PS'},62:{n:'Thomas Reid',s:'Williamstown PS'},
   63:{n:'Luca Galle',s:'Williamstown PS'},64:{n:'William Galle',s:'Williamstown PS'},
   // 11 Girls
   65:{n:'Kara Mahon',s:'Altona PS'},66:{n:'Aurora Busuttil',s:'Altona PS'},
@@ -1744,7 +1939,11 @@ async function createCarnival() {
   } while (snap.exists());
 
   carnivalCode = code;
+  const housesRaw = document.getElementById('setup-houses')?.value.trim()||'';
+  const houses = housesRaw ? housesRaw.split(',').map(h=>h.trim()).filter(Boolean) : [];
+  const program = getProgramData();
   carnivalMeta = { school, name, sport:selSport, tier:selTier, colour,
+    houses, program,
     createdAt: firebase.database.ServerValue.TIMESTAMP };
 
   await db.ref('meta').set(carnivalMeta);
@@ -2113,13 +2312,47 @@ function initAdminView() {
   evSel.innerHTML = evList.map(e=>`<option>${e}</option>`).join('');
 
   // Lane inputs
+  const houses = carnivalMeta?.houses||[];
   const container = document.getElementById('admin-lane-inputs');
   container.innerHTML = Array.from({length:LANE_COUNT},(_,i)=>i+1).map(n=>`
-    <div class="admin-lane-row">
+    <div class="admin-lane-row" id="alr-${n}">
       <div class="admin-lane-num">${n}</div>
       <input class="admin-lane-name-input" data-lane="${n}"
-        placeholder="Name or Bib #" type="text">
+        placeholder="Name or Bib #" type="text" style="flex:1">
+      ${houses.length ? `<select class="admin-lane-house" data-lane="${n}"
+          style="padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.82rem;max-width:90px">
+          <option value="">House</option>
+          ${houses.map(h=>`<option value="${h}">${h}</option>`).join('')}
+        </select>` : ''}
+      <div style="display:flex;gap:4px">
+        <button type="button" class="status-btn" data-lane="${n}" data-stype="dns" onclick="toggleLaneStatus(${n},'dns')">DNS</button>
+        <button type="button" class="status-btn" data-lane="${n}" data-stype="dnf" onclick="toggleLaneStatus(${n},'dnf')">DNF</button>
+      </div>
     </div>`).join('');
+  dnsSet.clear(); dnfSet.clear();
+  // House standings
+  const houseCard = document.getElementById('admin-house-card');
+  if (houses.length && houseCard) {
+    houseCard.style.display = '';
+    const hpRef = cRef('housePoints');
+    hpRef.on('value', snap => {
+      const pts = snap.val()||{};
+      const sorted = [...houses].map(h=>({h, pts:pts[h]||0})).sort((a,b)=>b.pts-a.pts);
+      const total = sorted.reduce((s,r)=>s+r.pts,0);
+      document.getElementById('admin-house-standings').innerHTML = sorted.map((r,i)=>`
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:.9rem;min-width:18px">${i===0&&total>0?'🥇':i===1&&total>0?'🥈':i===2&&total>0?'🥉':''}</span>
+          <span style="flex:1;font-weight:${i===0&&total>0?'700':'400'}">${r.h}</span>
+          <span style="font-weight:700;font-size:1.05rem;color:${i===0&&total>0?'var(--accent)':'var(--text)'}">${r.pts}</span>
+        </div>`).join('');
+    });
+    activeListeners.push(()=>hpRef.off());
+  } else if (houseCard) { houseCard.style.display = 'none'; }
+  // Program "Next Event" button
+  const prog = carnivalMeta?.program||[];
+  const nextBtn = document.getElementById('admin-next-event-btn');
+  if (prog.length && nextBtn) { nextBtn.style.display = ''; programIndex = 0; }
+  else if (nextBtn) { nextBtn.style.display = 'none'; }
 
   const raceRef = cRef('race/current');
   raceRef.on('value', snap=>{raceState=snap.val(); renderAdminView(raceState);});
@@ -2195,6 +2428,45 @@ function renderAdminView(race) {
   if (race.state==='live' && allTimed) pubBtn.classList.remove('hidden');
 }
 
+function toggleLaneStatus(lane, type) {
+  const l = String(lane);
+  const setA = type==='dns' ? dnsSet : dnfSet;
+  const setB = type==='dns' ? dnfSet : dnsSet;
+  if (setA.has(l)) { setA.delete(l); } else { setA.add(l); setB.delete(l); }
+  // Update button styles
+  document.querySelectorAll(`.status-btn[data-lane="${lane}"]`).forEach(btn => {
+    const t = btn.dataset.stype;
+    btn.classList.remove('active-dns','active-dnf');
+    if (t==='dns' && dnsSet.has(l)) btn.classList.add('active-dns');
+    if (t==='dnf' && dnfSet.has(l)) btn.classList.add('active-dnf');
+  });
+}
+function adminNextEvent() {
+  const prog = carnivalMeta?.program||[];
+  if (!prog.length) return;
+  if (programIndex >= prog.length) { toast('🏁 Program complete!'); return; }
+  const ev = prog[programIndex];
+  // Set age
+  const ageSel = document.getElementById('admin-age-sel');
+  if (ageSel) ageSel.value = ev.age;
+  selectAdminGender(ev.gender||'boys');
+  // Set event
+  const evSel = document.getElementById('admin-event-sel');
+  if (evSel) evSel.value = ev.event;
+  // Load saved lane names
+  _loadLaneNames(ev.age, ev.gender||'boys', ev.event);
+  const num = programIndex + 1;
+  programIndex++;
+  const remaining = prog.length - programIndex;
+  const nextBtn = document.getElementById('admin-next-event-btn');
+  if (nextBtn) nextBtn.textContent = remaining > 0 ? `Next Event (${remaining} left) →` : 'Program Done';
+  toast(`Event ${num}/${prog.length}: ${ev.age} ${ev.gender} — ${ev.event}`);
+}
+async function adminResetHousePoints() {
+  if (!await _confirmModal('Reset house points?', 'This will clear all accumulated house points for this carnival.', 'Reset')) return;
+  await cRef('housePoints').remove();
+  toast('House points reset');
+}
 async function adminArm() {
   if (!await _confirmModal('Arm this race?', 'All connected timers and the Starter will be notified.', 'ARM RACE →')) return;
   const age   = document.getElementById('admin-age-sel').value;
@@ -2203,8 +2475,12 @@ async function adminArm() {
   document.querySelectorAll('.admin-lane-name-input').forEach(inp=>{
     const n = inp.dataset.lane;
     const v = inp.value.trim();
-    if (v) lanes[n] = { name:v };
+    if (!v) return;
+    const house = document.querySelector(`.admin-lane-house[data-lane="${n}"]`)?.value||'';
+    const status = dnsSet.has(n) ? 'dns' : dnfSet.has(n) ? 'dnf' : '';
+    lanes[n] = { name:v, ...(house?{house}:{}), ...(status?{status}:{}) };
   });
+  dnsSet.clear(); dnfSet.clear();
   // Persist lane names for this age/gender/event
   _saveLaneNames(age, adminGender, event, lanes);
   await cRef('race/current').set({
@@ -2264,16 +2540,32 @@ async function adminPublish() {
     // Build sorted non-DQ first to assign places
     const allRows = [];
     Object.keys(lanes).forEach(lane=>{
+      const laneData = lanes[lane];
+      const status = laneData?.status;
+      const house  = laneData?.house||'';
+      if (status === 'dns' || status === 'dnf') {
+        allRows.push({ lane:parseInt(lane), name:laneData?.name||`Lane ${lane}`,
+          timeMs:null, dq:false, status, house });
+        return;
+      }
       const vals = Object.values(splits[lane]||{}).map(s=>s.elapsedMs).filter(Boolean);
       const mean = vals.length ? trimmedMean(vals) : null;
-      if (mean!=null) allRows.push({ lane:parseInt(lane), name:lanes[lane]?.name||`Lane ${lane}`, timeMs:mean, dq: dqSet.has(String(lane)) });
+      if (mean!=null) allRows.push({ lane:parseInt(lane), name:laneData?.name||`Lane ${lane}`,
+        timeMs:mean, dq: dqSet.has(String(lane)), house, status:'' });
     });
     allRows.sort((a,b)=> {
-      if (a.dq && !b.dq) return 1;
-      if (!a.dq && b.dq) return -1;
-      return a.timeMs - b.timeMs;
+      const ord = r => r.status==='dns' ? 4 : r.status==='dnf' ? 3 : r.dq ? 2 : 0;
+      if (ord(a) !== ord(b)) return ord(a) - ord(b);
+      return (a.timeMs||0) - (b.timeMs||0);
     });
-    allRows.forEach(r => { if (!r.dq) r.place = place++; });
+    const PTS = [8,6,5,4,3,2,1];
+    const houseDeltas = {};
+    allRows.forEach(r => {
+      if (!r.dq && !r.status) {
+        r.place = place++;
+        if (r.house) houseDeltas[r.house] = (houseDeltas[r.house]||0) + (PTS[r.place-1]||0);
+      }
+    });
     const eventName = raceState.event + heatSuffix;
     const key = fbEnc(`${raceState.age}-${raceState.gender}-${eventName}-${raceState.raceId}`);
     await cRef(`results/${key}`).set({
@@ -2281,6 +2573,15 @@ async function adminPublish() {
       raceId:raceState.raceId, results:allRows,
       publishedAt:firebase.database.ServerValue.TIMESTAMP
     });
+    // Accumulate house points
+    if (Object.keys(houseDeltas).length) {
+      const hpRef = cRef('housePoints');
+      const snap = await hpRef.once('value');
+      const existing = snap.val()||{};
+      const merged = {...existing};
+      Object.entries(houseDeltas).forEach(([h,pts]) => { merged[h] = (merged[h]||0) + pts; });
+      await hpRef.set(merged);
+    }
     await cRef('race/current').update({state:'done'});
     dqSet.clear();
     toast('<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Results published!');
@@ -2355,21 +2656,32 @@ function renderAdminDone(race) {
   const lanes  = race.lanes||{};
   const results = [];
   Object.keys(lanes).forEach(lane=>{
+    const laneData = lanes[lane];
+    const status = laneData?.status;
+    if (status === 'dns' || status === 'dnf') {
+      results.push({ lane, name:laneData?.name, timeMs:null, status });
+      return;
+    }
     const vals = Object.values(splits[lane]||{}).map(s=>s.elapsedMs).filter(Boolean);
     const mean = vals.length ? trimmedMean(vals) : null;
-    if (mean) results.push({ lane, name:lanes[lane]?.name, timeMs:mean });
+    if (mean) results.push({ lane, name:laneData?.name, timeMs:mean, status:'' });
   });
-  results.sort((a,b)=>a.timeMs-b.timeMs);
+  results.sort((a,b)=>{
+    const ord = r => r.status==='dns' ? 4 : r.status==='dnf' ? 3 : 0;
+    if (ord(a)!==ord(b)) return ord(a)-ord(b);
+    return (a.timeMs||0)-(b.timeMs||0);
+  });
   // Re-number non-DQ places
   let place = 1;
   const placed = results.map(r => {
     const isDQ = dqSet.has(String(r.lane));
-    return { ...r, isDQ, place: isDQ ? null : place++ };
+    const isSpec = isDQ || r.status==='dns' || r.status==='dnf';
+    return { ...r, isDQ, place: isSpec ? null : place++ };
   });
   document.getElementById('admin-results-list').innerHTML = placed.map((r,i)=>`
     <div class="lane-row" style="opacity:${r.isDQ?0.45:1};transition:opacity .15s">
-      <div class="medal ${r.isDQ?'pN':medalCls(r.place)}" style="${r.isDQ?'background:var(--warn);color:#fff':''}">${r.isDQ?'DQ':(r.place)}</div>
-      <div class="lane-name" onclick="adminEditTime(${i})" style="flex:1;cursor:pointer" title="Tap to edit time">${r.name||`Lane ${r.lane}`}${r.isDQ?'<span style="font-size:.7rem;color:var(--warn);margin-left:6px">DQ</span>':''}</div>
+      <div class="medal ${r.isDQ?'pN':r.status==='dns'?'pN':r.status==='dnf'?'pN':medalCls(r.place)}" style="${r.isDQ?'background:var(--warn);color:#fff':r.status?'background:var(--muted);color:#fff':''}">${r.isDQ?'DQ':r.status?r.status.toUpperCase():(r.place)}</div>
+      <div class="lane-name" onclick="${!r.status?`adminEditTime(${i})`:''}" style="flex:1;${!r.status?'cursor:pointer':''}" ${!r.status?'title="Tap to edit time"':''}>${r.name||`Lane ${r.lane}`}${r.isDQ?'<span style="font-size:.7rem;color:var(--warn);margin-left:6px">DQ</span>':r.status?`<span style="font-size:.7rem;color:var(--muted);margin-left:6px">${r.status.toUpperCase()}</span>`:''}</div>
       <div class="lane-time font-mono" onclick="adminEditTime(${i})" style="cursor:pointer">${r.isDQ?'—':fmtSec(r.timeMs)}</div>
       <button class="btn btn-sm" style="margin-left:6px;padding:2px 8px;font-size:.7rem;border:1px solid ${r.isDQ?'var(--warn)':'var(--border)'};color:${r.isDQ?'var(--warn)':'var(--muted)'};background:transparent;border-radius:6px" onclick="adminToggleDQ('${r.lane}')">${r.isDQ?'✕ DQ':'DQ'}</button>
     </div>`).join('') || '<div class="text-muted text-sm">No timed athletes</div>';
@@ -2645,13 +2957,83 @@ function flashRecall() {
 // ════════════════════════════════════════
 // CROSS COUNTRY — MARSHAL VIEW
 // ════════════════════════════════════════
-let bibPendingKey   = null;  // finish key waiting for bib entry
-let bibPendingQueue = [];    // [{key, place, elapsed}] — tapped but bib not yet entered
+let bibPendingKey   = null;
+let bibPendingQueue = [];    // [{key, place, elapsed}]
 let bibValue        = '';
+let xcCamStream     = null;  // active getUserMedia stream
+const xcPhotos      = new Map(); // key → dataURL of best burst frame
+let _ocrWorker      = null;  // reusable Tesseract worker
+
+async function xcInitCamera() {
+  if (xcCamStream) return;
+  try {
+    xcCamStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } },
+      audio: false
+    });
+    const v = document.getElementById('xc-cam');
+    v.srcObject = xcCamStream;
+    await v.play().catch(()=>{});
+  } catch(e) {
+    xcCamStream = null; // camera unavailable (deny or no camera) — silently degrade
+  }
+}
+
+async function xcCapturePhoto(key) {
+  // Start camera if not running
+  if (!xcCamStream) xcInitCamera(); // fire and forget — first tap may miss
+  xcPhotos.set(key, null); // placeholder
+
+  const video  = document.getElementById('xc-cam');
+  const canvas = document.getElementById('xc-cap');
+  const ctx    = canvas.getContext('2d');
+
+  // Give video a moment, then burst 3 frames
+  await new Promise(r => setTimeout(r, 80));
+  const frames = [];
+  for (let i = 0; i < 3; i++) {
+    if (i > 0) await new Promise(r => setTimeout(r, 180));
+    if (video.readyState >= 2 && xcCamStream) {
+      canvas.width = 400; canvas.height = 300;
+      ctx.drawImage(video, 0, 0, 400, 300);
+      frames.push(canvas.toDataURL('image/jpeg', 0.55));
+    }
+  }
+  // Use last frame (runner most likely cleared the line)
+  if (frames.length) xcPhotos.set(key, frames[frames.length-1]);
+}
+
+async function runBibOCR() {
+  const photoDataUrl = xcPhotos.get(bibPendingKey);
+  if (!photoDataUrl) { toast('No photo captured'); return; }
+  const btn = document.getElementById('ocr-btn');
+  if (btn) btn.textContent = '⏳';
+  try {
+    if (!_ocrWorker) {
+      _ocrWorker = await Tesseract.createWorker('eng');
+      await _ocrWorker.setParameters({ tessedit_char_whitelist: '0123456789' });
+    }
+    const { data: { text, confidence } } = await _ocrWorker.recognize(photoDataUrl);
+    const digits = text.replace(/\D/g,'').slice(0,4);
+    if (digits && confidence > 55) {
+      bibValue = digits;
+      document.getElementById('marshal-bib-display').textContent = bibValue;
+      if (btn) btn.textContent = '✓ ' + digits;
+      toast('Bib ' + digits + ' detected (' + Math.round(confidence) + '% conf)');
+    } else {
+      if (btn) btn.textContent = '🔍 Auto';
+      toast('Could not read bib — enter manually');
+    }
+  } catch(e) {
+    if (btn) btn.textContent = '🔍 Auto';
+    toast('OCR error');
+  }
+}
 
 function initMarshalView() {
   requestWakeLock(); syncClock();
   watchConn('marshal-dot');
+  xcInitCamera(); // warm up camera in background
 
   const xcRef = cRef('xc/current');
   xcRef.on('value', snap => { xcState=snap.val(); renderMarshalView(xcState); });
@@ -2718,8 +3100,10 @@ async function marshalTap() {
 
   tapFlash(); vibrate([70]);
 
-  // Client-side key so we can reference it immediately for bib entry
+  // Client-side key
   const key = myId.slice(0,4) + '-' + Date.now().toString(36);
+  xcCapturePhoto(key); // fire-and-forget photo burst
+
   await cRef(`xc/current/finishes/${key}`).set({
     marshalId:   myId,
     marshalName: myName || 'Marshal',
@@ -2736,16 +3120,94 @@ async function marshalTap() {
   if (!bibPendingKey) showNextBib();
 }
 
+let _xcAutoConfirmTimer = null; // FIX 2: auto-confirm countdown handle
+
+function xcCancelAutoConfirm() {
+  if (_xcAutoConfirmTimer) { clearInterval(_xcAutoConfirmTimer); _xcAutoConfirmTimer = null; }
+  const btn = document.getElementById('ocr-btn');
+  if (btn) btn.textContent = '🔍 Auto';
+}
+
 function showNextBib() {
+  xcCancelAutoConfirm(); // clear any running countdown
   if (!bibPendingQueue.length) { hideBibPad(); return; }
-  const { key, place, elapsed } = bibPendingQueue[0];
+  const { key, place, elapsed, autoDetected } = bibPendingQueue[0];
   bibPendingKey = key;
   bibValue      = '';
-  document.getElementById('marshal-bib-for').textContent     = `Bib for ${ordinal(place)} — ${fmtMs(elapsed)}`;
+  document.getElementById('marshal-bib-for').textContent     = `${autoDetected ? '🤖 Auto-detected' : 'Bib for'} ${ordinal(place)} — ${fmtMs(elapsed)}`;
   document.getElementById('marshal-bib-display').textContent = '_';
-  const nameEl = document.getElementById('marshal-bib-name'); if (nameEl) nameEl.textContent = '';
   document.getElementById('marshal-bib-pad').classList.remove('hidden');
   document.getElementById('marshal-finishes-wrap').style.paddingBottom = '0';
+
+  // Show photo (may arrive async), then auto-OCR if autoDetected
+  const updatePhoto = () => {
+    const photo = xcPhotos.get(key);
+    const img   = document.getElementById('finish-photo-img');
+    const ph    = document.getElementById('finish-photo-status');
+    if (!img) return;
+    if (photo) {
+      img.src = photo; img.style.display = 'block';
+      if (ph) ph.style.display = 'none';
+      const btn = document.getElementById('ocr-btn');
+      if (btn) btn.textContent = '🔍 Auto';
+      // FIX 2: auto-fire OCR for auto-detected finishes
+      if (autoDetected) xcAutoOCRAndConfirm(key);
+    } else if (photo === null) {
+      if (ph) { ph.style.display=''; ph.textContent='📷 Capturing…'; }
+      img.style.display = 'none';
+      setTimeout(updatePhoto, 350);
+    } else {
+      if (ph) { ph.style.display=''; ph.textContent='No camera'; }
+      img.style.display = 'none';
+      // No photo — still auto-confirm after delay for autoDetected (bib unknown)
+      if (autoDetected) xcStartAutoConfirmCountdown(null);
+    }
+  };
+  updatePhoto();
+}
+
+async function xcAutoOCRAndConfirm(key) {
+  // Try OCR on the finish photo
+  const photoDataUrl = xcPhotos.get(key);
+  if (!photoDataUrl) { xcStartAutoConfirmCountdown(null); return; }
+  const btn = document.getElementById('ocr-btn');
+  if (btn) btn.textContent = '⏳ OCR…';
+  try {
+    if (!_ocrWorker) {
+      _ocrWorker = await Tesseract.createWorker('eng');
+      await _ocrWorker.setParameters({ tessedit_char_whitelist: '0123456789' });
+    }
+    const { data: { text, confidence } } = await _ocrWorker.recognize(photoDataUrl);
+    const digits = text.replace(/\D/g,'').slice(0,4);
+    if (digits && confidence > 55) {
+      bibValue = digits;
+      document.getElementById('marshal-bib-display').textContent = bibValue;
+      if (btn) btn.textContent = '✓ ' + digits;
+      xcStartAutoConfirmCountdown(digits);
+    } else {
+      if (btn) btn.textContent = '🔍 Auto';
+      xcStartAutoConfirmCountdown(null); // no bib read — still auto-confirm (skip)
+    }
+  } catch(e) {
+    if (btn) btn.textContent = '🔍 Auto';
+    xcStartAutoConfirmCountdown(null);
+  }
+}
+
+function xcStartAutoConfirmCountdown(detectedBib) {
+  let secs = 4;
+  const btn = document.getElementById('ocr-btn');
+  _xcAutoConfirmTimer = setInterval(() => {
+    secs--;
+    if (secs > 0) {
+      if (btn && detectedBib) btn.textContent = `✓ ${detectedBib} (${secs}s)`;
+      else if (btn) btn.textContent = `Skip (${secs}s)`;
+    } else {
+      xcCancelAutoConfirm();
+      // Marshal didn't intervene — auto-confirm (or auto-skip if no bib)
+      if (bibPendingKey) bibConfirm();
+    }
+  }, 1000);
 }
 
 function hideBibPad() {
@@ -2754,28 +3216,34 @@ function hideBibPad() {
 }
 
 function bibDigit(d) {
+  xcCancelAutoConfirm(); // marshal is intervening — stop countdown
   if (bibValue.length >= 4) return;
   bibValue += d;
   document.getElementById('marshal-bib-display').textContent = bibValue || '_';
-  const entry = BIB_LOOKUP[parseInt(bibValue)];
-  const el = document.getElementById('marshal-bib-name');
-  if (el) el.textContent = entry ? `${entry.n} · ${entry.s}` : '';
+  const _bl = BIB_LOOKUP[parseInt(bibValue)];
+  const _bn = document.getElementById('marshal-bib-name');
+  if (_bn) _bn.textContent = _bl ? `${_bl.n} · ${_bl.s}` : '';
 }
 
 function bibBack() {
+  xcCancelAutoConfirm(); // marshal is intervening — stop countdown
   bibValue = bibValue.slice(0,-1);
   document.getElementById('marshal-bib-display').textContent = bibValue || '_';
-  const entry = BIB_LOOKUP[parseInt(bibValue)];
-  const el = document.getElementById('marshal-bib-name');
-  if (el) el.textContent = entry ? `${entry.n} · ${entry.s}` : '';
+  const _bl = BIB_LOOKUP[parseInt(bibValue)];
+  const _bn = document.getElementById('marshal-bib-name');
+  if (_bn) _bn.textContent = _bl ? `${_bl.n} · ${_bl.s}` : '';
 }
 
 async function bibConfirm() {
-  if (bibValue && bibPendingKey) {
-    await cRef(`xc/current/finishes/${bibPendingKey}/bib`).set(bibValue);
-    const entry = BIB_LOOKUP[parseInt(bibValue)];
-    if (entry) {
-      await cRef(`xc/current/finishes/${bibPendingKey}/name`).set(entry.n);
+  if (bibPendingKey) {
+    const updates = {};
+    if (bibValue) updates.bib = bibValue;
+    if (bibValue) { const _bl = BIB_LOOKUP[parseInt(bibValue)]; if (_bl) updates.name = _bl.n; }
+    // Save compressed photo to Firebase (base64 JPEG ~15-20KB)
+    const photo = xcPhotos.get(bibPendingKey);
+    if (photo) updates.photo = photo;
+    if (Object.keys(updates).length) {
+      await cRef(`xc/current/finishes/${bibPendingKey}`).update(updates);
     }
   }
   bibPendingQueue.shift();
@@ -2888,20 +3356,204 @@ async function xcAdminAbandon() {
 async function xcAdminPublish() {
   if (!xcState) return;
   const finishes = xcState.finishes||{};
-  const places   = Object.keys(finishes).sort((a,b)=>parseInt(a)-parseInt(b));
+  const sorted   = Object.entries(finishes).sort((a,b)=>(a[1].tapAt||0)-(b[1].tapAt||0));
+
+  const numQual = parseInt(document.getElementById('xc-qual-spots')?.value)||0;
+
+  if (!await _confirmModal(
+    'Publish XC Results',
+    `${sorted.length} finisher${sorted.length!==1?'s':''} · ${numQual} qualifier spot${numQual!==1?'s':''}`,
+    'PUBLISH →'
+  )) return;
+
+  toast('Publishing & generating cards…');
+
+  // Generate finish cards for finishers with photos
+  const cards = {};
+  for (let i = 0; i < sorted.length; i++) {
+    const [k, f] = sorted[i];
+    const place = i + 1;
+    try {
+      cards[place] = await generateFinishCard({
+        place, name: f.name || (f.bib ? 'Bib ' + f.bib : 'Finisher ' + place),
+        elapsedMs: f.elapsedMs, photo: f.photo||null,
+        age: xcState.age, gender: xcState.gender,
+        event: xcState.event, school: carnivalMeta?.school||''
+      });
+    } catch(e) { /* skip bad frames */ }
+  }
+
   const key = fbEnc(`xc-${xcState.age}-${xcState.gender}-${xcState.event}-${xcState.raceId}`);
   await cRef(`results/${key}`).set({
     type:'xc', age:xcState.age, gender:xcState.gender, event:xcState.event,
     raceId:xcState.raceId,
-    places: places.map(p=>({
-      place:parseInt(p),
-      name:  finishes[p]?.name||'',
-      elapsedMs: finishes[p]?.elapsedMs
+    qualifierSpots: numQual,
+    places: sorted.map(([k,f],i) => ({
+      place:       i + 1,
+      bib:         f.bib||'',
+      name:        f.name||'',
+      elapsedMs:   f.elapsedMs,
+      qualifier:   numQual > 0 && (i+1) <= numQual,
+      ...(cards[i+1] ? { card: cards[i+1] } : {})
     })),
-    publishedAt:firebase.database.ServerValue.TIMESTAMP
+    publishedAt: firebase.database.ServerValue.TIMESTAMP
   });
   await cRef('xc/current').update({state:'done'});
-  toast('XC results published!');
+
+  const qualMsg = numQual ? ` · ${Math.min(numQual, sorted.length)} qualifier${numQual!==1?'s':''} flagged` : '';
+  toast('XC published!' + qualMsg);
+
+  // Offer to view finish cards if any were generated
+  const cardCount = Object.keys(cards).length;
+  if (cardCount > 0) {
+    setTimeout(() => showFinishCards(cards, sorted, xcState), 1200);
+  }
+}
+
+// ── Finish card generator ────────────────────────────────────
+async function generateFinishCard({ place, name, elapsedMs, photo, age, gender, event, school }) {
+  const W = 400, H = 620;
+  const c   = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const ctx = c.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, W, H);
+
+  if (photo) {
+    try {
+      await new Promise((res, rej) => {
+        const img = new Image();
+        img.onload = () => {
+          // Fill top 62% with finish photo
+          ctx.drawImage(img, 0, 0, W, Math.round(H * 0.62));
+          res();
+        };
+        img.onerror = rej;
+        img.src = photo;
+      });
+      // Gradient fade from photo to dark
+      const g = ctx.createLinearGradient(0, H*0.38, 0, H*0.62);
+      g.addColorStop(0, 'rgba(13,17,23,0)');
+      g.addColorStop(1, 'rgba(13,17,23,1)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    } catch(e) {
+      // No photo fallback — teal gradient background
+      const g2 = ctx.createLinearGradient(0, 0, W, H*0.5);
+      g2.addColorStop(0, '#0d1117'); g2.addColorStop(1, '#0d4040');
+      ctx.fillStyle = g2;
+      ctx.fillRect(0, 0, W, H*0.62);
+    }
+  } else {
+    const g2 = ctx.createLinearGradient(0, 0, W, H*0.5);
+    g2.addColorStop(0, '#0d1117'); g2.addColorStop(1, '#0d3030');
+    ctx.fillStyle = g2;
+    ctx.fillRect(0, 0, W, H*0.62);
+    // Camera icon placeholder
+    ctx.fillStyle = '#30363d';
+    ctx.font = '64px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('🏃', W/2, H*0.32);
+  }
+
+  const baseY = H * 0.64;
+
+  // Accent stripe
+  ctx.fillStyle = '#14b8a6';
+  ctx.fillRect(0, baseY - 4, W, 4);
+
+  // Place text — gold / silver / bronze / teal
+  const placeColors = ['#FFD700','#C0C0C0','#CD7F32'];
+  const placeText   = ['1ST','2ND','3RD'][place-1] || (place + 'TH');
+  ctx.fillStyle  = placeColors[place-1] || '#14b8a6';
+  ctx.font       = `900 ${place<=3?80:64}px Arial`;
+  ctx.textAlign  = 'center';
+  ctx.shadowColor = 'rgba(0,0,0,0.6)';
+  ctx.shadowBlur  = 8;
+  ctx.fillText(placeText, W/2, baseY + 72);
+  ctx.shadowBlur = 0;
+
+  // Name
+  ctx.fillStyle = '#f0f6fc';
+  ctx.font      = 'bold 34px Arial';
+  const displayName = name.length > 20 ? name.slice(0,19) + '…' : name;
+  ctx.fillText(displayName, W/2, baseY + 120);
+
+  // Time
+  ctx.fillStyle = '#14b8a6';
+  ctx.font      = 'bold 26px Arial';
+  ctx.fillText(fmtMs(elapsedMs), W/2, baseY + 158);
+
+  // Event info
+  ctx.fillStyle = '#8b949e';
+  ctx.font      = '17px Arial';
+  ctx.fillText(`${age} ${gender}  ·  ${event}`, W/2, baseY + 186);
+
+  // School
+  if (school) {
+    ctx.fillStyle = '#8b949e';
+    ctx.font      = '15px Arial';
+    ctx.fillText(school, W/2, baseY + 207);
+  }
+
+  // Footer branding bar
+  ctx.fillStyle = '#161b22';
+  ctx.fillRect(0, H - 38, W, 38);
+  ctx.fillStyle = '#30363d';
+  ctx.fillRect(0, H - 38, W, 1);
+  ctx.fillStyle = '#8b949e';
+  ctx.font      = '13px Arial';
+  ctx.fillText('carnivaltiming.com', W/2, H - 13);
+
+  return c.toDataURL('image/jpeg', 0.82);
+}
+
+// ── Show finish cards slideshow after publish ────────────────
+function showFinishCards(cards, sorted, xc) {
+  let idx = 0;
+  const keys = Object.keys(cards).map(Number).sort((a,b)=>a-b);
+  if (!keys.length) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'finish-card-overlay';
+
+  const render = () => {
+    const place = keys[idx];
+    const [, f] = sorted[place-1] || sorted[0];
+    overlay.innerHTML = `
+      <img src="${cards[place]}" style="max-width:min(320px,85vw);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
+      <div style="color:#f0f6fc;font-size:0.9rem;text-align:center;opacity:0.7">${place} of ${keys.length} · tap to share</div>
+      <div class="card-actions">
+        ${idx > 0 ? '<button class="btn btn-secondary btn-sm" id="_fc-prev">← Prev</button>' : ''}
+        <button class="btn btn-primary btn-sm" id="_fc-share">Share 📤</button>
+        ${idx < keys.length-1 ? '<button class="btn btn-secondary btn-sm" id="_fc-next">Next →</button>' : ''}
+        <button class="btn btn-secondary btn-sm" id="_fc-close">✕ Close</button>
+      </div>`;
+
+    // Bind buttons
+    overlay.querySelector('#_fc-close').onclick = () => document.body.removeChild(overlay);
+    const prevBtn = overlay.querySelector('#_fc-prev');
+    const nextBtn = overlay.querySelector('#_fc-next');
+    const shareBtn = overlay.querySelector('#_fc-share');
+    if (prevBtn) prevBtn.onclick = () => { idx--; render(); };
+    if (nextBtn) nextBtn.onclick = () => { idx++; render(); };
+    shareBtn.onclick = async () => {
+      const dataUrl  = cards[place];
+      const blob     = await (await fetch(dataUrl)).blob();
+      const file     = new File([blob], `finish-${xc.age}-${xc.gender}-place${place}.jpg`, {type:'image/jpeg'});
+      if (navigator.canShare && navigator.canShare({files:[file]})) {
+        navigator.share({ files:[file], title: `${ordinal(place)} Place — ${xc.age} ${xc.gender}` }).catch(()=>{});
+      } else {
+        const a = document.createElement('a');
+        a.href = dataUrl; a.download = file.name; a.click();
+      }
+    };
+  };
+
+  render();
+  document.body.appendChild(overlay);
 }
 
 function renderXCAdminView(xc) {
@@ -2935,10 +3587,13 @@ function renderXCAdminView(xc) {
     .sort((a,b)=>(a[1].tapAt||0)-(b[1].tapAt||0));
   document.getElementById('xc-count-lbl').textContent = entries.length ? `${entries.length} finishers` : '';
 
+  const qualN = parseInt(document.getElementById('xc-qual-spots')?.value)||0;
   document.getElementById('xc-finishers-list').innerHTML = entries.map(([k,f],i)=>`
-    <div class="result-row">
+    <div class="result-row" style="display:flex;align-items:center;gap:6px">
       <span class="place-badge">${ordinal(i+1)}</span>
-      <span class="result-name">${f.name||'—'}</span>
+      ${f.photo ? '<span style="font-size:0.8rem" title="Photo captured">📷</span>' : ''}
+      <span class="result-name" style="flex:1">${f.name||(f.bib?'Bib '+f.bib:'—')}</span>
+      ${qualN > 0 && (i+1) <= qualN ? '<span class="qualifier-chip">🏅 QUAL</span>' : ''}
       <span class="result-time">${fmtMs(f.elapsedMs)}</span>
     </div>`).join('');
 }
@@ -3506,12 +4161,29 @@ function showShareModal() {
   <a href="https://schoolsportportal.com.au/privacy" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Privacy</a>
   <span>·</span>
   <a href="https://schoolsportportal.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">School Sport Portal</a>
+  <span>·</span>
+  <a href="https://sportcarnival.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Carnival Planner</a>
 </div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6cf8d2e29c0d40b7884de3d1a632b1c5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<!-- ════ XC AUTO-DETECT LINE SETUP OVERLAY ════ -->
+<div id="xc-line-setup-overlay">
+  <video id="xc-setup-vid" autoplay playsinline muted></video>
+  <canvas id="xc-line-canvas-overlay"></canvas>
+  <div id="xc-line-instruction">Tap the LEFT edge of your finish line</div>
+  <div id="xc-line-setup-btns">
+    <button class="btn btn-secondary" style="flex:1" onclick="xcResetLine()">↺ Reset</button>
+    <button id="xc-start-detect-btn" class="btn btn-primary" style="flex:2;display:none" onclick="xcStartDetect()">▶ Start Auto-Detect</button>
+    <button class="btn btn-secondary" style="flex:1" onclick="xcCloseLineSetup()">✕</button>
+  </div>
+</div>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6cf8d2e29c0d40b7884de3d1a632b1c5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
-</html><!-- v8.3.3 new helper functions injected below </script> to keep patch clean -->
+</html><!-- v8.5.2 new helper functions injected below </script> to keep patch clean -->
 <script>
 // ════════════════════════════════════════════════════════════
-// v8.3.3 HELPERS
+// v8.5.2 HELPERS
 // ════════════════════════════════════════════════════════════
 
 // ── TASK 5: Generic confirm modal ────────────────────────────
@@ -3836,4 +4508,261 @@ function adminPrintResults() {
 
 // Attach lane-name autoload after DOM is ready
 setTimeout(_attachLaneNameAutoLoad, 1500);
+
+// ════════════════════════════════════════════════════════
+//  CT v8.5.2 — Auto Finish Line Detection
+// ════════════════════════════════════════════════════════
+let xcAutoDetectMode = false;
+let xcAutoPlaceCounter = 0; // local counter, incremented immediately to avoid race
+let _xcResizeListener = null; // FIX 3: track resize listener for cleanup
+let xcLineP1         = null;   // {x,y} normalised 0-1
+let xcLineP2         = null;
+let xcPrevSamples    = null;
+let xcDetectInterval = null;
+let xcLastTrigger    = 0;
+let xcDiffThreshold  = 22;     // controlled by sensitivity slider
+const XC_COOLDOWN_MS = 2800;   // min ms between auto-detections
+const XC_SAMPLES     = 80;     // pixels sampled along finish line
+
+// ── Mode toggle ─────────────────────────────────────────
+function xcStartAutoMode() {
+  xcAutoDetectMode = true;
+  document.getElementById('marshal-tap-btn').style.display    = 'none';
+  document.getElementById('xc-auto-mode-btn').style.display   = 'none';
+  document.getElementById('xc-auto-bar').style.display        = 'flex';
+  document.getElementById('xc-detect-status').textContent     = 'Draw your finish line to begin';
+  xcInitCamera().then(() => {
+    if (!xcCamStream) {
+      // Camera denied — show message but still allow manual tap fallback
+      toast('Camera access denied — auto-detect requires camera permission');
+      xcStopAutoMode();
+      return;
+    }
+    xcShowLineSetup();
+  });
+}
+
+function xcStopAutoMode() {
+  xcAutoDetectMode = false;
+  xcStopDetect();
+  if (_xcResizeListener) { window.removeEventListener('resize', _xcResizeListener); _xcResizeListener = null; } // FIX 3
+  document.getElementById('marshal-tap-btn').style.display    = '';
+  document.getElementById('xc-auto-mode-btn').style.display   = '';
+  document.getElementById('xc-auto-bar').style.display        = 'none';
+  document.getElementById('xc-line-setup-overlay').style.display = 'none';
+}
+
+// ── Line setup ───────────────────────────────────────────
+function xcShowLineSetup() {
+  const overlay = document.getElementById('xc-line-setup-overlay');
+  overlay.style.display = 'flex';
+  xcLineP1 = null; xcLineP2 = null;
+  document.getElementById('xc-start-detect-btn').style.display = 'none';
+  document.getElementById('xc-line-instruction').textContent   = 'Tap the LEFT edge of your finish line';
+
+  // Wire up the camera stream to the setup video
+  const vid = document.getElementById('xc-setup-vid');
+  if (xcCamStream) { vid.srcObject = xcCamStream; vid.play().catch(()=>{}); }
+
+  // Resize canvas to match overlay — FIX 3: remove old listener before adding
+  const canvas = document.getElementById('xc-line-canvas-overlay');
+  if (_xcResizeListener) window.removeEventListener('resize', _xcResizeListener);
+  _xcResizeListener = () => { canvas.width = overlay.clientWidth; canvas.height = overlay.clientHeight; xcDrawLine(); };
+  _xcResizeListener();
+  window.addEventListener('resize', _xcResizeListener);
+
+  // Tap handler on the canvas
+  canvas.ontouchstart = (e) => { e.preventDefault(); xcLineSetupTap(e.touches[0], canvas); };
+  canvas.onmousedown  = (e) => xcLineSetupTap(e, canvas);
+}
+
+function xcCloseLineSetup() {
+  document.getElementById('xc-line-setup-overlay').style.display = 'none';
+  if (!xcDetectInterval) document.getElementById('xc-detect-status').textContent = 'Draw your finish line to begin';
+}
+
+function xcLineSetupTap(e, canvas) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width;
+  const y = (e.clientY - rect.top)  / rect.height;
+
+  if (!xcLineP1) {
+    xcLineP1 = {x, y};
+    document.getElementById('xc-line-instruction').textContent = 'Now tap the RIGHT edge';
+  } else if (!xcLineP2) {
+    xcLineP2 = {x, y};
+    document.getElementById('xc-line-instruction').textContent = '✅ Line set — ready to detect';
+    document.getElementById('xc-start-detect-btn').style.display = '';
+  }
+  xcDrawLine();
+}
+
+function xcResetLine() {
+  xcLineP1 = xcLineP2 = null;
+  document.getElementById('xc-start-detect-btn').style.display = 'none';
+  document.getElementById('xc-line-instruction').textContent   = 'Tap the LEFT edge of your finish line';
+  xcDrawLine();
+}
+
+function xcDrawLine() {
+  const canvas = document.getElementById('xc-line-canvas-overlay');
+  const ctx    = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const W = canvas.width, H = canvas.height;
+
+  if (xcLineP1) {
+    ctx.fillStyle = '#22c55e';
+    ctx.beginPath();
+    ctx.arc(xcLineP1.x * W, xcLineP1.y * H, 14, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('L', xcLineP1.x * W, xcLineP1.y * H + 4);
+  }
+  if (xcLineP2) {
+    ctx.fillStyle = '#22c55e';
+    ctx.beginPath();
+    ctx.arc(xcLineP2.x * W, xcLineP2.y * H, 14, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('R', xcLineP2.x * W, xcLineP2.y * H + 4);
+  }
+  if (xcLineP1 && xcLineP2) {
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth   = 4;
+    ctx.setLineDash([14, 7]);
+    ctx.shadowColor = '#ef4444';
+    ctx.shadowBlur  = 8;
+    ctx.beginPath();
+    ctx.moveTo(xcLineP1.x * W, xcLineP1.y * H);
+    ctx.lineTo(xcLineP2.x * W, xcLineP2.y * H);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.setLineDash([]);
+  }
+}
+
+// ── Detection loop ───────────────────────────────────────
+function xcStartDetect() {
+  if (!xcLineP1 || !xcLineP2) return;
+  xcCloseLineSetup();
+  xcPrevSamples    = null;
+  xcLastTrigger    = 0;
+  // FIX 4: sync local counter with current Firebase finish count before starting
+  xcAutoPlaceCounter = Object.keys(xcState?.finishes || {}).length;
+  document.getElementById('xc-detect-status').textContent = '🔴 Detecting — runners auto-recorded';
+  xcDetectInterval = setInterval(xcAnalyseFrame, 110); // ~9 fps
+}
+
+function xcStopDetect() {
+  clearInterval(xcDetectInterval);
+  xcDetectInterval = null;
+  xcPrevSamples    = null;
+}
+
+// Offscreen canvas for detection — never touches xc-cap
+let _xcDetectCanvas = null;
+
+function xcAnalyseFrame() {
+  if (!xcCamStream) return;
+  if (!xcLineP1 || !xcLineP2) return; // FIX 6: guard null line points
+  const video = document.getElementById('xc-cam');
+  if (!video || video.readyState < 2) return;
+
+  if (!_xcDetectCanvas) {
+    _xcDetectCanvas = document.createElement('canvas');
+    _xcDetectCanvas.width = 320; _xcDetectCanvas.height = 240;
+  }
+  const W = 320, H = 240;
+  const ctx = _xcDetectCanvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, W, H);
+
+  const imgData = ctx.getImageData(0, 0, W, H);
+  const samples = xcSampleLine(imgData, xcLineP1, xcLineP2, XC_SAMPLES);
+
+  if (xcPrevSamples) {
+    const diff = xcLineDiff(samples, xcPrevSamples);
+    const now  = Date.now();
+    if (diff > xcDiffThreshold && (now - xcLastTrigger) > XC_COOLDOWN_MS) {
+      xcLastTrigger = now;
+      xcAutoFinish();
+    }
+  }
+  xcPrevSamples = samples;
+}
+
+function xcSampleLine(imgData, p1, p2, n) {
+  const { data, width, height } = imgData;
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const t  = i / (n - 1);
+    const px = Math.min(width  - 1, Math.max(0, Math.round(p1.x * width  + t * (p2.x - p1.x) * width)));
+    const py = Math.min(height - 1, Math.max(0, Math.round(p1.y * height + t * (p2.y - p1.y) * height)));
+    const idx = (py * width + px) * 4;
+    out.push((data[idx] + data[idx+1] + data[idx+2]) / 3);
+  }
+  return out;
+}
+
+function xcLineDiff(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += Math.abs(a[i] - b[i]);
+  return s / a.length;
+}
+
+// ── Auto-trigger a finish ────────────────────────────────
+async function xcAutoFinish() {
+  if (!xcState || xcState.state !== 'live') return;
+
+  const elapsed = nowServer() - xcState.startedAtServer;
+  // FIX 4: increment local counter immediately — don't read Firebase state
+  // (Firebase snapshot may lag, causing two fast finishes to get the same place)
+  xcAutoPlaceCounter++;
+  const place = xcAutoPlaceCounter;
+
+  // Audio + haptic feedback
+  xcDetectBeep();
+  vibrate([80, 40, 80]);
+
+  const key = myId.slice(0, 4) + '-' + Date.now().toString(36);
+  xcCapturePhoto(key); // burst capture
+
+  // Write to Firebase (same structure as marshalTap)
+  await cRef(`xc/current/finishes/${key}`).set({
+    marshalId:   myId,
+    marshalName: myName || 'Auto',
+    bib:         '',
+    name:        '',
+    elapsedMs:   elapsed,
+    tapAt:       firebase.database.ServerValue.TIMESTAMP,
+    autoDetected: true,
+  });
+
+  document.getElementById('xc-detect-status').textContent = `⚡ #${place} detected — ${fmtMs(elapsed)}`;
+  setTimeout(() => {
+    if (xcDetectInterval) document.getElementById('xc-detect-status').textContent = '🔴 Detecting — runners auto-recorded';
+  }, 2000);
+
+  // Queue bib entry — but try OCR first with auto-confirm
+  bibPendingQueue.push({ key, place, elapsed, autoDetected: true });
+  if (!bibPendingKey) showNextBib();
+}
+
+function xcDetectBeep() {
+  try {
+    const ac  = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ac.createOscillator();
+    const g   = ac.createGain();
+    osc.connect(g); g.connect(ac.destination);
+    osc.frequency.value = 920;
+    osc.type = 'sine';
+    g.gain.setValueAtTime(0.35, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.25);
+    osc.start(); osc.stop(ac.currentTime + 0.25);
+  } catch(e) {}
+}
+
 </script>
