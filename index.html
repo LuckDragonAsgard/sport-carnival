@@ -1,3 +1,6 @@
+HTTP 200 
+Content-Type: text/plain; charset=utf-8
+
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -993,6 +996,7 @@
           id="marshal-bib-for">Enter bib for 1st place</div>
         <div style="font-size:2.2rem;font-weight:700;color:var(--accent);letter-spacing:0.12em;min-height:2.6rem;margin-bottom:10px"
           id="marshal-bib-display">_</div>
+        <div id="marshal-bib-name" style="font-size:0.95rem;font-weight:600;color:var(--text-2);min-height:1.2rem;margin-bottom:6px;letter-spacing:0.01em"></div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:280px">
           <button class="btn btn-secondary" style="padding:14px;font-size:1.1rem" onclick="bibDigit('1')">1</button>
           <button class="btn btn-secondary" style="padding:14px;font-size:1.1rem" onclick="bibDigit('2')">2</button>
@@ -1378,6 +1382,102 @@ const EVENTS = {
 };
 const AGE_GROUPS = ['9 Years','10 Years','11 Years','12/13 Years','Open','Year 3/4','Year 5/6','Year 3–6'];
 const LANE_COUNT = 8;
+
+// ════════════════════════════════════════
+// DISTRICT DRAW — BIB LOOKUP (Williamstown District XC 2026)
+// ════════════════════════════════════════
+const BIB_LOOKUP = {
+  // 10 Girls
+  1:{n:'Ava Filuk',s:'Altona PS'},2:{n:'Caelyn Ang',s:'Altona PS'},
+  3:{n:'Ella Barrett',s:'Altona PS'},4:{n:'Aria Davidson',s:'Altona PS'},
+  5:{n:'Harper Blakeman',s:'Newport Gardens PS'},6:{n:'Blaise Keel',s:'Newport Gardens PS'},
+  7:{n:'Polly Newall',s:'Newport Gardens PS'},8:{n:'Alice Pitt',s:'Newport Gardens PS'},
+  9:{n:'Alice Fuller',s:'Newport Lakes PS'},10:{n:'Eva Zagame',s:'Newport Lakes PS'},
+  11:{n:'Caitlin Almering',s:'Newport Lakes PS'},12:{n:'Harriet McKeown',s:'Newport Lakes PS'},
+  17:{n:'Kaitlin Ho',s:'Seaholme'},18:{n:'Evie Van Den Burg',s:'Seaholme'},
+  19:{n:'Ruby Loft',s:'Seaholme'},20:{n:'Ivy Bugeja',s:'Seaholme'},
+  21:{n:'Maya Kapitelli',s:'St Marys PS'},22:{n:'Kira Simpson',s:'St Marys PS'},
+  23:{n:'Leah Toal',s:'St Marys PS'},24:{n:'Florence Brown',s:'St Marys PS'},
+  25:{n:'Madeline Gesovski',s:'Williamstown North PS'},26:{n:'Anna Kam',s:'Williamstown North PS'},
+  27:{n:'Grace Neville',s:'Williamstown North PS'},28:{n:'Zara Bell',s:'Williamstown North PS'},
+  29:{n:'Eabha Pease',s:'Williamstown PS'},30:{n:'Chloe Wood',s:'Williamstown PS'},
+  31:{n:'Rose Sexton',s:'Williamstown PS'},32:{n:'Sienna Jordan',s:'Williamstown PS'},
+  // 10 Boys
+  33:{n:'Cameron MacIntyre',s:'Altona PS'},34:{n:'Kai McCarthy',s:'Altona PS'},
+  35:{n:'Lachlan Harrison',s:'Altona PS'},36:{n:'Oscar Wilson',s:'Altona PS'},
+  37:{n:'Harry Ward',s:'Newport Gardens PS'},38:{n:'Logan Anderson',s:'Newport Gardens PS'},
+  39:{n:'Darcy Brown',s:'Newport Gardens PS'},40:{n:'Leo Warren',s:'Newport Gardens PS'},
+  41:{n:'Gabriel Ammouchi',s:'Newport Lakes PS'},42:{n:'Sam Jenkins',s:'Newport Lakes PS'},
+  43:{n:'Duke Jackson',s:'Newport Lakes PS'},44:{n:'Lewis Said',s:'Newport Lakes PS'},
+  49:{n:'Toby Kennedy',s:'Seaholme'},50:{n:'Josiah Milo-Selvidge',s:'Seaholme'},
+  51:{n:'Luca Markovski',s:'Seaholme'},52:{n:'Rocco Andrews',s:'Seaholme'},
+  53:{n:'Ollie Carter',s:'St Marys PS'},54:{n:'Raff Lehocz',s:'St Marys PS'},
+  55:{n:'Clem Godde',s:'St Marys PS'},56:{n:'Tom McCutcheon',s:'St Marys PS'},
+  57:{n:'Julen Smith-Gorrochategui',s:'Williamstown North PS'},58:{n:'Alex McQueen',s:'Williamstown North PS'},
+  59:{n:'Jordan Pisanelli',s:'Williamstown North PS'},60:{n:'Oswald Burleigh',s:'Williamstown North PS'},
+  61:{n:"Elias D\'Souza",s:'Williamstown PS'},62:{n:'Thomas Reid',s:'Williamstown PS'},
+  63:{n:'Luca Galle',s:'Williamstown PS'},64:{n:'William Galle',s:'Williamstown PS'},
+  // 11 Girls
+  65:{n:'Kara Mahon',s:'Altona PS'},66:{n:'Aurora Busuttil',s:'Altona PS'},
+  67:{n:'Cleo Suttcliffe',s:'Altona PS'},68:{n:'Pearl Jeremiah',s:'Altona PS'},
+  69:{n:'Isla Newman',s:'Newport Gardens PS'},70:{n:'Hannah Potts',s:'Newport Gardens PS'},
+  71:{n:'Frankie Bartlett',s:'Newport Gardens PS'},72:{n:'Lizzie Wilson',s:'Newport Gardens PS'},
+  73:{n:'Thea Dennis',s:'Newport Lakes PS'},74:{n:'Freya Rees',s:'Newport Lakes PS'},
+  75:{n:'Audrey Bishop',s:'Newport Lakes PS'},76:{n:'Arya Goodman',s:'Newport Lakes PS'},
+  81:{n:'Erika Nasmark',s:'Seaholme'},82:{n:'Sienna Milo-Selvidge',s:'Seaholme'},
+  83:{n:'Isla Nemcek',s:'Seaholme'},84:{n:'Grace McClelland',s:'Seaholme'},
+  85:{n:'Mikaela Lusi',s:'St Marys PS'},86:{n:'Eloise Pante',s:'St Marys PS'},
+  87:{n:'Ada Pham',s:'St Marys PS'},88:{n:'Isla Toal',s:'St Marys PS'},
+  89:{n:'Charlotte Tucker',s:'Williamstown North PS'},90:{n:'Islay Kennie',s:'Williamstown North PS'},
+  91:{n:'Millie Dur-Hill',s:'Williamstown North PS'},92:{n:'Molly Pasque',s:'Williamstown North PS'},
+  93:{n:'Emilia Rajch',s:'Williamstown PS'},94:{n:'Greta Lovell',s:'Williamstown PS'},
+  95:{n:'Evie Vanderloo',s:'Williamstown PS'},96:{n:'Ava Fleming',s:'Williamstown PS'},
+  // 11 Boys
+  97:{n:'Lukas Marchant',s:'Altona PS'},98:{n:'Jake Costello',s:'Altona PS'},
+  99:{n:'Brady Hinton',s:'Altona PS'},100:{n:'Hilton Thomas',s:'Altona PS'},
+  101:{n:'Lorcan Grainger',s:'Newport Gardens PS'},102:{n:'Aidan Crawford',s:'Newport Gardens PS'},
+  103:{n:'Arlo Roffe',s:'Newport Gardens PS'},104:{n:'Lewis McGregor',s:'Newport Gardens PS'},
+  105:{n:'Angus Mahony-Gilchrist',s:'Newport Lakes PS'},106:{n:'Jude Wisby',s:'Newport Lakes PS'},
+  107:{n:'Sam Cortis',s:'Newport Lakes PS'},108:{n:'Ben Finelli',s:'Newport Lakes PS'},
+  113:{n:'James Okey',s:'Seaholme'},114:{n:'Michael Dragovic',s:'Seaholme'},
+  115:{n:'Patrick Tzimopolous',s:'Seaholme'},116:{n:'Graham Hung',s:'Seaholme'},
+  117:{n:'Roman Pantalleresco',s:'St Marys PS'},118:{n:'Quinn Vasilou',s:'St Marys PS'},
+  119:{n:'Lu Kang Suen',s:'St Marys PS'},120:{n:'Alexander McCarthy',s:'St Marys PS'},
+  121:{n:'Christian Ierodiaconou',s:'Williamstown North PS'},122:{n:'Finn Johnson',s:'Williamstown North PS'},
+  123:{n:'Montague Pyke',s:'Williamstown North PS'},124:{n:'Banjo Kane',s:'Williamstown North PS'},
+  125:{n:'Henry Fielding',s:'Williamstown PS'},126:{n:'Ned Hedditch',s:'Williamstown PS'},
+  127:{n:'Kai Morgan',s:'Williamstown PS'},128:{n:'Bernie MacLeod',s:'Williamstown PS'},
+  // 12 Girls
+  129:{n:'Zoe Walmsley',s:'Altona PS'},130:{n:'Zara Hunt',s:'Altona PS'},
+  131:{n:'Tilly Armstrong',s:'Altona PS'},132:{n:'Natascha Harrison',s:'Altona PS'},
+  133:{n:'Airlie Pretorius',s:'Newport Gardens PS'},134:{n:'Pippa Mallory',s:'Newport Gardens PS'},
+  135:{n:'Zara Pretorius',s:'Newport Gardens PS'},136:{n:'Emily Rodger',s:'Newport Gardens PS'},
+  137:{n:'Elke Jennings',s:'Newport Lakes PS'},138:{n:'Amelie McKeown',s:'Newport Lakes PS'},
+  139:{n:'Milla Wynne',s:'Newport Lakes PS'},140:{n:'Emilia Stupple',s:'Newport Lakes PS'},
+  145:{n:'Emmy Sullivan',s:'Seaholme'},146:{n:'Evie Marchant',s:'Seaholme'},
+  147:{n:'Marie Weghaus',s:'Seaholme'},148:{n:'Chloe Gielnik',s:'Seaholme'},
+  149:{n:'Olivia Peterson',s:'St Marys PS'},150:{n:'Ella Rinaldi',s:'St Marys PS'},
+  151:{n:'Ava Matina',s:'St Marys PS'},152:{n:'Audrey Trethowan',s:'St Marys PS'},
+  153:{n:'Lila Higginbotham',s:'Williamstown North PS'},154:{n:'Zara Tedesco',s:'Williamstown North PS'},
+  155:{n:'Indiana Bell',s:'Williamstown North PS'},156:{n:'Malia Weiner',s:'Williamstown North PS'},
+  157:{n:'Danica Grant',s:'Williamstown PS'},158:{n:'Lily Sexton',s:'Williamstown PS'},
+  159:{n:'Irida Bladon',s:'Williamstown PS'},160:{n:'Lana Budinoska',s:'Williamstown PS'},
+  // 12 Boys
+  161:{n:'Archer Meakes',s:'Altona PS'},162:{n:'Rory Hurley',s:'Altona PS'},
+  163:{n:'Edward Miller',s:'Altona PS'},164:{n:'Dex Kroll',s:'Altona PS'},
+  165:{n:'Jono Connelly',s:'Newport Gardens PS'},166:{n:'Clay Keel',s:'Newport Gardens PS'},
+  167:{n:'Charlie Kelly',s:'Newport Gardens PS'},168:{n:'Harry Skipworth',s:'Newport Gardens PS'},
+  169:{n:'Tom',s:'Newport Lakes PS'},170:{n:'Ibrahim Abdo',s:'Newport Lakes PS'},
+  171:{n:'Ollie Riley',s:'Newport Lakes PS'},172:{n:'Henry Lawrence',s:'Newport Lakes PS'},
+  177:{n:'Alex Cooper',s:'Seaholme'},178:{n:'Ryan Sarab',s:'Seaholme'},
+  179:{n:'Tom McClelland',s:'Seaholme'},180:{n:'Yubo Peng',s:'Seaholme'},
+  181:{n:'Harry Carter',s:'St Marys PS'},182:{n:'Zachary Cross',s:'St Marys PS'},
+  183:{n:'Toby Boulton',s:'St Marys PS'},184:{n:'Jude Brown',s:'St Marys PS'},
+  185:{n:'Curtis Price',s:'Williamstown North PS'},186:{n:'Alfie Foley',s:'Williamstown North PS'},
+  187:{n:'Evan Hinsley',s:'Williamstown North PS'},188:{n:'Bailey Smith',s:'Williamstown North PS'},
+  189:{n:'Banjo Kane',s:'Williamstown PS'},190:{n:'Jarvis Sullivan',s:'Williamstown PS'},
+  191:{n:'Otis Lethborg',s:'Williamstown PS'},192:{n:'Hudson Middleton',s:'Williamstown PS'},
+};
 
 // ════════════════════════════════════════
 // UTILITIES
@@ -2643,6 +2743,7 @@ function showNextBib() {
   bibValue      = '';
   document.getElementById('marshal-bib-for').textContent     = `Bib for ${ordinal(place)} — ${fmtMs(elapsed)}`;
   document.getElementById('marshal-bib-display').textContent = '_';
+  const nameEl = document.getElementById('marshal-bib-name'); if (nameEl) nameEl.textContent = '';
   document.getElementById('marshal-bib-pad').classList.remove('hidden');
   document.getElementById('marshal-finishes-wrap').style.paddingBottom = '0';
 }
@@ -2656,16 +2757,26 @@ function bibDigit(d) {
   if (bibValue.length >= 4) return;
   bibValue += d;
   document.getElementById('marshal-bib-display').textContent = bibValue || '_';
+  const entry = BIB_LOOKUP[parseInt(bibValue)];
+  const el = document.getElementById('marshal-bib-name');
+  if (el) el.textContent = entry ? `${entry.n} · ${entry.s}` : '';
 }
 
 function bibBack() {
   bibValue = bibValue.slice(0,-1);
   document.getElementById('marshal-bib-display').textContent = bibValue || '_';
+  const entry = BIB_LOOKUP[parseInt(bibValue)];
+  const el = document.getElementById('marshal-bib-name');
+  if (el) el.textContent = entry ? `${entry.n} · ${entry.s}` : '';
 }
 
 async function bibConfirm() {
   if (bibValue && bibPendingKey) {
     await cRef(`xc/current/finishes/${bibPendingKey}/bib`).set(bibValue);
+    const entry = BIB_LOOKUP[parseInt(bibValue)];
+    if (entry) {
+      await cRef(`xc/current/finishes/${bibPendingKey}/name`).set(entry.n);
+    }
   }
   bibPendingQueue.shift();
   bibPendingKey = null;
@@ -3397,10 +3508,10 @@ function showShareModal() {
   <a href="https://schoolsportportal.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">School Sport Portal</a>
 </div>
 </body>
-</html><!-- v8.3.0 new helper functions injected below </script> to keep patch clean -->
+</html><!-- v8.3.3 new helper functions injected below </script> to keep patch clean -->
 <script>
 // ════════════════════════════════════════════════════════════
-// v8.3.0 HELPERS
+// v8.3.3 HELPERS
 // ════════════════════════════════════════════════════════════
 
 // ── TASK 5: Generic confirm modal ────────────────────────────
