@@ -1141,6 +1141,7 @@ Content-Type: text/html; charset=utf-8
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
           <div style="font-size:0.82rem;font-weight:700;color:var(--text);flex:1"
             id="marshal-bib-for">Enter bib for 1st place</div>
+          <button class="btn btn-secondary btn-sm" id="pick-name-btn" onclick="openNamePicker()" style="flex-shrink:0;font-size:0.72rem">📋 Pick</button>
           <button class="btn btn-secondary btn-sm" id="ocr-btn" onclick="runBibOCR()" style="flex-shrink:0;font-size:0.72rem">🔍 Auto</button>
         </div>
         <div style="font-size:2.2rem;font-weight:700;color:var(--accent);letter-spacing:0.12em;min-height:2.6rem;margin-bottom:4px"
@@ -1163,6 +1164,28 @@ Content-Type: text/html; charset=utf-8
         <button class="btn btn-secondary btn-sm" style="width:100%;max-width:280px;margin-top:8px" onclick="bibSkip()">Skip — bib unknown</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     XC NAME PICKER OVERLAY (added 2026-05-04)
+════════════════════════════════════════ -->
+<div id="name-picker-overlay" style="display:none;position:fixed;inset:0;background:var(--surface);z-index:600;flex-direction:column">
+  <div style="padding:12px 16px;border-bottom:1px solid var(--surface3);display:flex;align-items:center;gap:10px;background:var(--surface-2)">
+    <button class="btn btn-icon btn-sm" onclick="closeNamePicker()">✕</button>
+    <div style="flex:1">
+      <div style="font-size:0.95rem;font-weight:700" id="name-picker-title">Pick runner</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:1px" id="name-picker-subtitle"></div>
+    </div>
+  </div>
+  <div style="padding:10px 14px;border-bottom:1px solid var(--surface3)">
+    <input type="text" id="name-picker-search" oninput="filterNamePicker()" placeholder="🔍 Type a name…"
+      autocomplete="off" autocapitalize="words"
+      style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--surface3);background:var(--surface);color:var(--text);font-size:1rem">
+  </div>
+  <div id="name-picker-list" style="flex:1;overflow-y:auto;padding:6px 0"></div>
+  <div style="padding:10px 16px;border-top:1px solid var(--surface3);background:var(--surface-2);font-size:0.72rem;color:var(--muted);text-align:center">
+    Tap a name to set the bib for the current finisher.
   </div>
 </div>
 
@@ -3028,6 +3051,95 @@ async function runBibOCR() {
     if (btn) btn.textContent = '🔍 Auto';
     toast('OCR error');
   }
+}
+
+// ── XC name picker (added 2026-05-04) ─────────────────────────────────────
+function _xcRaceBibRange() {
+  const xc = (typeof xcState !== 'undefined' && xcState) ? xcState : null;
+  if (!xc) return [1, 192];
+  const age = String(xc.age || '').trim();
+  const g   = String(xc.gender || '').toLowerCase().trim();
+  if ((age === '10' || age === '9/10') && g.startsWith('g')) return [1, 32];
+  if ((age === '10' || age === '9/10') && g.startsWith('b')) return [33, 64];
+  if (age === '11' && g.startsWith('g')) return [65, 96];
+  if (age === '11' && g.startsWith('b')) return [97, 128];
+  if ((age === '12' || age === '12/13' || age === '13') && g.startsWith('g')) return [129, 160];
+  if ((age === '12' || age === '12/13' || age === '13') && g.startsWith('b')) return [161, 192];
+  return [1, 192];
+}
+
+function openNamePicker() {
+  const overlay = document.getElementById('name-picker-overlay');
+  if (!overlay) return;
+  const titleEl = document.getElementById('name-picker-title');
+  const subEl   = document.getElementById('name-picker-subtitle');
+  const xc = (typeof xcState !== 'undefined' && xcState) ? xcState : null;
+  if (xc) {
+    if (titleEl) titleEl.textContent = `${xc.age || ''} ${xc.gender || ''}`.trim() || 'Pick runner';
+    if (subEl) subEl.textContent = (xc.event || '') + (bibPendingKey ? ` — ${document.getElementById('marshal-bib-for')?.textContent || ''}` : '');
+  }
+  const search = document.getElementById('name-picker-search');
+  if (search) { search.value = ''; }
+  _renderNamePicker('');
+  overlay.style.display = 'flex';
+  setTimeout(() => { if (search) search.focus(); }, 50);
+}
+
+function closeNamePicker() {
+  const overlay = document.getElementById('name-picker-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function filterNamePicker() {
+  const v = document.getElementById('name-picker-search')?.value || '';
+  _renderNamePicker(v.toLowerCase().trim());
+}
+
+function _renderNamePicker(filter) {
+  const list = document.getElementById('name-picker-list');
+  if (!list) return;
+  const [lo, hi] = _xcRaceBibRange();
+  const rows = [];
+  const taken = new Set();
+  try {
+    const finishes = (xcState && xcState.finishes) ? Object.values(xcState.finishes) : [];
+    finishes.forEach(f => { if (f && f.bib) taken.add(parseInt(f.bib)); });
+  } catch(e) {}
+  const SC = {
+    'Altona PS':'#1565c0','Newport Gardens PS':'#2e7d32','Newport Lakes PS':'#00695c',
+    'Sacred Heart':'#6a1b9a','Seaholme':'#e65100','St Marys PS':'#b71c1c',
+    'Williamstown North PS':'#283593','Williamstown PS':'#f57f17'
+  };
+  for (let b = lo; b <= hi; b++) {
+    const r = (typeof BIB_LOOKUP !== 'undefined') ? BIB_LOOKUP[b] : null;
+    if (!r) continue;
+    const haystack = (r.n + ' ' + (r.s || '')).toLowerCase();
+    if (filter && haystack.indexOf(filter) === -1) continue;
+    const isTaken = taken.has(b);
+    const sc = SC[r.s] || '#555';
+    rows.push(`<div onclick="${isTaken ? '' : 'pickRunner('+b+')'}"
+        style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface3);cursor:${isTaken?'not-allowed':'pointer'};opacity:${isTaken?0.35:1}">
+      <div style="min-width:46px;font-weight:800;font-size:1.05rem;color:${sc}">${b}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:0.96rem">${r.n}${isTaken?' <span style=\'font-size:0.7rem;color:var(--muted)\'>(already taken)</span>':''}</div>
+        <div style="font-size:0.78rem;color:${sc};margin-top:1px">${r.s || ''}</div>
+      </div>
+    </div>`);
+  }
+  list.innerHTML = rows.length
+    ? rows.join('')
+    : '<div style="padding:30px 20px;text-align:center;color:var(--muted);font-size:0.9rem">No runners match.</div>';
+}
+
+function pickRunner(bib) {
+  bibValue = String(bib);
+  const disp = document.getElementById('marshal-bib-display');
+  if (disp) disp.textContent = bibValue;
+  const r = (typeof BIB_LOOKUP !== 'undefined') ? BIB_LOOKUP[bib] : null;
+  const nameEl = document.getElementById('marshal-bib-name');
+  if (nameEl && r) nameEl.textContent = r.n + ' · ' + (r.s || '');
+  closeNamePicker();
+  if (typeof bibConfirm === 'function' && bibPendingKey) bibConfirm();
 }
 
 function initMarshalView() {
