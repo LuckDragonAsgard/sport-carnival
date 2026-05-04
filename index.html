@@ -1,6 +1,3 @@
-HTTP 200 
-Content-Type: text/html; charset=utf-8
-
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -303,26 +300,12 @@ Content-Type: text/html; charset=utf-8
     .role-card .r-desc { font-size: 0.73rem; color: var(--muted); margin-top: 3px; }
     .role-card.full { grid-column: 1 / -1; }
 
-    /* ── Video Finish ── */
-    .vf-preview { width:100%; aspect-ratio:16/9; background:#000; border-radius:12px; object-fit:cover; display:block; }
-    .vf-canvas  { width:100%; aspect-ratio:16/9; background:#111; border-radius:12px; display:block; touch-action:none; }
-    .vf-time-big { font-size:2.8rem; font-weight:800; font-family:'Menlo','Courier New',monospace; text-align:center; letter-spacing:-1px; line-height:1; }
-    .vf-time-sub { font-size:0.78rem; color:var(--muted); text-align:center; margin-top:4px; }
-    .vf-frame-row { display:flex; gap:10px; align-items:center; justify-content:center; margin:10px 0; }
-.vf-lane-btn { padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:0.85rem;cursor:pointer; }
-.vf-lane-btn.active { background:var(--accent);color:#000;border-color:var(--accent);font-weight:700; }
-    .vf-step { width:56px; height:56px; border-radius:50%; font-size:1.4rem; font-weight:700; background:var(--surface); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; -webkit-user-select:none; }
-    .vf-step:active { background:var(--accent); color:#fff; }
-    .vf-scrubber { flex:1; accent-color:var(--accent); }
-    .vf-mark-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
-    .vf-mark-row:last-child { border-bottom:none; }
-    .vf-mark-pos  { width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-weight:700; font-size:0.82rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .vf-mark-pos.empty { background:var(--surface); color:var(--muted); border:2px solid var(--border); }
-    .vf-mark-name { flex:1; font-weight:600; font-size:0.9rem; }
-    .vf-mark-time { font-family:'Menlo',monospace; font-size:0.9rem; color:var(--accent); font-weight:700; min-width:58px; text-align:right; }
+    /* ── Video Finish (slit camera) ── */
+    .vf-canvas  { width:100%; aspect-ratio:16/9; background:#111; border-radius:12px; display:block; touch-action:none; cursor:ew-resize; }
+    .vf-slit-wrap { position:relative; overflow:hidden; border-radius:10px; border:1px solid var(--border); background:#000; margin-top:12px; }
+    .vf-slit-display { width:100%; height:140px; display:block; background:#111; cursor:default; }
     .vf-mark-btn  { padding:6px 14px; font-size:0.8rem; border-radius:8px; background:var(--surface); border:1.5px solid var(--border); font-weight:600; cursor:pointer; }
     .vf-mark-btn:active { background:var(--accent); color:#fff; border-color:var(--accent); }
-    .vf-mark-btn.done { background:rgba(20,184,166,0.12); border-color:var(--accent); color:var(--accent); }
     .vf-rec { display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:700; color:#ef4444; }
     .vf-rec-dot { width:10px; height:10px; border-radius:50%; background:#ef4444; animation:vf-pulse 1s infinite; }
     @keyframes vf-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
@@ -451,7 +434,7 @@ Content-Type: text/html; charset=utf-8
       color: var(--text); outline: none;
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 430px) {
       .clock { font-size: 3.4rem; }
       .tap-place { font-size: 4.5rem; }
       #countdown-num { font-size: 9rem; }
@@ -530,7 +513,7 @@ Content-Type: text/html; charset=utf-8
     #finish-card-overlay .card-actions { display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
 
   
-    /* v8.5.2 — auto-detect */
+    /* v8.5.1 — auto-detect */
     #xc-line-setup-overlay {
       display:none;position:fixed;inset:0;z-index:9996;background:#000;
       flex-direction:column;
@@ -568,7 +551,31 @@ Content-Type: text/html; charset=utf-8
       text-align:center;line-height:28px;flex-shrink:0;
     }
 
-    </style>
+    
+/* CT paywall */
+.ct-paywall-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px}
+.ct-paywall-overlay.hidden{display:none}
+.ct-paywall-box{background:#fff;border-radius:18px;padding:28px 24px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.ct-paywall-logo{font-size:2rem;text-align:center;margin-bottom:6px}
+.ct-paywall-title{font-size:1.15rem;font-weight:800;text-align:center;color:#0d1b3e;margin-bottom:4px}
+.ct-paywall-sub{font-size:.85rem;text-align:center;color:#64748b;margin-bottom:20px}
+.ct-plan-row{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.ct-plan-btn{display:block;padding:14px 18px;border-radius:10px;text-decoration:none;border:2px solid #e2e8f0;cursor:pointer;transition:border-color .15s,background .15s;text-align:left}
+.ct-plan-btn:hover{border-color:#1a56db;background:#f0f5ff}
+.ct-plan-btn.primary{background:#0d1b3e;border-color:#0d1b3e;color:#fff}
+.ct-plan-btn.primary:hover{background:#1a3a6e;border-color:#1a3a6e}
+.ct-plan-label{font-size:.95rem;font-weight:700}
+.ct-plan-price{font-size:1.1rem;font-weight:900}
+.ct-plan-desc{font-size:.78rem;opacity:.75;margin-top:2px}
+.ct-divider{text-align:center;font-size:.8rem;color:#94a3b8;margin:4px 0 12px}
+.ct-code-row{display:flex;gap:8px}
+.ct-code-input{flex:1;padding:11px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:monospace;text-transform:uppercase;letter-spacing:.1em;outline:none}
+.ct-code-input:focus{border-color:#1a56db}
+.ct-code-submit{padding:11px 18px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.ct-code-submit:disabled{opacity:.5;cursor:default}
+.ct-code-error{font-size:.82rem;color:#dc2626;margin-top:6px;min-height:18px}
+.ct-access-badge{display:inline-flex;align-items:center;gap:5px;background:#dcfce7;color:#15803d;border-radius:6px;font-size:.75rem;font-weight:700;padding:3px 8px}
+</style>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a56db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='6'/><path d='M15.477 12.89 17 22l-5-3-5 3 1.523-9.11'/></svg>"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://carnivaltiming.com/"><meta property="og:title" content="Carnival Timing — Live Race Management for School Carnivals"><meta property="og:description" content="Real-time race timing for school athletics, swimming and cross country carnivals. Multi-device, live results, QR pairing. Free to use."><meta property="og:url" content="https://carnivaltiming.com/"><meta property="og:type" content="website"><meta property="og:locale" content="en_AU"><meta property="og:site_name" content="Carnival Timing"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Carnival Timing — Live Race Management for School Carnivals"><meta name="twitter:description" content="Real-time race timing for school athletics, swimming and cross country carnivals. Multi-device, live results, QR pairing. Free to use."><script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -604,7 +611,8 @@ Content-Type: text/html; charset=utf-8
   <div class="home-hero">
     <div class="home-logo">CT</div>
     <div class="home-title">Carnival Timing</div>
-    <div class="home-tagline">Real-time timing for school athletics, swimming &amp; cross country</div>
+    <div class="home-tagline">Real-time race timing — no stopwatches, no paper, no chaos</div>
+    <div style="font-size:0.72rem;color:rgba(255,255,255,0.3);text-align:center;margin-top:6px;letter-spacing:0.08em;text-transform:uppercase">Track · Swimming · Cross Country</div>
     <div class="home-sports">
       <div class="home-sport-pill"><span><svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' style='vertical-align:middle'><polyline points='22 12 18 12 15 21 9 3 6 12 2 12'/></svg></span>Track & Field</div>
       <div class="home-sport-pill"><span><svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' style='vertical-align:middle'><path d='M2 20s2-2 5-2 5 2 7 2 5-2 7-2 3 1 3 1M2 16s2-2 5-2 5 2 7 2 5-2 7-2 3 1 3 1'/><circle cx='14' cy='5' r='2'/></svg></span>Swimming</div>
@@ -612,6 +620,12 @@ Content-Type: text/html; charset=utf-8
     </div>
   </div>
   <div class="content">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:20px 0 4px;padding:0 8px">
+      <div style="font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No app install</div>
+      <div style="font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Any phone or tablet</div>
+      <div style="font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Real-time sync</div>
+      <div style="font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Live demo free</div>
+    </div>
     <div class="stack">
       <button class="btn btn-primary" onclick="showScreen('setup')"><svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' style='vertical-align:middle'><rect width='20' height='14' x='2' y='6' rx='2'/><line x1='2' x2='22' y1='10' y2='10'/><path d='M9 6V2h6v4'/></svg> New Carnival</button>
       <button class="btn btn-secondary" onclick="showScreen('join-screen')"><svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' style='vertical-align:middle'><rect x='5' y='2' width='14' height='20' rx='2'/><path d='M12 18h.01'/></svg> Join Carnival</button>
@@ -701,7 +715,7 @@ Content-Type: text/html; charset=utf-8
     </div>
 
     <div class="text-center text-muted text-xs mt-32">
-      Works offline · No app install · Free to use<br>
+      Auto-reconnects · No app install · Join &amp; observe free<br>
       <span style="opacity:0.5">Carnival Timing · carnivaltiming.com</span>
     </div>
   </div>
@@ -937,7 +951,10 @@ Content-Type: text/html; charset=utf-8
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Lane Assignments</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="card-title" style="margin:0">Lane Assignments</div>
+          <button type="button" class="btn btn-secondary" style="padding:4px 12px;font-size:.78rem" onclick="openRosterModal()">📋 Paste Roster</button>
+        </div>
         <div id="admin-lane-inputs"></div>
       </div>
       <div class="card" id="admin-house-card" style="display:none">
@@ -1144,9 +1161,9 @@ Content-Type: text/html; charset=utf-8
           <button class="btn btn-secondary btn-sm" id="pick-name-btn" onclick="openNamePicker()" style="flex-shrink:0;font-size:0.72rem">📋 Pick</button>
           <button class="btn btn-secondary btn-sm" id="ocr-btn" onclick="runBibOCR()" style="flex-shrink:0;font-size:0.72rem">🔍 Auto</button>
         </div>
-        <div style="font-size:2.2rem;font-weight:700;color:var(--accent);letter-spacing:0.12em;min-height:2.6rem;margin-bottom:4px"
-          id="marshal-bib-display">_</div>
         <div id="marshal-bib-name" style="font-size:0.92rem;font-weight:600;color:var(--text-2);min-height:1.1rem;margin-bottom:6px"></div>
+        <div style="font-size:2.2rem;font-weight:700;color:var(--accent);letter-spacing:0.12em;min-height:2.6rem;margin-bottom:8px"
+          id="marshal-bib-display">_</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:280px">
           <button class="btn btn-secondary" style="padding:14px;font-size:1.1rem" onclick="bibDigit('1')">1</button>
           <button class="btn btn-secondary" style="padding:14px;font-size:1.1rem" onclick="bibDigit('2')">2</button>
@@ -1282,7 +1299,7 @@ Content-Type: text/html; charset=utf-8
     <div class="conn-dot" id="vf-dot"></div><span id="vf-dot-lbl" style="font-size:0.65rem;font-weight:700;letter-spacing:.05em;color:var(--muted)"></span>
     <div>
       <div class="header-title">Video Finish</div>
-      <div class="header-sub" id="vf-header-sub">Waiting for race…</div>
+      <div class="header-sub" id="vf-header-sub">Slit camera timing</div>
     </div>
     <div class="header-right">
       <span id="vf-badge" class="badge" style="display:none"></span>
@@ -1291,66 +1308,64 @@ Content-Type: text/html; charset=utf-8
   </div>
   <div class="content">
 
-    <!-- LIVE DETECTION -->
-    <div id="vf-capture-panel">
-      <!-- Canvas shows live camera + lane-strip overlay -->
-      <canvas id="vf-live-canvas" class="vf-canvas"></canvas>
-      <video id="vf-video-preview" style="display:none" autoplay muted playsinline></video>
+    <!-- Live camera with draggable slit line -->
+    <canvas id="vf-live-canvas" class="vf-canvas" title="Drag to position slit line over finish line"></canvas>
+    <video id="vf-video-preview" style="display:none" autoplay muted playsinline></video>
 
-      <!-- Status bar -->
-      <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
-        <div id="vf-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0"></div>
-        <div id="vf-race-status" style="font-size:0.85rem;font-weight:600;color:var(--text);flex:1">Starting camera…</div>
-        <div id="vf-detect-count" style="font-size:0.78rem;color:var(--muted)"></div>
-      </div>
+    <!-- Status bar -->
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+      <div id="vf-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0"></div>
+      <div id="vf-race-status" style="font-size:0.85rem;font-weight:600;color:var(--text);flex:1">Starting camera…</div>
+      <div id="vf-detect-count" style="font-size:0.78rem;color:var(--muted)"></div>
+    </div>
 
-      <!-- Settings -->
-      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
-        <div style="display:flex;gap:4px">
-          <button id="vf-mode-swim-btn" class="btn btn-primary"    style="font-size:0.8rem;padding:6px 12px" onclick="vfSetMode('swim')">Swim</button>
-          <button id="vf-mode-track-btn" class="btn btn-secondary" style="font-size:0.8rem;padding:6px 12px" onclick="vfSetMode('track')">Track</button>
-          <button id="vf-cam-flip-btn" class="btn btn-secondary" style="font-size:0.8rem;padding:6px 10px" title="Switch front/back camera" onclick="vfFlipCamera()">📷↕</button>
-        </div>
-        <div id="vf-lane-row" style="display:flex;gap:4px;align-items:center">
-          <span style="font-size:0.78rem;color:var(--muted)">Lanes:</span>
-          <button class="vf-lane-btn active" data-lanes="4" onclick="vfSetLanes(4)">4</button>
-          <button class="vf-lane-btn" data-lanes="6" onclick="vfSetLanes(6)">6</button>
-          <button class="vf-lane-btn" data-lanes="8" onclick="vfSetLanes(8)">8</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:0.78rem;color:var(--muted)">Progress top</span>
-          <input type="number" id="vf-progress-input" value="2" min="1" max="8"
-            style="width:42px;padding:4px 6px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
-        </div>
-      </div>
+    <!-- Slit image (finish line photo) -->
+    <div class="vf-slit-wrap">
+      <canvas id="vf-slit-canvas" class="vf-slit-display"></canvas>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:3px">
+      <span id="vf-slit-lbl-left" style="font-size:0.7rem;color:var(--muted)">← earlier</span>
+      <span style="font-size:0.7rem;color:var(--muted);font-weight:600">FINISH LINE PHOTO</span>
+      <span id="vf-slit-lbl-right" style="font-size:0.7rem;color:var(--muted)">now →</span>
+    </div>
 
-      <!-- Offset -->
-      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px">
-        <div style="flex:1;font-size:0.76rem;color:var(--muted)">Camera lag offset (ms subtracted for GO→detect lag)</div>
-        <input type="number" id="vf-offset-input" value="75" min="0" max="999"
-          style="width:52px;padding:4px 6px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
+    <!-- Controls -->
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+      <button id="vf-cam-flip-btn" class="btn btn-secondary" style="font-size:0.8rem;padding:6px 10px" title="Switch camera" onclick="vfFlipCamera()">📷↕</button>
+      <div style="display:flex;align-items:center;gap:6px;flex:1">
+        <span style="font-size:0.78rem;color:var(--muted);white-space:nowrap">Sensitivity</span>
+        <input type="range" id="vf-sensitivity" min="1" max="10" value="6" style="flex:1;accent-color:var(--accent)">
+        <span id="vf-sens-val" style="font-size:0.78rem;color:var(--muted);min-width:16px">6</span>
       </div>
+      <button class="btn btn-secondary" style="font-size:0.78rem;padding:6px 10px" onclick="vfExportSlit()" title="Save finish line photo">💾 Photo</button>
+    </div>
 
-      <!-- Results -->
-      <div style="margin-top:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Finishes</div>
-          <button class="btn btn-secondary" style="font-size:0.72rem;padding:4px 10px" onclick="vfManualAdd()">+ Add Manual</button>
-        </div>
-        <div id="vf-mark-list"><div class="text-muted text-sm text-center mt-8">Waiting for race…</div></div>
-      </div>
+    <!-- Offset -->
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px">
+      <div style="flex:1;font-size:0.76rem;color:var(--muted)">Camera lag offset (ms)</div>
+      <input type="number" id="vf-offset-input" value="0" min="0" max="999"
+        style="width:52px;padding:4px 6px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
+      <div style="font-size:0.76rem;color:var(--muted)">Progress top</div>
+      <input type="number" id="vf-progress-input" value="2" min="1" max="8"
+        style="width:42px;padding:4px 6px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
+    </div>
 
-      <!-- Publish -->
-      <div style="margin-top:16px">
-        <button id="vf-publish-btn" class="btn btn-primary" style="width:100%" onclick="vfPublish()">
-          Publish Times →
-        </button>
+    <!-- Results -->
+    <div style="margin-top:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Finishes</div>
+        <button class="btn btn-secondary" style="font-size:0.72rem;padding:4px 10px" onclick="vfManualAdd()">+ Add Manual</button>
       </div>
+      <div id="vf-mark-list"><div class="text-muted text-sm text-center mt-8">Waiting for race…</div></div>
+    </div>
+
+    <!-- Publish -->
+    <div style="margin-top:16px">
+      <button id="vf-publish-btn" class="btn btn-primary" style="width:100%" onclick="vfPublish()">Publish Times →</button>
     </div>
 
   </div>
 </div>
-
 <!-- ════════════════════════════════════════
      SCREEN: JOIN PAGE (QR)
 ════════════════════════════════════════ -->
@@ -1411,7 +1426,7 @@ Content-Type: text/html; charset=utf-8
 </div>
 
 <!-- ════════════════════════════════════════
-     FIREBASE SDK
+     WS PROTOCOL
 ════════════════════════════════════════ -->
 <script>
     // Inlined QRCode generator (davidshimjs/qrcodejs 1.0.0) — no external dependency
@@ -1424,10 +1439,10 @@ Content-Type: text/html; charset=utf-8
 <script>
 'use strict';
 
-// ── WebSocket shim (replaces Firebase + Realtime DB) ─────────────────────
-// ── WebSocket shim (replaces Firebase Realtime Database) ──────
+// ── WebSocket shim (CT app data sync) ─────────────────────
+// ── WebSocket shim (CT app data sync) ──────
 // v4: hibernatable DO backend + seq-based gap detection
-const WS_HOST = 'carnival-timing-ws.pgallivan.workers.dev';
+const WS_HOST = 'ws.carnivaltiming.com'; // Add CNAME ws→carnival-timing-ws.pgallivan.workers.dev in CF dashboard
 let _ws=null,_wsCode=null,_wsReady=false,_reqId=0,_msgBuf=[];
 let _pendingReqs=new Map(), _subscriptions=new Map(), _reconnTimer=null;
 // seq tracking: last seq seen per path; if incoming seq > lastSeq+1 we missed
@@ -1520,7 +1535,7 @@ function _notifyConn(v){
 function _snap(path,data){ return {val:()=>data, exists:()=>data!=null, key:path.split('/').pop()}; }
 function _send(msg){ return new Promise((res,rej)=>{ const id=_nextId();msg.id=id;const str=JSON.stringify(msg);const timer=setTimeout(()=>{_pendingReqs.delete(id);rej(new Error('ws timeout'));},10000);_pendingReqs.set(id,{resolve:res,reject:rej,timer}); if(_wsReady)_ws.send(str);else _msgBuf.push(str); }); }
 function _ref(path){ return { once:()=>_send({type:'get',path}).then(r=>_snap(path,r.data)), set:(v)=>_send({type:'set',path,data:v}), update:(v)=>_send({type:'update',path,data:v}), push:(v)=>_send({type:'push',path,data:v}).then(r=>({key:r.key})), remove:()=>_send({type:'remove',path}), on:(ev,cb)=>{ if(!_subscriptions.has(path))_subscriptions.set(path,new Set()); _subscriptions.get(path).add(cb); if(_wsReady)_ws.send(JSON.stringify({type:'subscribe',path})); _send({type:'get',path}).then(r=>cb(_snap(path,r.data))).catch(()=>{}); }, off:()=>{ _subscriptions.delete(path); if(_wsReady)_ws.send(JSON.stringify({type:'unsubscribe',path})); } }; }
-const firebase={database:{ServerValue:{TIMESTAMP:{'.sv':'timestamp'}}}};
+const SERVER_TIMESTAMP={'.sv':'timestamp'};
 const db={ref:(path)=>{
   if(path==='.info/serverTimeOffset') return {once:async()=>{const r=await _send({type:'servertime'});return _snap(path,r.ts-Date.now());}};
   if(path==='.info/connected') return {on:(ev,cb)=>{ if(!_subscriptions.has('__connected__'))_subscriptions.set('__connected__',new Set()); _subscriptions.get('__connected__').add(cb); cb(_snap(path,_wsReady)); }};
@@ -1600,102 +1615,6 @@ const EVENTS = {
 };
 const AGE_GROUPS = ['9 Years','10 Years','11 Years','12/13 Years','Open','Year 3/4','Year 5/6','Year 3–6'];
 const LANE_COUNT = 8;
-
-// ════════════════════════════════════════
-// DISTRICT DRAW — BIB LOOKUP (Williamstown District XC 2026)
-// ════════════════════════════════════════
-const BIB_LOOKUP = {
-  // 10 Girls
-  1:{n:'Ava Filuk',s:'Altona PS'},2:{n:'Caelyn Ang',s:'Altona PS'},
-  3:{n:'Ella Barrett',s:'Altona PS'},4:{n:'Aria Davidson',s:'Altona PS'},
-  5:{n:'Harper Blakeman',s:'Newport Gardens PS'},6:{n:'Blaise Keel',s:'Newport Gardens PS'},
-  7:{n:'Polly Newall',s:'Newport Gardens PS'},8:{n:'Alice Pitt',s:'Newport Gardens PS'},
-  9:{n:'Alice Fuller',s:'Newport Lakes PS'},10:{n:'Eva Zagame',s:'Newport Lakes PS'},
-  11:{n:'Caitlin Almering',s:'Newport Lakes PS'},12:{n:'Harriet McKeown',s:'Newport Lakes PS'},
-  17:{n:'Kaitlin Ho',s:'Seaholme'},18:{n:'Evie Van Den Burg',s:'Seaholme'},
-  19:{n:'Ruby Loft',s:'Seaholme'},20:{n:'Ivy Bugeja',s:'Seaholme'},
-  21:{n:'Maya Kapitelli',s:'St Marys PS'},22:{n:'Kira Simpson',s:'St Marys PS'},
-  23:{n:'Leah Toal',s:'St Marys PS'},24:{n:'Florence Brown',s:'St Marys PS'},
-  25:{n:'Madeline Gesovski',s:'Williamstown North PS'},26:{n:'Anna Kam',s:'Williamstown North PS'},
-  27:{n:'Grace Neville',s:'Williamstown North PS'},28:{n:'Zara Bell',s:'Williamstown North PS'},
-  29:{n:'Eabha Pease',s:'Williamstown PS'},30:{n:'Chloe Wood',s:'Williamstown PS'},
-  31:{n:'Rose Sexton',s:'Williamstown PS'},32:{n:'Sienna Jordan',s:'Williamstown PS'},
-  // 10 Boys
-  33:{n:'Cameron MacIntyre',s:'Altona PS'},34:{n:'Kai McCarthy',s:'Altona PS'},
-  35:{n:'Lachlan Harrison',s:'Altona PS'},36:{n:'Oscar Wilson',s:'Altona PS'},
-  37:{n:'Harry Ward',s:'Newport Gardens PS'},38:{n:'Logan Anderson',s:'Newport Gardens PS'},
-  39:{n:'Darcy Brown',s:'Newport Gardens PS'},40:{n:'Leo Warren',s:'Newport Gardens PS'},
-  41:{n:'Gabriel Ammouchi',s:'Newport Lakes PS'},42:{n:'Sam Jenkins',s:'Newport Lakes PS'},
-  43:{n:'Duke Jackson',s:'Newport Lakes PS'},44:{n:'Lewis Said',s:'Newport Lakes PS'},
-  49:{n:'Toby Kennedy',s:'Seaholme'},50:{n:'Josiah Milo-Selvidge',s:'Seaholme'},
-  51:{n:'Luca Markovski',s:'Seaholme'},52:{n:'Rocco Andrews',s:'Seaholme'},
-  53:{n:'Ollie Carter',s:'St Marys PS'},54:{n:'Raff Lehocz',s:'St Marys PS'},
-  55:{n:'Clem Godde',s:'St Marys PS'},56:{n:'Tom McCutcheon',s:'St Marys PS'},
-  57:{n:'Julen Smith-Gorrochategui',s:'Williamstown North PS'},58:{n:'Alex McQueen',s:'Williamstown North PS'},
-  59:{n:'Jordan Pisanelli',s:'Williamstown North PS'},60:{n:'Oswald Burleigh',s:'Williamstown North PS'},
-  61:{n:"Elias D'Souza",s:'Williamstown PS'},62:{n:'Thomas Reid',s:'Williamstown PS'},
-  63:{n:'Luca Galle',s:'Williamstown PS'},64:{n:'William Galle',s:'Williamstown PS'},
-  // 11 Girls
-  65:{n:'Kara Mahon',s:'Altona PS'},66:{n:'Aurora Busuttil',s:'Altona PS'},
-  67:{n:'Cleo Suttcliffe',s:'Altona PS'},68:{n:'Pearl Jeremiah',s:'Altona PS'},
-  69:{n:'Isla Newman',s:'Newport Gardens PS'},70:{n:'Hannah Potts',s:'Newport Gardens PS'},
-  71:{n:'Frankie Bartlett',s:'Newport Gardens PS'},72:{n:'Lizzie Wilson',s:'Newport Gardens PS'},
-  73:{n:'Thea Dennis',s:'Newport Lakes PS'},74:{n:'Freya Rees',s:'Newport Lakes PS'},
-  75:{n:'Audrey Bishop',s:'Newport Lakes PS'},76:{n:'Arya Goodman',s:'Newport Lakes PS'},
-  81:{n:'Erika Nasmark',s:'Seaholme'},82:{n:'Sienna Milo-Selvidge',s:'Seaholme'},
-  83:{n:'Isla Nemcek',s:'Seaholme'},84:{n:'Grace McClelland',s:'Seaholme'},
-  85:{n:'Mikaela Lusi',s:'St Marys PS'},86:{n:'Eloise Pante',s:'St Marys PS'},
-  87:{n:'Ada Pham',s:'St Marys PS'},88:{n:'Isla Toal',s:'St Marys PS'},
-  89:{n:'Charlotte Tucker',s:'Williamstown North PS'},90:{n:'Islay Kennie',s:'Williamstown North PS'},
-  91:{n:'Millie Dur-Hill',s:'Williamstown North PS'},92:{n:'Molly Pasque',s:'Williamstown North PS'},
-  93:{n:'Emilia Rajch',s:'Williamstown PS'},94:{n:'Greta Lovell',s:'Williamstown PS'},
-  95:{n:'Evie Vanderloo',s:'Williamstown PS'},96:{n:'Ava Fleming',s:'Williamstown PS'},
-  // 11 Boys
-  97:{n:'Lukas Marchant',s:'Altona PS'},98:{n:'Jake Costello',s:'Altona PS'},
-  99:{n:'Brady Hinton',s:'Altona PS'},100:{n:'Hilton Thomas',s:'Altona PS'},
-  101:{n:'Lorcan Grainger',s:'Newport Gardens PS'},102:{n:'Aidan Crawford',s:'Newport Gardens PS'},
-  103:{n:'Arlo Roffe',s:'Newport Gardens PS'},104:{n:'Lewis McGregor',s:'Newport Gardens PS'},
-  105:{n:'Angus Mahony-Gilchrist',s:'Newport Lakes PS'},106:{n:'Jude Wisby',s:'Newport Lakes PS'},
-  107:{n:'Sam Cortis',s:'Newport Lakes PS'},108:{n:'Ben Finelli',s:'Newport Lakes PS'},
-  113:{n:'James Okey',s:'Seaholme'},114:{n:'Michael Dragovic',s:'Seaholme'},
-  115:{n:'Patrick Tzimopolous',s:'Seaholme'},116:{n:'Graham Hung',s:'Seaholme'},
-  117:{n:'Roman Pantalleresco',s:'St Marys PS'},118:{n:'Quinn Vasilou',s:'St Marys PS'},
-  119:{n:'Lu Kang Suen',s:'St Marys PS'},120:{n:'Alexander McCarthy',s:'St Marys PS'},
-  121:{n:'Christian Ierodiaconou',s:'Williamstown North PS'},122:{n:'Finn Johnson',s:'Williamstown North PS'},
-  123:{n:'Montague Pyke',s:'Williamstown North PS'},124:{n:'Banjo Kane',s:'Williamstown North PS'},
-  125:{n:'Henry Fielding',s:'Williamstown PS'},126:{n:'Ned Hedditch',s:'Williamstown PS'},
-  127:{n:'Kai Morgan',s:'Williamstown PS'},128:{n:'Bernie MacLeod',s:'Williamstown PS'},
-  // 12 Girls
-  129:{n:'Zoe Walmsley',s:'Altona PS'},130:{n:'Zara Hunt',s:'Altona PS'},
-  131:{n:'Tilly Armstrong',s:'Altona PS'},132:{n:'Natascha Harrison',s:'Altona PS'},
-  133:{n:'Airlie Pretorius',s:'Newport Gardens PS'},134:{n:'Pippa Mallory',s:'Newport Gardens PS'},
-  135:{n:'Zara Pretorius',s:'Newport Gardens PS'},136:{n:'Emily Rodger',s:'Newport Gardens PS'},
-  137:{n:'Elke Jennings',s:'Newport Lakes PS'},138:{n:'Amelie McKeown',s:'Newport Lakes PS'},
-  139:{n:'Milla Wynne',s:'Newport Lakes PS'},140:{n:'Emilia Stupple',s:'Newport Lakes PS'},
-  145:{n:'Emmy Sullivan',s:'Seaholme'},146:{n:'Evie Marchant',s:'Seaholme'},
-  147:{n:'Marie Weghaus',s:'Seaholme'},148:{n:'Chloe Gielnik',s:'Seaholme'},
-  149:{n:'Olivia Peterson',s:'St Marys PS'},150:{n:'Ella Rinaldi',s:'St Marys PS'},
-  151:{n:'Ava Matina',s:'St Marys PS'},152:{n:'Audrey Trethowan',s:'St Marys PS'},
-  153:{n:'Lila Higginbotham',s:'Williamstown North PS'},154:{n:'Zara Tedesco',s:'Williamstown North PS'},
-  155:{n:'Indiana Bell',s:'Williamstown North PS'},156:{n:'Malia Weiner',s:'Williamstown North PS'},
-  157:{n:'Danica Grant',s:'Williamstown PS'},158:{n:'Lily Sexton',s:'Williamstown PS'},
-  159:{n:'Irida Bladon',s:'Williamstown PS'},160:{n:'Lana Budinoska',s:'Williamstown PS'},
-  // 12 Boys
-  161:{n:'Archer Meakes',s:'Altona PS'},162:{n:'Rory Hurley',s:'Altona PS'},
-  163:{n:'Edward Miller',s:'Altona PS'},164:{n:'Dex Kroll',s:'Altona PS'},
-  165:{n:'Jono Connelly',s:'Newport Gardens PS'},166:{n:'Clay Keel',s:'Newport Gardens PS'},
-  167:{n:'Charlie Kelly',s:'Newport Gardens PS'},168:{n:'Harry Skipworth',s:'Newport Gardens PS'},
-  169:{n:'Tom',s:'Newport Lakes PS'},170:{n:'Ibrahim Abdo',s:'Newport Lakes PS'},
-  171:{n:'Ollie Riley',s:'Newport Lakes PS'},172:{n:'Henry Lawrence',s:'Newport Lakes PS'},
-  177:{n:'Alex Cooper',s:'Seaholme'},178:{n:'Ryan Sarab',s:'Seaholme'},
-  179:{n:'Tom McClelland',s:'Seaholme'},180:{n:'Yubo Peng',s:'Seaholme'},
-  181:{n:'Harry Carter',s:'St Marys PS'},182:{n:'Zachary Cross',s:'St Marys PS'},
-  183:{n:'Toby Boulton',s:'St Marys PS'},184:{n:'Jude Brown',s:'St Marys PS'},
-  185:{n:'Curtis Price',s:'Williamstown North PS'},186:{n:'Alfie Foley',s:'Williamstown North PS'},
-  187:{n:'Evan Hinsley',s:'Williamstown North PS'},188:{n:'Bailey Smith',s:'Williamstown North PS'},
-  189:{n:'Banjo Kane',s:'Williamstown PS'},190:{n:'Jarvis Sullivan',s:'Williamstown PS'},
-  191:{n:'Otis Lethborg',s:'Williamstown PS'},192:{n:'Hudson Middleton',s:'Williamstown PS'},
-};
 
 // ════════════════════════════════════════
 // UTILITIES
@@ -1840,7 +1759,7 @@ window.addEventListener('beforeunload', e => {
   }
 });
 
-// ── Firebase helpers ──
+// ── DO/WS helpers ──
 function cRef(path) { return db.ref(path); }
 
 function cleanListeners() {
@@ -1895,7 +1814,7 @@ async function startDemo() {
     tier: 'school',
     colour: '#f59e0b',
     isDemo: true,
-    createdAt: firebase.database.ServerValue.TIMESTAMP
+    createdAt: SERVER_TIMESTAMP
   };
   applyAccent('#f59e0b');
   await db.ref('meta').set(carnivalMeta);
@@ -1967,7 +1886,7 @@ async function createCarnival() {
   const program = getProgramData();
   carnivalMeta = { school, name, sport:selSport, tier:selTier, colour,
     houses, program,
-    createdAt: firebase.database.ServerValue.TIMESTAMP };
+    createdAt: SERVER_TIMESTAMP };
 
   await db.ref('meta').set(carnivalMeta);
   localStorage.setItem('fl_last_code', code);
@@ -2050,7 +1969,7 @@ function showRolePicker() {
     roles.push({ id:'observer-xc',icon:'<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',label:'XC Observer',   desc:'Watch finish order',    full: sport==='xc' });
   }
   if (['track','swim','mixed'].includes(sport)) {
-    roles.push({ id:'video-finish', icon:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>', label:'Video Finish', desc:'Frame-accurate auto-timing', full:true });
+    roles.push({ id:'video-finish', icon:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>', label:'Video Finish', desc:'Slit camera — pro finish line photo + auto-detect + Roster pre-load', full:true });
   }
   roles.push({ id:'share',   icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>', label:'Join Page',  desc:'QR code for participants', full:true });
   roles.push({ id:'results', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', label:'Results',    desc:'View all results',          full:true });
@@ -2287,7 +2206,7 @@ async function timerStop() {
   const elapsed = nowServer() - raceState.startedAtServer;
   if (elapsed < 500) { toast('Too quick — check start'); return; }
   const key = fbEnc(myId);
-  const splitPayload = { name: myName, elapsedMs: elapsed, stopAt: firebase.database.ServerValue.TIMESTAMP };
+  const splitPayload = { name: myName, elapsedMs: elapsed, stopAt: SERVER_TIMESTAMP };
   _savePendingSplit(myLane, key, splitPayload);
   const splitBtn = document.getElementById('timer-stop-btn');
   if (splitBtn) { splitBtn.textContent = 'Sending…'; splitBtn.setAttribute('disabled',''); }
@@ -2309,6 +2228,66 @@ async function timerStop() {
 // ════════════════════════════════════════
 // ADMIN VIEW (Lane Race)
 // ════════════════════════════════════════
+
+// ── Roster pre-load modal ─────────────────────────────────────────────────
+function openRosterModal() {
+  const el = document.createElement('div');
+  el.id = 'roster-modal';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:16px;padding-top:60px;overflow-y:auto';
+  const ph = '1, Jake Smith, Red
+2, Sam Jones, Blue
+3, Mia Brown, Green';
+  el.innerHTML = '<div style="background:var(--surface);border-radius:16px;padding:20px;max-width:420px;width:100%">'
+    + '<div style="font-weight:700;font-size:1rem;margin-bottom:4px">Paste Athlete Roster</div>'
+    + '<div style="color:var(--muted);font-size:.8rem;margin-bottom:10px">One per line: <strong>Lane, Name, House</strong><br>'
+    + 'E.g. <code style="color:var(--accent)">1, Jake Smith, Red</code></div>'
+    + '<textarea id="roster-text" placeholder="' + ph + '" style="width:100%;min-height:160px;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.85rem;font-family:monospace;resize:vertical"></textarea>'
+    + '<div style="display:flex;gap:8px;margin-top:12px">'
+    + '<button class="btn btn-primary" style="flex:1" onclick="applyRoster()">Apply to Lanes</button>'
+    + '<button class="btn btn-secondary" onclick="document.getElementById('roster-modal').remove()">Cancel</button>'
+    + '</div></div>';
+  document.body.appendChild(el);
+  el.addEventListener('click', e => { if (e.target === el) el.remove(); });
+}
+
+function applyRoster() {
+  const text = document.getElementById('roster-text')?.value.trim();
+  if (!text) return;
+  const lines = text.split('
+').map(l => l.trim()).filter(Boolean);
+  let applied = 0;
+  lines.forEach(line => {
+    const parts = line.split(',').map(p => p.trim());
+    const lane = parseInt(parts[0]);
+    const name = parts[1] || '';
+    const house = parts[2] || '';
+    if (!lane || !name) return;
+    const nameInp = document.querySelector('.admin-lane-name-input[data-lane="' + lane + '"]');
+    if (nameInp) { nameInp.value = name; applied++; }
+    if (house) {
+      const houseInp = document.querySelector('.admin-lane-house[data-lane="' + lane + '"]');
+      if (houseInp) {
+        const opts = Array.from(houseInp.options);
+        const match = opts.find(o => o.value.toLowerCase() === house.toLowerCase());
+        if (match) houseInp.value = match.value;
+      }
+    }
+  });
+  document.getElementById('roster-modal')?.remove();
+  toast('✅ ' + applied + ' athlete' + (applied !== 1 ? 's' : '') + ' loaded into lanes');
+  const age = document.getElementById('admin-age-sel')?.value;
+  const event = document.getElementById('admin-event-sel')?.value;
+  if (age && event) {
+    const savedLanes = {};
+    lines.forEach(line => {
+      const parts = line.split(',').map(p => p.trim());
+      const l = parseInt(parts[0]); const n = parts[1]||''; const h = parts[2]||'';
+      if (l && n) savedLanes[l] = { name:n, ...(h?{house:h}:{}) };
+    });
+    _saveLaneNames(age, adminGender, event, savedLanes);
+  }
+}
+
 function initAdminView() {
   requestWakeLock(); syncClock();
   watchConn('admin-dot');
@@ -2413,7 +2392,7 @@ function renderAdminView(race) {
   }
 
   live.classList.remove('hidden'); done.classList.add('hidden');
-  document.getElementById('admin-race-lbl').textContent = `${race.age} ${race.gender} · ${race.event}`;
+  document.getElementById('admin-race-lbl').textContent = `${race.age||''} ${race.gender||''} · ${race.event||''}`;
 
   const badge  = document.getElementById('admin-state-badge');
   const goBtn  = document.getElementById('admin-go-btn');
@@ -2509,7 +2488,7 @@ async function adminArm() {
   await cRef('race/current').set({
     raceId: genId(6), age, gender:adminGender, event,
     state:'armed', lanes, splits:{},
-    armedAt: firebase.database.ServerValue.TIMESTAMP
+    armedAt: SERVER_TIMESTAMP
   });
   toast('Race armed');
 }
@@ -2518,7 +2497,7 @@ async function adminGo() {
   if (!raceState || raceState.state!=='armed') return;
   document.getElementById('admin-go-btn').setAttribute('disabled','');
   showCountdown(async ()=>{
-    await cRef('race/current').update({ state:'live', startedAtServer:firebase.database.ServerValue.TIMESTAMP });
+    await cRef('race/current').update({ state:'live', startedAtServer:SERVER_TIMESTAMP });
   });
 }
 
@@ -2528,7 +2507,7 @@ async function adminRecall() {
 }
 
 function broadcastRecall() {
-  cRef('recall').set({ active:true, at:firebase.database.ServerValue.TIMESTAMP });
+  cRef('recall').set({ active:true, at:SERVER_TIMESTAMP });
   setTimeout(()=>cRef('recall').set({active:false}), 2500);
   flashRecall();
 }
@@ -2594,7 +2573,7 @@ async function adminPublish() {
     await cRef(`results/${key}`).set({
       type:'lane', age:raceState.age, gender:raceState.gender, event:eventName,
       raceId:raceState.raceId, results:allRows,
-      publishedAt:firebase.database.ServerValue.TIMESTAMP
+      publishedAt:SERVER_TIMESTAMP
     });
     // Accumulate house points
     if (Object.keys(houseDeltas).length) {
@@ -2607,6 +2586,18 @@ async function adminPublish() {
     }
     await cRef('race/current').update({state:'done'});
     dqSet.clear();
+    // Falkor auto-AI: race summary + flag times (fire-and-forget)
+    (async()=>{
+      try{
+        const _r=allRows.filter(r=>r.timeMs&&!r.dq&&!r.status).map(r=>({lane:r.lane,athlete:r.name,school:r.house||'',time:+(r.timeMs/1000).toFixed(2)}));
+        if(_r.length>=2){
+          const _s=await fetch('https://falkor-ct-ai.luckdragon.io/summarize',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:eventName,results:_r})});
+          if(_s.ok){const{summary}=await _s.json();if(summary)await cRef('results/'+key+'/ai_summary').set({text:summary,ts:Date.now()});}
+          const _f=await fetch('https://falkor-ct-ai.luckdragon.io/flag-times',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:eventName,results:Object.keys(lanes).map(l=>({lane:+l,athlete:lanes[l]?.name||'Lane '+l,school:lanes[l]?.house||'',splits:Object.values(splits[l]||{}).map(s=>+(s.elapsedMs/1000).toFixed(2)),published:allRows.find(r=>r.lane===+l)?.timeMs?+(allRows.find(r=>r.lane===+l).timeMs/1000).toFixed(2):null}))})});
+          if(_f.ok){const{flags}=await _f.json();if(flags&&flags.length)await cRef('results/'+key+'/ai_flags').set({flags,ts:Date.now()});}
+        }
+      }catch(_e){console.warn('Falkor AI:',_e);}
+    })();
     toast('<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Results published!');
   });
 }
@@ -2651,7 +2642,7 @@ async function adminEditTime(idx) {
   // Re-sort + re-place
   pub.results.sort((a,b)=>a.timeMs-b.timeMs);
   pub.results.forEach((r,i)=>r.place=i+1);
-  pub.editedAt = firebase.database.ServerValue.TIMESTAMP;
+  pub.editedAt = SERVER_TIMESTAMP;
   await cRef(`results/${key}`).set(pub);
   toast('Time updated');
 }
@@ -2746,7 +2737,7 @@ function initStarterView() {
     if (race.state==='armed') {
       w.classList.add('hidden'); a.classList.remove('hidden');
       document.getElementById('starter-race-info').textContent =
-        `${race.age} ${race.gender} · ${race.event}`;
+        `${race.age||''} ${race.gender||''} · ${race.event||''}`;
     } else {
       w.classList.remove('hidden'); a.classList.add('hidden');
       starterListenStop();
@@ -2759,7 +2750,7 @@ function initStarterView() {
 function starterGo() {
   document.getElementById('starter-go-btn').setAttribute('disabled','');
   showCountdown(async ()=>{
-    await cRef('race/current').update({ state:'live', startedAtServer:firebase.database.ServerValue.TIMESTAMP });
+    await cRef('race/current').update({ state:'live', startedAtServer:SERVER_TIMESTAMP });
   });
 }
 function starterRecall() { starterListenStop(); broadcastRecall(); }
@@ -2874,6 +2865,8 @@ function renderObserverResults(data) {
     return `<div class="card" style="margin-bottom:8px;padding:10px 12px">
       <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">${ev.age||''} ${ev.gender||''} · ${ev.event||''}</div>
       ${rows}
+      ${ev.ai_summary?'<div style="margin-top:8px;padding:8px 10px;background:rgba(99,102,241,.1);border-radius:8px;font-size:.82rem;font-style:italic;color:var(--text)">🤖 '+ev.ai_summary.text+'</div>':''}
+      ${ev.ai_flags&&ev.ai_flags.flags&&ev.ai_flags.flags.some(f=>f.severity==='error'||f.severity==='warn')?'<div style="margin-top:4px;padding:6px 10px;background:rgba(245,158,11,.15);border-radius:8px;font-size:.78rem;color:var(--warn)">⚠️ '+ev.ai_flags.flags.filter(f=>f.severity!=='info').map(f=>'Lane '+f.lane+': '+f.issue).join(' · ')+'</div>':''}
     </div>`;
   }).join('');
 }
@@ -3053,7 +3046,53 @@ async function runBibOCR() {
   }
 }
 
-// ── XC name picker (added 2026-05-04) ─────────────────────────────────────
+// ── XC name picker (added 2026-05-04 — restored BIB_LOOKUP for WD26 + name modal) ──
+const BIB_LOOKUP = {
+  // 9/10 Girls
+  1:{n:'Ava Filuk',s:'Altona PS'},2:{n:'Caelyn Ang',s:'Altona PS'},3:{n:'Ella Barrett',s:'Altona PS'},4:{n:'Aria Davidson',s:'Altona PS'},
+  5:{n:'Harper Blakeman',s:'Newport Gardens PS'},6:{n:'Blaise Keel',s:'Newport Gardens PS'},7:{n:'Polly Newall',s:'Newport Gardens PS'},8:{n:'Alice Pitt',s:'Newport Gardens PS'},
+  9:{n:'Alice Fuller',s:'Newport Lakes PS'},10:{n:'Eva Zagame',s:'Newport Lakes PS'},11:{n:'Caitlin Almering',s:'Newport Lakes PS'},12:{n:'Harriet McKeown',s:'Newport Lakes PS'},
+  17:{n:'Kaitlin Ho',s:'Seaholme'},18:{n:'Evie Van Den Burg',s:'Seaholme'},19:{n:'Ruby Loft',s:'Seaholme'},20:{n:'Ivy Bugeja',s:'Seaholme'},
+  21:{n:'Maya Kapitelli',s:'St Marys PS'},22:{n:'Kira Simpson',s:'St Marys PS'},23:{n:'Leah Toal',s:'St Marys PS'},24:{n:'Florence Brown',s:'St Marys PS'},
+  25:{n:'Madeline Gesovski',s:'Williamstown North PS'},26:{n:'Anna Kam',s:'Williamstown North PS'},27:{n:'Grace Neville',s:'Williamstown North PS'},28:{n:'Zara Bell',s:'Williamstown North PS'},
+  29:{n:'Eabha Pease',s:'Williamstown PS'},30:{n:'Chloe Wood',s:'Williamstown PS'},31:{n:'Rose Sexton',s:'Williamstown PS'},32:{n:'Sienna Jordan',s:'Williamstown PS'},
+  33:{n:'Cameron MacIntyre',s:'Altona PS'},34:{n:'Kai McCarthy',s:'Altona PS'},35:{n:'Lachlan Harrison',s:'Altona PS'},36:{n:'Oscar Wilson',s:'Altona PS'},
+  37:{n:'Harry Ward',s:'Newport Gardens PS'},38:{n:'Logan Anderson',s:'Newport Gardens PS'},39:{n:'Darcy Brown',s:'Newport Gardens PS'},40:{n:'Leo Warren',s:'Newport Gardens PS'},
+  41:{n:'Gabriel Ammouchi',s:'Newport Lakes PS'},42:{n:'Sam Jenkins',s:'Newport Lakes PS'},43:{n:'Duke Jackson',s:'Newport Lakes PS'},44:{n:'Lewis Said',s:'Newport Lakes PS'},
+  49:{n:'Toby Kennedy',s:'Seaholme'},50:{n:'Josiah Milo-Selvidge',s:'Seaholme'},51:{n:'Luca Markovski',s:'Seaholme'},52:{n:'Rocco Andrews',s:'Seaholme'},
+  53:{n:'Ollie Carter',s:'St Marys PS'},54:{n:'Raff Lehocz',s:'St Marys PS'},55:{n:'Clem Godde',s:'St Marys PS'},56:{n:'Tom McCutcheon',s:'St Marys PS'},
+  57:{n:'Julen Smith-Gorrochategui',s:'Williamstown North PS'},58:{n:'Alex McQueen',s:'Williamstown North PS'},59:{n:'Jordan Pisanelli',s:'Williamstown North PS'},60:{n:'Oswald Burleigh',s:'Williamstown North PS'},
+  61:{n:"Elias D'Souza",s:'Williamstown PS'},62:{n:'Thomas Reid',s:'Williamstown PS'},63:{n:'Luca Galle',s:'Williamstown PS'},64:{n:'William Galle',s:'Williamstown PS'},
+  65:{n:'Kara Mahon',s:'Altona PS'},66:{n:'Aurora Busuttil',s:'Altona PS'},67:{n:'Cleo Suttcliffe',s:'Altona PS'},68:{n:'Pearl Jeremiah',s:'Altona PS'},
+  69:{n:'Isla Newman',s:'Newport Gardens PS'},70:{n:'Hannah Potts',s:'Newport Gardens PS'},71:{n:'Frankie Bartlett',s:'Newport Gardens PS'},72:{n:'Lizzie Wilson',s:'Newport Gardens PS'},
+  73:{n:'Thea Dennis',s:'Newport Lakes PS'},74:{n:'Freya Rees',s:'Newport Lakes PS'},75:{n:'Audrey Bishop',s:'Newport Lakes PS'},76:{n:'Arya Goodman',s:'Newport Lakes PS'},
+  81:{n:'Erika Nasmark',s:'Seaholme'},82:{n:'Sienna Milo-Selvidge',s:'Seaholme'},83:{n:'Isla Nemcek',s:'Seaholme'},84:{n:'Grace McClelland',s:'Seaholme'},
+  85:{n:'Mikaela Lusi',s:'St Marys PS'},86:{n:'Eloise Pante',s:'St Marys PS'},87:{n:'Ada Pham',s:'St Marys PS'},88:{n:'Isla Toal',s:'St Marys PS'},
+  89:{n:'Charlotte Tucker',s:'Williamstown North PS'},90:{n:'Islay Kennie',s:'Williamstown North PS'},91:{n:'Millie Dur-Hill',s:'Williamstown North PS'},92:{n:'Molly Pasque',s:'Williamstown North PS'},
+  93:{n:'Emilia Rajch',s:'Williamstown PS'},94:{n:'Greta Lovell',s:'Williamstown PS'},95:{n:'Evie Vanderloo',s:'Williamstown PS'},96:{n:'Ava Fleming',s:'Williamstown PS'},
+  97:{n:'Lukas Marchant',s:'Altona PS'},98:{n:'Jake Costello',s:'Altona PS'},99:{n:'Brady Hinton',s:'Altona PS'},100:{n:'Hilton Thomas',s:'Altona PS'},
+  101:{n:'Lorcan Grainger',s:'Newport Gardens PS'},102:{n:'Aidan Crawford',s:'Newport Gardens PS'},103:{n:'Arlo Roffe',s:'Newport Gardens PS'},104:{n:'Lewis McGregor',s:'Newport Gardens PS'},
+  105:{n:'Angus Mahony-Gilchrist',s:'Newport Lakes PS'},106:{n:'Jude Wisby',s:'Newport Lakes PS'},107:{n:'Sam Cortis',s:'Newport Lakes PS'},108:{n:'Ben Finelli',s:'Newport Lakes PS'},
+  113:{n:'James Okey',s:'Seaholme'},114:{n:'Michael Dragovic',s:'Seaholme'},115:{n:'Patrick Tzimopolous',s:'Seaholme'},116:{n:'Graham Hung',s:'Seaholme'},
+  117:{n:'Roman Pantalleresco',s:'St Marys PS'},118:{n:'Quinn Vasilou',s:'St Marys PS'},119:{n:'Lu Kang Suen',s:'St Marys PS'},120:{n:'Alexander McCarthy',s:'St Marys PS'},
+  121:{n:'Christian Ierodiaconou',s:'Williamstown North PS'},122:{n:'Finn Johnson',s:'Williamstown North PS'},123:{n:'Montague Pyke',s:'Williamstown North PS'},124:{n:'Banjo Kane',s:'Williamstown North PS'},
+  125:{n:'Henry Fielding',s:'Williamstown PS'},126:{n:'Ned Hedditch',s:'Williamstown PS'},127:{n:'Kai Morgan',s:'Williamstown PS'},128:{n:'Bernie MacLeod',s:'Williamstown PS'},
+  129:{n:'Zoe Walmsley',s:'Altona PS'},130:{n:'Zara Hunt',s:'Altona PS'},131:{n:'Tilly Armstrong',s:'Altona PS'},132:{n:'Natascha Harrison',s:'Altona PS'},
+  133:{n:'Airlie Pretorius',s:'Newport Gardens PS'},134:{n:'Pippa Mallory',s:'Newport Gardens PS'},135:{n:'Zara Pretorius',s:'Newport Gardens PS'},136:{n:'Emily Rodger',s:'Newport Gardens PS'},
+  137:{n:'Elke Jennings',s:'Newport Lakes PS'},138:{n:'Amelie McKeown',s:'Newport Lakes PS'},139:{n:'Milla Wynne',s:'Newport Lakes PS'},140:{n:'Emilia Stupple',s:'Newport Lakes PS'},
+  145:{n:'Emmy Sullivan',s:'Seaholme'},146:{n:'Evie Marchant',s:'Seaholme'},147:{n:'Marie Weghaus',s:'Seaholme'},148:{n:'Chloe Gielnik',s:'Seaholme'},
+  149:{n:'Olivia Peterson',s:'St Marys PS'},150:{n:'Ella Rinaldi',s:'St Marys PS'},151:{n:'Ava Matina',s:'St Marys PS'},152:{n:'Audrey Trethowan',s:'St Marys PS'},
+  153:{n:'Lila Higginbotham',s:'Williamstown North PS'},154:{n:'Zara Tedesco',s:'Williamstown North PS'},155:{n:'Indiana Bell',s:'Williamstown North PS'},156:{n:'Malia Weiner',s:'Williamstown North PS'},
+  157:{n:'Danica Grant',s:'Williamstown PS'},158:{n:'Lily Sexton',s:'Williamstown PS'},159:{n:'Irida Bladon',s:'Williamstown PS'},160:{n:'Lana Budinoska',s:'Williamstown PS'},
+  161:{n:'Archer Meakes',s:'Altona PS'},162:{n:'Rory Hurley',s:'Altona PS'},163:{n:'Edward Miller',s:'Altona PS'},164:{n:'Dex Kroll',s:'Altona PS'},
+  165:{n:'Jono Connelly',s:'Newport Gardens PS'},166:{n:'Clay Keel',s:'Newport Gardens PS'},167:{n:'(Charlie) Kelly',s:'Newport Gardens PS'},168:{n:'Harry Skipworth',s:'Newport Gardens PS'},
+  169:{n:'Tom (TBC)',s:'Newport Lakes PS'},170:{n:'Ibrahim Abdo',s:'Newport Lakes PS'},171:{n:'Ollie Riley',s:'Newport Lakes PS'},172:{n:'Henry Lawrence',s:'Newport Lakes PS'},
+  177:{n:'Alex Cooper',s:'Seaholme'},178:{n:'Ryan Sarab',s:'Seaholme'},179:{n:'Tom McClelland',s:'Seaholme'},180:{n:'Yubo Peng',s:'Seaholme'},
+  181:{n:'Harry Carter',s:'St Marys PS'},182:{n:'Zachary Cross',s:'St Marys PS'},183:{n:'Toby Boulton',s:'St Marys PS'},184:{n:'Jude Brown',s:'St Marys PS'},
+  185:{n:'Curtis Price',s:'Williamstown North PS'},186:{n:'Alfie Foley',s:'Williamstown North PS'},187:{n:'Evan Hinsley',s:'Williamstown North PS'},188:{n:'Bailey Smith',s:'Williamstown North PS'},
+  189:{n:'Banjo Kane',s:'Williamstown PS'},190:{n:'Jarvis Sullivan',s:'Williamstown PS'},191:{n:'Otis Lethborg',s:'Williamstown PS'},192:{n:'Hudson Middleton',s:'Williamstown PS'},
+};
+
 function _xcRaceBibRange() {
   const xc = (typeof xcState !== 'undefined' && xcState) ? xcState : null;
   if (!xc) return [1, 192];
@@ -3075,14 +3114,14 @@ function openNamePicker() {
   const subEl   = document.getElementById('name-picker-subtitle');
   const xc = (typeof xcState !== 'undefined' && xcState) ? xcState : null;
   if (xc) {
-    if (titleEl) titleEl.textContent = `${xc.age || ''} ${xc.gender || ''}`.trim() || 'Pick runner';
-    if (subEl) subEl.textContent = (xc.event || '') + (bibPendingKey ? ` — ${document.getElementById('marshal-bib-for')?.textContent || ''}` : '');
+    if (titleEl) titleEl.textContent = ((xc.age || '') + ' ' + (xc.gender || '')).trim() || 'Pick runner';
+    if (subEl) subEl.textContent = (xc.event || '') + (bibPendingKey ? ' — ' + (document.getElementById('marshal-bib-for') ? document.getElementById('marshal-bib-for').textContent : '') : '');
   }
   const search = document.getElementById('name-picker-search');
   if (search) { search.value = ''; }
   _renderNamePicker('');
   overlay.style.display = 'flex';
-  setTimeout(() => { if (search) search.focus(); }, 50);
+  setTimeout(function () { if (search) search.focus(); }, 50);
 }
 
 function closeNamePicker() {
@@ -3091,40 +3130,51 @@ function closeNamePicker() {
 }
 
 function filterNamePicker() {
-  const v = document.getElementById('name-picker-search')?.value || '';
-  _renderNamePicker(v.toLowerCase().trim());
+  const el = document.getElementById('name-picker-search');
+  const v = el ? el.value : '';
+  _renderNamePicker((v || '').toLowerCase().trim());
 }
 
 function _renderNamePicker(filter) {
   const list = document.getElementById('name-picker-list');
   if (!list) return;
-  const [lo, hi] = _xcRaceBibRange();
+  const range = _xcRaceBibRange();
+  const lo = range[0], hi = range[1];
   const rows = [];
-  const taken = new Set();
+  const taken = {};
   try {
-    const finishes = (xcState && xcState.finishes) ? Object.values(xcState.finishes) : [];
-    finishes.forEach(f => { if (f && f.bib) taken.add(parseInt(f.bib)); });
-  } catch(e) {}
+    if (xcState && xcState.finishes) {
+      Object.keys(xcState.finishes).forEach(function (k) {
+        const f = xcState.finishes[k];
+        if (f && f.bib) taken[parseInt(f.bib)] = true;
+      });
+    }
+  } catch (e) {}
   const SC = {
-    'Altona PS':'#1565c0','Newport Gardens PS':'#2e7d32','Newport Lakes PS':'#00695c',
-    'Sacred Heart':'#6a1b9a','Seaholme':'#e65100','St Marys PS':'#b71c1c',
-    'Williamstown North PS':'#283593','Williamstown PS':'#f57f17'
+    'Altona PS': '#1565c0', 'Newport Gardens PS': '#2e7d32', 'Newport Lakes PS': '#00695c',
+    'Sacred Heart': '#6a1b9a', 'Seaholme': '#e65100', 'St Marys PS': '#b71c1c',
+    'Williamstown North PS': '#283593', 'Williamstown PS': '#f57f17'
   };
   for (let b = lo; b <= hi; b++) {
     const r = (typeof BIB_LOOKUP !== 'undefined') ? BIB_LOOKUP[b] : null;
     if (!r) continue;
     const haystack = (r.n + ' ' + (r.s || '')).toLowerCase();
     if (filter && haystack.indexOf(filter) === -1) continue;
-    const isTaken = taken.has(b);
+    const isTaken = !!taken[b];
     const sc = SC[r.s] || '#555';
-    rows.push(`<div onclick="${isTaken ? '' : 'pickRunner('+b+')'}"
-        style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface3);cursor:${isTaken?'not-allowed':'pointer'};opacity:${isTaken?0.35:1}">
-      <div style="min-width:46px;font-weight:800;font-size:1.05rem;color:${sc}">${b}</div>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:0.96rem">${r.n}${isTaken?' <span style=\'font-size:0.7rem;color:var(--muted)\'>(already taken)</span>':''}</div>
-        <div style="font-size:0.78rem;color:${sc};margin-top:1px">${r.s || ''}</div>
-      </div>
-    </div>`);
+    const onclick = isTaken ? '' : ('pickRunner(' + b + ')');
+    const cur = isTaken ? 'not-allowed' : 'pointer';
+    const op = isTaken ? '0.35' : '1';
+    const takenLbl = isTaken ? ' <span style="font-size:0.7rem;color:var(--muted)">(already taken)</span>' : '';
+    rows.push(
+      '<div onclick="' + onclick + '" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface3);cursor:' + cur + ';opacity:' + op + '">' +
+        '<div style="min-width:46px;font-weight:800;font-size:1.05rem;color:' + sc + '">' + b + '</div>' +
+        '<div style="flex:1">' +
+          '<div style="font-weight:700;font-size:0.96rem">' + r.n + takenLbl + '</div>' +
+          '<div style="font-size:0.78rem;color:' + sc + ';margin-top:1px">' + (r.s || '') + '</div>' +
+        '</div>' +
+      '</div>'
+    );
   }
   list.innerHTML = rows.length
     ? rows.join('')
@@ -3222,7 +3272,7 @@ async function marshalTap() {
     bib:         '',
     name:        '',
     elapsedMs:   elapsed,
-    tapAt:       firebase.database.ServerValue.TIMESTAMP
+    tapAt:       SERVER_TIMESTAMP
   });
 
   toast(`${ordinal(place)} — ${fmtMs(elapsed)}`);
@@ -3332,26 +3382,19 @@ function bibDigit(d) {
   if (bibValue.length >= 4) return;
   bibValue += d;
   document.getElementById('marshal-bib-display').textContent = bibValue || '_';
-  const _bl = BIB_LOOKUP[parseInt(bibValue)];
-  const _bn = document.getElementById('marshal-bib-name');
-  if (_bn) _bn.textContent = _bl ? `${_bl.n} · ${_bl.s}` : '';
 }
 
 function bibBack() {
   xcCancelAutoConfirm(); // marshal is intervening — stop countdown
   bibValue = bibValue.slice(0,-1);
   document.getElementById('marshal-bib-display').textContent = bibValue || '_';
-  const _bl = BIB_LOOKUP[parseInt(bibValue)];
-  const _bn = document.getElementById('marshal-bib-name');
-  if (_bn) _bn.textContent = _bl ? `${_bl.n} · ${_bl.s}` : '';
 }
 
 async function bibConfirm() {
   if (bibPendingKey) {
     const updates = {};
     if (bibValue) updates.bib = bibValue;
-    if (bibValue) { const _bl = BIB_LOOKUP[parseInt(bibValue)]; if (_bl) updates.name = _bl.n; }
-    // Save compressed photo to Firebase (base64 JPEG ~15-20KB)
+    // Save compressed photo via WS (base64 JPEG ~15-20KB)
     const photo = xcPhotos.get(bibPendingKey);
     if (photo) updates.photo = photo;
     if (Object.keys(updates).length) {
@@ -3438,7 +3481,7 @@ async function xcAdminArm() {
   await cRef('xc/current').set({
     raceId:genId(6), age, gender:xcGender, event,
     state:'armed', finishes:{},
-    armedAt:firebase.database.ServerValue.TIMESTAMP
+    armedAt:SERVER_TIMESTAMP
   });
   toast('XC Race armed');
 }
@@ -3447,7 +3490,7 @@ async function xcAdminGo() {
   if (!xcState || xcState.state!=='armed') return;
   document.getElementById('xc-go-btn').setAttribute('disabled','');
   showCountdown(async ()=>{
-    await cRef('xc/current').update({state:'live', startedAtServer:firebase.database.ServerValue.TIMESTAMP});
+    await cRef('xc/current').update({state:'live', startedAtServer:SERVER_TIMESTAMP});
   });
 }
 
@@ -3508,7 +3551,7 @@ async function xcAdminPublish() {
       qualifier:   numQual > 0 && (i+1) <= numQual,
       ...(cards[i+1] ? { card: cards[i+1] } : {})
     })),
-    publishedAt: firebase.database.ServerValue.TIMESTAMP
+    publishedAt: SERVER_TIMESTAMP
   });
   await cRef('xc/current').update({state:'done'});
 
@@ -3677,7 +3720,7 @@ function renderXCAdminView(xc) {
   }
   setup.classList.add('hidden'); live.classList.remove('hidden');
 
-  document.getElementById('xc-race-lbl').textContent = `${xc.age} ${xc.gender} · ${xc.event}`;
+  document.getElementById('xc-race-lbl').textContent = `${xc.age||''} ${xc.gender||''} · ${xc.event||''}`;
   const badge  = document.getElementById('xc-state-badge');
   const goBtn  = document.getElementById('xc-go-btn');
   const pubBtn = document.getElementById('xc-publish-btn');
@@ -3744,84 +3787,124 @@ async function exportCSV() {
 // ════════════════════════════════════════
 // ── VIDEO FINISH ─────────────────────────────────────────────────────────────
 // STATE
-let vfStream           = null;
-let vfRaceStartMs      = 0;
-let vfOfflineMode      = false;
-let vfMode             = 'swim';    // 'swim' | 'track'
-let vfLaneCount        = 4;
-let vfDetections       = [];
-let vfLiveRafId        = null;
-let vfLiveOffscr       = null;
-let vfLiveState        = 'idle';    // 'calibrating'|'ready'|'detecting'|'done'
-let vfLiveThresholds   = null;
-let vfLivePrev         = null;
-let vfLaneFound        = [];
-let vfCalData          = null;
+// ── Video Finish: slit camera state ──────────────────────────────────────────
+let vfStream        = null;
+let vfRaceStartMs   = 0;
+let vfOfflineMode   = false;
+let vfDetections    = [];
+let vfLiveRafId     = null;
+let vfLiveState     = 'idle';   // idle|calibrating|ready|detecting|done
+let vfLiveOffscr    = null;
+let vfFacingMode2   = 'environment';  // renamed to avoid conflict with Task7 var
+// Slit camera
+let vfSlitInternal  = null;     // canvas holding full slit history
+let vfSlitICtx      = null;
+const VF_SLIT_W     = 5400;    // ~90s at 60fps
+const VF_SLIT_H     = 200;
+let vfSlitPos       = 0;        // columns written
+let vfGoColumn      = -1;       // column where GO fired
+let vfSlitX         = 0.5;     // slit line position (0–1)
+let vfBgAccum       = null;    // Float32Array[VF_SLIT_H] background model
+let vfBgN           = 0;
+let vfLastDetectCol = -999;
+let vfDragging      = false;
 
-function vfGetOffset()   { return parseInt(document.getElementById('vf-offset-input')?.value||75,10)||0; }
-function vfGetProgress() { return parseInt(document.getElementById('vf-progress-input')?.value||2,10)||2; }
-
-// ── Mode / lane UI ────────────────────────────────────────────────────────────
-function vfSetMode(mode) {
-  vfMode = mode;
-  document.getElementById('vf-mode-swim-btn').className  = mode==='swim'  ? 'btn btn-primary'   : 'btn btn-secondary';
-  document.getElementById('vf-mode-track-btn').className = mode==='track' ? 'btn btn-primary'   : 'btn btn-secondary';
-  document.getElementById('vf-lane-row').style.display   = mode==='swim'  ? 'flex' : 'none';
-  if (vfLiveState !== 'idle') vfRestartCalibration();
-}
-function vfSetLanes(n) {
-  vfLaneCount = n;
-  document.querySelectorAll('.vf-lane-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.lanes)===n));
-  if (vfLiveState !== 'idle') vfRestartCalibration();
-}
+function vfGetOffset()      { return parseInt(document.getElementById('vf-offset-input')?.value||0,10)||0; }
+function vfGetProgress()    { return parseInt(document.getElementById('vf-progress-input')?.value||2,10)||2; }
+function vfGetSensitivity() { return parseInt(document.getElementById('vf-sensitivity')?.value||6,10)||6; }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 function initVideoFinish() {
   requestWakeLock(); syncClock();
-  vfSetMode('swim');
 
-  // Watch race state from Firebase
+  // Init slit canvas (OffscreenCanvas not available in all mobile browsers — use regular canvas)
+  vfSlitInternal = document.createElement('canvas');
+  vfSlitInternal.width  = VF_SLIT_W;
+  vfSlitInternal.height = VF_SLIT_H;
+  vfSlitICtx = vfSlitInternal.getContext('2d', { willReadFrequently: true });
+  vfSlitICtx.fillStyle = '#111';
+  vfSlitICtx.fillRect(0, 0, VF_SLIT_W, VF_SLIT_H);
+  vfSlitPos       = 0;
+  vfGoColumn      = -1;
+  vfBgAccum       = new Float32Array(VF_SLIT_H);
+  vfBgN           = 0;
+  vfLiveState     = 'idle';
+  vfDetections    = [];
+  vfLiveRafId     = null;
+  vfLastDetectCol = -999;
+  vfSlitX         = 0.5;
+
+  // Sensitivity slider live label
+  const sensSlider = document.getElementById('vf-sensitivity');
+  if (sensSlider) sensSlider.oninput = () => {
+    const lbl = document.getElementById('vf-sens-val');
+    if (lbl) lbl.textContent = sensSlider.value;
+  };
+
+  // Wire up slit line drag on live canvas
+  const liveCanvas = document.getElementById('vf-live-canvas');
+  if (liveCanvas) {
+    liveCanvas.addEventListener('mousedown',  vfDragStart, { passive: false });
+    liveCanvas.addEventListener('mousemove',  vfDragMove,  { passive: false });
+    window.addEventListener('mouseup',        vfDragEnd);
+    liveCanvas.addEventListener('touchstart', vfDragStart, { passive: false });
+    liveCanvas.addEventListener('touchmove',  vfDragMove,  { passive: false });
+    window.addEventListener('touchend',       vfDragEnd);
+  }
+
+  // Watch race state
   const ref = cRef('race/current');
   ref.on('value', snap => {
     const rc = snap.val();
     if (!rc) return;
-    if (rc.state==='live' && rc.startedAtServer) {
-      vfRaceStartMs = rc.startedAtServer;
-      vfOfflineMode = false;
-      if (vfLiveState === 'ready') {
-        vfLiveState = 'detecting';
-        vfLivePrev  = new Array(vfLaneCount).fill(null);
-        vfLaneFound = new Array(vfLaneCount).fill(false);
-        vfSetStatus('\uD83D\uDD34 Detecting…', '#ef4444');
+    if (rc.state === 'live' && rc.startedAtServer) {
+      if (!vfRaceStartMs) {
+        vfRaceStartMs = rc.startedAtServer;
+        vfGoColumn    = vfSlitPos;
+        vfDrawGoMarker();
       }
-      // if still calibrating it will switch automatically when cal finishes
-    } else if (rc.state==='armed') {
-      vfSetStatus('\u26A1 Ready — waiting for GO', '#eab308');
+      vfOfflineMode = false;
+      if (vfLiveState === 'calibrating' || vfLiveState === 'ready') {
+        vfLiveState = 'detecting';
+        vfSetStatus('🔴 Race live — detecting crossings', '#ef4444');
+      }
+    } else if (rc.state === 'armed') {
+      vfRaceStartMs = 0; vfGoColumn = -1;
+      if (vfLiveState === 'detecting' || vfLiveState === 'done') vfLiveState = 'ready';
+      vfSetStatus('⚡ Armed — waiting for GO', '#eab308');
     }
   });
   activeListeners.push(() => ref.off());
 
-  // Start camera
+  vfStartCamera();
+}
+
+function vfSetStatus(text, dotColor) {
+  const el  = document.getElementById('vf-race-status');
+  const dot = document.getElementById('vf-status-dot');
+  if (el)  el.textContent = text;
+  if (dot) dot.style.background = dotColor || 'var(--muted)';
+}
+
+function vfStartCamera() {
   navigator.mediaDevices.getUserMedia({
-    video: { facingMode:'environment', width:{ideal:1920}, height:{ideal:1080} },
+    video: { facingMode: vfFacingMode2, width:{ideal:1920}, height:{ideal:1080}, frameRate:{ideal:60} },
     audio: false
   }).then(stream => {
     vfStream = stream;
     const vid = document.getElementById('vf-video-preview');
     vid.srcObject = stream; vid.play();
     vid.addEventListener('playing', () => {
-      vfStartCalibration();
+      vfLiveState = 'calibrating';
+      vfSetStatus('Calibrating…', '#6b7280');
       toast('Camera ready — calibrating…');
-    }, {once:true});
+      if (!vfLiveRafId) vfLiveRafId = requestAnimationFrame(vfLiveFrame);
+    }, { once: true });
   }).catch(err => {
-    const msg = err && err.name === 'NotFoundError'
-      ? 'No camera found on this device'
-      : err && err.name === 'NotAllowedError'
-        ? 'Camera access denied — check browser permissions'
-        : 'Camera error: ' + (err?.message || err);
-    toast(msg);
-    vfSetStatus('⚠ ' + msg, '#ef4444');
-    // Show retry button on the canvas area
+    const msg = err?.name === 'NotFoundError'   ? 'No camera found on this device'
+              : err?.name === 'NotAllowedError' ? 'Camera access denied — check browser permissions'
+              : 'Camera error: ' + (err?.message || err);
+    toast(msg); vfSetStatus('⚠ ' + msg, '#ef4444');
     const canvas = document.getElementById('vf-live-canvas');
     if (canvas) {
       canvas.style.display = 'none';
@@ -3834,176 +3917,274 @@ function initVideoFinish() {
   });
 }
 
-function vfSetStatus(text, dotColor) {
-  const el  = document.getElementById('vf-race-status');
-  const dot = document.getElementById('vf-status-dot');
-  if (el)  el.textContent = text;
-  if (dot) dot.style.background = dotColor || 'var(--muted)';
+// ── Slit line drag ────────────────────────────────────────────────────────────
+function vfDragStart(e) {
+  e.preventDefault(); vfDragging = true; vfDragMove(e);
 }
-function vfStartCalibration() {
-  vfLiveState = 'calibrating';
-  vfCalData = {
-    baselines: new Array(vfLaneCount).fill(0),
-    counts:    new Array(vfLaneCount).fill(0),
-    prev:      new Array(vfLaneCount).fill(null),
-    startMs:   Date.now()
-  };
-  vfSetStatus('Calibrating…', '#6b7280');
-  if (!vfLiveRafId) vfLiveRafId = requestAnimationFrame(vfLiveFrame);
+function vfDragMove(e) {
+  if (!vfDragging) return;
+  e.preventDefault();
+  const canvas = document.getElementById('vf-live-canvas');
+  if (!canvas) return;
+  const rect   = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  vfSlitX = Math.max(0.02, Math.min(0.98, (clientX - rect.left) / rect.width));
 }
-function vfRestartCalibration() {
-  vfDetections = []; vfRenderDetections();
-  vfLiveState = 'idle';
-  vfStartCalibration();
-}
+function vfDragEnd() { vfDragging = false; }
 
-// ── Live detection loop ───────────────────────────────────────────────────────
+// ── Main RAF loop ─────────────────────────────────────────────────────────────
 function vfLiveFrame() {
   vfLiveRafId = null;
-  if (vfLiveState === 'idle' || vfLiveState === 'done') return;
+  if (vfLiveState === 'idle') return;
 
   const vid = document.getElementById('vf-video-preview');
   if (!vid || !vid.videoWidth) { vfLiveRafId = requestAnimationFrame(vfLiveFrame); return; }
 
+  // Grab frame
   if (!vfLiveOffscr) vfLiveOffscr = document.createElement('canvas');
   const oc = vfLiveOffscr;
   oc.width = vid.videoWidth; oc.height = vid.videoHeight;
-  const ctx = oc.getContext('2d');
-  ctx.drawImage(vid, 0, 0);
+  const octx = oc.getContext('2d', { willReadFrequently: true });
+  octx.drawImage(vid, 0, 0);
 
-  // Push frame to visible canvas with overlay
-  vfDrawOverlay(oc, ctx);
+  // Draw live preview with slit line
+  vfDrawLiveOverlay(oc);
 
-  const N = vfLaneCount;
-  const sample = i => vfMode==='swim'
-    ? vfSampleStrip(ctx, oc.width, oc.height, i, N)
-    : vfSampleHStrip(ctx, oc.width, oc.height, i, N);
+  // Extract slit column (1px wide, full height)
+  const slitPixelX = Math.round(vfSlitX * (oc.width - 1));
+  const rawCol = octx.getImageData(slitPixelX, 0, 1, oc.height);
 
+  // Scale to VF_SLIT_H
+  const scaledCol = vfScaleColumn(rawCol, oc.height, VF_SLIT_H);
+
+  // Stamp into slit canvas at current position
+  if (vfSlitPos < VF_SLIT_W) {
+    vfSlitICtx.putImageData(scaledCol, vfSlitPos, 0);
+  }
+
+  // Calibration: build background model for ~90 frames (~1.5s)
   if (vfLiveState === 'calibrating') {
-    const cal = vfCalData;
-    for (let i=0; i<N; i++) {
-      const s = sample(i);
-      if (cal.prev[i]) { cal.baselines[i] += vfPixelDiff(s, cal.prev[i]); cal.counts[i]++; }
-      cal.prev[i] = s;
-    }
-    if (Date.now() - cal.startMs >= 2000) {
-      vfLiveThresholds = cal.baselines.map((b,i) =>
-        Math.max(6, cal.counts[i]>0 ? (b/cal.counts[i])*4 : 10)
-      );
-      vfLivePrev  = new Array(N).fill(null);
-      vfLaneFound = new Array(N).fill(false);
-      if (vfRaceStartMs && nowServer() > vfRaceStartMs) {
-        vfLiveState = 'detecting';
-        vfSetStatus('\uD83D\uDD34 Detecting…', '#ef4444');
-      } else {
-        vfLiveState = 'ready';
-        vfSetStatus('\u2713 Ready — waiting for GO', '#22c55e');
-      }
+    vfBuildBg(scaledCol);
+    if (vfBgN >= 90) {
+      vfLiveState = vfRaceStartMs ? 'detecting' : 'ready';
+      vfSetStatus(vfRaceStartMs ? '🔴 Detecting…' : '✓ Ready — waiting for GO',
+                  vfRaceStartMs ? '#ef4444' : '#22c55e');
+      toast('Ready!');
     }
   } else if (vfLiveState === 'detecting') {
-    const nowMs = nowServer();
-    for (let i=0; i<N; i++) {
-      if (vfLaneFound[i]) continue;
-      const s = sample(i);
-      if (vfLivePrev[i] && vfPixelDiff(s, vfLivePrev[i]) > vfLiveThresholds[i]) {
-        const elapsedMs = nowMs - vfRaceStartMs - vfGetOffset();
-        if (elapsedMs > 100) {
-          const still = oc.toDataURL('image/jpeg', 0.8);
-          vfDetections.push({ lane:i+1, elapsedMs, still });
-          vfDetections.sort((a,b) => a.elapsedMs - b.elapsedMs);
-          vfDetections.forEach((d,j) => d.place = j+1);
-          vfLaneFound[i] = true;
-          vfRenderDetections();
-          const lbl = vfMode==='track' ? `Lane ${i+1}` : `Strip ${i+1}`;
-          toast(`${lbl}: ${fmtMs(elapsedMs)}`);
-          const dc = document.getElementById('vf-detect-count');
-          if (dc) dc.textContent = `${vfDetections.length}/${N}`;
-        }
-      }
-      vfLivePrev[i] = s;
-    }
-    if (vfLaneFound.every(Boolean)) {
-      vfLiveState = 'done';
-      vfSetStatus('\u2713 All done', '#22c55e');
-      return;
-    }
+    vfCheckCrossing(scaledCol);
+    // Slowly adapt background to handle lighting changes (skip while crossing active)
+    if (vfSlitPos - vfLastDetectCol > 120) vfAdaptBg(scaledCol, 0.015);
   }
+
+  // Render slit display
+  vfRenderSlit();
+
+  // Advance position; shift canvas if full
+  vfSlitPos++;
+  if (vfSlitPos >= VF_SLIT_W) {
+    const half = VF_SLIT_W >> 1;
+    const img = vfSlitICtx.getImageData(half, 0, VF_SLIT_W - half, VF_SLIT_H);
+    vfSlitICtx.fillStyle = '#111';
+    vfSlitICtx.fillRect(0, 0, VF_SLIT_W, VF_SLIT_H);
+    vfSlitICtx.putImageData(img, 0, 0);
+    vfSlitPos       -= half;
+    if (vfGoColumn  >= 0) vfGoColumn -= half;
+    vfLastDetectCol -= half;
+    vfDetections.forEach(d => { if (d._col >= 0) d._col -= half; });
+  }
+
   vfLiveRafId = requestAnimationFrame(vfLiveFrame);
 }
 
-// Draw camera frame + lane dividers onto visible canvas
-function vfDrawOverlay(offscr, srcCtx) {
+// ── Live camera overlay with draggable slit line ──────────────────────────────
+function vfDrawLiveOverlay(offscr) {
   const canvas = document.getElementById('vf-live-canvas');
   if (!canvas) return;
   canvas.width = offscr.width; canvas.height = offscr.height;
   const ctx = canvas.getContext('2d');
   ctx.drawImage(offscr, 0, 0);
-  const N = vfLaneCount, w = canvas.width, h = canvas.height;
+
+  const sx = Math.round(vfSlitX * offscr.width);
+  const h  = offscr.height;
+  const lineColor = vfLiveState === 'detecting' ? '#ef4444'
+                  : vfLiveState === 'ready'     ? '#22c55e'
+                  : '#eab308';
   ctx.save();
-  ctx.lineWidth = 2;
-  ctx.font = `bold ${Math.max(12, Math.floor(h/20))}px sans-serif`;
-  for (let i=0; i<N; i++) {
-    const found = vfLaneFound[i];
-    ctx.strokeStyle = found ? 'rgba(34,197,94,0.8)' : 'rgba(20,184,166,0.6)';
-    ctx.fillStyle   = found ? 'rgba(34,197,94,0.95)': 'rgba(20,184,166,0.9)';
-    if (vfMode === 'swim') {
-      const x = Math.round(i * w / N);
-      if (i>0) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
-      ctx.fillText(`L${i+1}`, x+4, 22);
-    } else {
-      const y = Math.round(i * h / N);
-      if (i>0) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-      ctx.fillText(`L${i+1}`, 6, y+22);
-    }
-  }
+  // Slit line
+  ctx.strokeStyle = lineColor; ctx.lineWidth = 3;
+  ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 6;
+  ctx.setLineDash([10, 5]);
+  ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, h); ctx.stroke();
+  ctx.setLineDash([]);
+  // Drag handle
+  ctx.fillStyle = lineColor;
+  ctx.beginPath(); ctx.arc(sx, h >> 1, 16, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.shadowBlur = 0; ctx.stroke();
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('⇔', sx, (h >> 1) + 5);
+  // Label
+  ctx.textAlign = 'left'; ctx.font = 'bold 12px sans-serif';
+  ctx.fillStyle = lineColor;
+  ctx.fillText('FINISH LINE', sx + 20, 20);
   ctx.restore();
 }
 
-// ── Pixel helpers ─────────────────────────────────────────────────────────────
-// Sample a vertical strip (swim: camera at end wall)
-function vfSampleStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
-  const sw = Math.max(1, Math.floor(canvasW / numStrips));
-  const x  = Math.min(stripIdx * sw, canvasW - 1);
-  const data = ctx.getImageData(x, 0, sw, canvasH).data;
-  const out = [];
-  for (let i=0;i<data.length;i+=20) out.push((data[i]*77+data[i+1]*150+data[i+2]*29)>>8);
+// ── Scale pixel column to target height ───────────────────────────────────────
+function vfScaleColumn(rawCol, srcH, dstH) {
+  const out = new ImageData(1, dstH);
+  for (let y = 0; y < dstH; y++) {
+    const srcY = Math.round(y * (srcH - 1) / (dstH - 1));
+    const si = srcY * 4, di = y * 4;
+    out.data[di]   = rawCol.data[si];
+    out.data[di+1] = rawCol.data[si+1];
+    out.data[di+2] = rawCol.data[si+2];
+    out.data[di+3] = 255;
+  }
   return out;
-}
-// Sample a horizontal band (track: camera at side of finish line)
-function vfSampleHStrip(ctx, canvasW, canvasH, stripIdx, numStrips) {
-  const sh = Math.max(1, Math.floor(canvasH / numStrips));
-  const y  = Math.min(stripIdx * sh, canvasH - 1);
-  const data = ctx.getImageData(0, y, canvasW, sh).data;
-  const out = [];
-  for (let i=0;i<data.length;i+=20) out.push((data[i]*77+data[i+1]*150+data[i+2]*29)>>8);
-  return out;
-}
-function vfPixelDiff(a,b) {
-  if (!a||!b||a.length!==b.length) return 0;
-  let s=0; for (let i=0;i<a.length;i++) s+=Math.abs(a[i]-b[i]);
-  return s/a.length;
 }
 
-// ── Results ───────────────────────────────────────────────────────────────────
+// ── Background model ──────────────────────────────────────────────────────────
+function vfBuildBg(col) {
+  const n = vfBgN;
+  for (let y = 0; y < VF_SLIT_H; y++) {
+    const i = y * 4;
+    const g = (col.data[i]*77 + col.data[i+1]*150 + col.data[i+2]*29) >> 8;
+    vfBgAccum[y] = (vfBgAccum[y] * n + g) / (n + 1);
+  }
+  vfBgN++;
+}
+function vfAdaptBg(col, rate) {
+  for (let y = 0; y < VF_SLIT_H; y++) {
+    const i = y * 4;
+    const g = (col.data[i]*77 + col.data[i+1]*150 + col.data[i+2]*29) >> 8;
+    vfBgAccum[y] += (g - vfBgAccum[y]) * rate;
+  }
+}
+
+// ── Crossing detection ────────────────────────────────────────────────────────
+function vfCheckCrossing(col) {
+  if (!vfBgAccum || vfBgN < 10 || !vfRaceStartMs) return;
+  const debounce = Math.max(20, 60 - vfGetSensitivity() * 4); // 20–56 frames
+  if (vfSlitPos - vfLastDetectCol < debounce) return;
+
+  const nowMs    = nowServer();
+  const elapsed  = nowMs - vfRaceStartMs - vfGetOffset();
+  if (elapsed < 300) return; // ignore first 300ms (GO noise)
+
+  const sens      = vfGetSensitivity();              // 1–10
+  const threshold = Math.max(6, 38 - sens * 3);     // 8 (sens=10) – 35 (sens=1)
+  const minRows   = Math.round(VF_SLIT_H * (0.35 - sens * 0.02)); // 15%–33% of height
+
+  let diffCount = 0;
+  for (let y = 0; y < VF_SLIT_H; y++) {
+    const i = y * 4;
+    const g = (col.data[i]*77 + col.data[i+1]*150 + col.data[i+2]*29) >> 8;
+    if (Math.abs(g - vfBgAccum[y]) > threshold) diffCount++;
+  }
+
+  if (diffCount >= minRows) {
+    vfLastDetectCol = vfSlitPos;
+    const still = vfCaptureStill();
+    const entry = { place: vfDetections.length + 1, elapsedMs: elapsed, still, _col: vfSlitPos };
+    vfDetections.push(entry);
+    vfDetections.sort((a,b) => a.elapsedMs - b.elapsedMs);
+    vfDetections.forEach((d,i) => d.place = i + 1);
+    vfRenderDetections();
+    toast(`Finish #${vfDetections.length}: ${fmtMs(elapsed)}`);
+    const dc = document.getElementById('vf-detect-count');
+    if (dc) dc.textContent = `${vfDetections.length} detected`;
+    // Draw crossing marker on slit canvas
+    vfMarkCrossing(vfSlitPos, elapsed, vfDetections.length);
+  }
+}
+
+function vfCaptureStill() {
+  if (!vfLiveOffscr) return null;
+  try {
+    const tmp = document.createElement('canvas');
+    tmp.width = 160; tmp.height = 90;
+    tmp.getContext('2d').drawImage(vfLiveOffscr, 0, 0, 160, 90);
+    return tmp.toDataURL('image/jpeg', 0.7);
+  } catch(e) { return null; }
+}
+
+// ── Slit canvas markers ───────────────────────────────────────────────────────
+function vfDrawGoMarker() {
+  if (!vfSlitICtx || vfGoColumn < 0) return;
+  vfSlitICtx.save();
+  vfSlitICtx.fillStyle = 'rgba(234,179,8,0.9)';
+  vfSlitICtx.fillRect(vfGoColumn, 0, 3, VF_SLIT_H);
+  vfSlitICtx.fillStyle = '#eab308';
+  vfSlitICtx.font = 'bold 11px sans-serif';
+  vfSlitICtx.fillText('GO', Math.min(vfGoColumn + 5, VF_SLIT_W - 30), 14);
+  vfSlitICtx.restore();
+}
+
+function vfMarkCrossing(col, elapsedMs, place) {
+  if (!vfSlitICtx) return;
+  vfSlitICtx.save();
+  vfSlitICtx.fillStyle = 'rgba(59,130,246,0.85)';
+  vfSlitICtx.fillRect(col, 0, 2, VF_SLIT_H);
+  vfSlitICtx.fillStyle = '#60a5fa';
+  vfSlitICtx.font = 'bold 11px sans-serif';
+  const lx = Math.min(col + 4, VF_SLIT_W - 60);
+  vfSlitICtx.fillText(`#${place}`, lx, 14);
+  vfSlitICtx.fillText(fmtMs(elapsedMs), lx, 27);
+  vfSlitICtx.restore();
+}
+
+// ── Render slit display canvas ────────────────────────────────────────────────
+function vfRenderSlit() {
+  const display = document.getElementById('vf-slit-canvas');
+  if (!display || !vfSlitICtx) return;
+  const dw = display.offsetWidth || 360;
+  const dh = 140;
+  if (display.width !== dw)  display.width  = dw;
+  if (display.height !== dh) display.height = dh;
+  const ctx = display.getContext('2d');
+  const available = Math.min(vfSlitPos, VF_SLIT_W);
+  if (available < 1) { ctx.fillStyle='#111'; ctx.fillRect(0,0,dw,dh); return; }
+  // Show the most recent dw columns (scroll left as time advances)
+  const showCols = Math.min(available, dw * 2);
+  const srcX     = Math.max(0, available - showCols);
+  ctx.drawImage(vfSlitInternal, srcX, 0, showCols, VF_SLIT_H, 0, 0, dw, dh);
+}
+
+// ── Export slit image as PNG ──────────────────────────────────────────────────
+function vfExportSlit() {
+  if (!vfSlitInternal || vfSlitPos === 0) { toast('No slit image yet — wait for the race'); return; }
+  const used = Math.min(vfSlitPos, VF_SLIT_W);
+  const tmp = document.createElement('canvas');
+  tmp.width = used; tmp.height = VF_SLIT_H;
+  tmp.getContext('2d').drawImage(vfSlitInternal, 0, 0, used, VF_SLIT_H, 0, 0, used, VF_SLIT_H);
+  const link = document.createElement('a');
+  link.href     = tmp.toDataURL('image/png');
+  link.download = `finish-${new Date().toISOString().slice(0,16).replace('T','-')}.png`;
+  link.click();
+  toast('Finish line photo saved!');
+}
+
+// ── Results list ──────────────────────────────────────────────────────────────
 function vfRenderDetections() {
-  const list  = document.getElementById('vf-mark-list');
+  const list = document.getElementById('vf-mark-list');
+  if (!list) return;
   if (!vfDetections.length) {
-    list.innerHTML='<div class="text-muted text-sm text-center mt-8">No finishes yet</div>'; return;
+    list.innerHTML = '<div class="text-muted text-sm text-center mt-8">No finishes detected yet</div>'; return;
   }
   const progN = vfGetProgress();
   list.innerHTML = vfDetections.map((d,i) => `
     <div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);flex-wrap:wrap">
       <span class="place-badge">${ordinal(d.place||i+1)}</span>
-      ${d.lane ? `<span style="color:var(--accent);font-weight:700;min-width:52px">Lane ${d.lane}</span>` : ''}
-      <span style="font-weight:700;font-size:1rem;min-width:76px;font-family:monospace">${fmtMs(d.elapsedMs)}</span>
+      <span style="font-weight:700;font-size:1rem;min-width:80px;font-family:monospace">${fmtMs(d.elapsedMs)}</span>
       ${(d.place||i+1) <= progN ? '<span style="background:#16a34a;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700">PROGRESSES</span>' : ''}
-      ${d.still ? `<img src="${d.still}" style="width:60px;height:34px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">` : ''}
+      ${d.still ? `<img src="${d.still}" style="width:64px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">` : ''}
       <button class="vf-mark-btn" style="color:var(--danger);margin-left:auto" onclick="vfRemove(${i})">&#x2715;</button>
     </div>`).join('');
 }
 function vfRemove(i) {
   vfDetections.splice(i,1);
-  vfDetections.forEach((d,j) => d.place=j+1);
+  vfDetections.forEach((d,j) => d.place = j+1);
   vfRenderDetections();
 }
 
@@ -4012,457 +4193,83 @@ async function vfPublish() {
   if (!vfDetections.length) { toast('Nothing to publish'); return; }
   const payload = {};
   vfDetections.forEach((d,i) => {
-    const k = d.lane ? String(d.lane) : `place_${i+1}`;
-    payload[k] = { place:d.place||i+1, elapsedMs:d.elapsedMs, ...(d.lane?{lane:d.lane}:{}) };
+    payload[`place_${i+1}`] = { place: d.place||i+1, elapsedMs: d.elapsedMs };
   });
   await cRef('race/current/videoFinish').set({
-    marks:payload, mode:vfMode, lanes:vfLaneCount,
-    offsetMs:vfGetOffset(), offlineMode:vfOfflineMode,
-    recordedBy:myName||'Video Finish',
-    publishedAt:firebase.database.ServerValue.TIMESTAMP
+    marks: payload, mode: 'slit',
+    offsetMs: vfGetOffset(), offlineMode: vfOfflineMode,
+    recordedBy: myName || 'Video Finish',
+    publishedAt: SERVER_TIMESTAMP
   });
   toast('Video finish times published!');
   document.getElementById('vf-publish-btn').disabled = true;
 }
 
-// ── Cleanup ───────────────────────────────────────────────────────────────────
-function vfExit() {
-  if (vfLiveRafId) { cancelAnimationFrame(vfLiveRafId); vfLiveRafId=null; }
-  if (vfStream)    { vfStream.getTracks().forEach(t=>t.stop()); vfStream=null; }
-  vfLiveState='idle'; vfDetections=[];
-  enterRole('role');
-}
-// ════════════════════════════════════════
-// DEMO / SEED
-// ════════════════════════════════════════
-async function _seedTestCarnival() {
-  const now = Date.now();
-
-  // Pre-seed 3 published results so Results Board shows content immediately
-  async function pub(key, obj) {
-    try { await cRef('results/' + fbEnc(key)).set(obj); } catch(e) {}
-  }
-
-  await pub('12/13 Years-Boys-100m Sprint-seed001', {
-    type:'lane', age:'12/13 Years', gender:'Boys', event:'100m Sprint',
-    raceId:'seed001',
-    results:[
-      {place:1, lane:3, name:'Tom Brady',    timeMs:12340},
-      {place:2, lane:1, name:'Jake Mills',   timeMs:12580},
-      {place:3, lane:5, name:'Alex Carter',  timeMs:12790},
-      {place:4, lane:2, name:'Ryan Smith',   timeMs:13020},
-      {place:5, lane:4, name:'Chris Lee',    timeMs:13450}
-    ],
-    publishedAt: now - 600000
-  });
-
-  await pub('10 Years-Girls-50m Freestyle-seed002', {
-    type:'lane', age:'10 Years', gender:'Girls', event:'50m Freestyle',
-    raceId:'seed002',
-    results:[
-      {place:1, lane:4, name:'Emma Wilson',   timeMs:34210},
-      {place:2, lane:2, name:'Sophie Chen',   timeMs:34890},
-      {place:3, lane:5, name:'Lily Thompson', timeMs:35420},
-      {place:4, lane:1, name:'Ava Roberts',   timeMs:36100}
-    ],
-    publishedAt: now - 300000
-  });
-
-  await pub('xc-Open-Mixed-3km Cross Country-seed003', {
-    type:'xc', age:'Open', gender:'Mixed', event:'3km Cross Country',
-    raceId:'seed003',
-    places:[
-      {place:1, name:'Jordan Blake',  elapsedMs:742000},
-      {place:2, name:'Sam Ahmed',     elapsedMs:754000},
-      {place:3, name:'Casey Morgan',  elapsedMs:761000},
-      {place:4, name:'Riley Johnson', elapsedMs:778000},
-      {place:5, name:'Taylor White',  elapsedMs:795000}
-    ],
-    publishedAt: now - 120000
-  });
-
-  // Armed track race (200m Sprint) with ghost splits from 2 virtual timers
-  // → admin sees multi-timer averaging in Race Control done panel AND Results Board
-  const seed004Splits = {
-    1:{ t_ghost1:{elapsedMs:27450}, t_ghost2:{elapsedMs:27480} },
-    2:{ t_ghost1:{elapsedMs:27820}, t_ghost2:{elapsedMs:27850} },
-    3:{ t_ghost1:{elapsedMs:28100}, t_ghost2:{elapsedMs:28130} },
-    4:{ t_ghost1:{elapsedMs:28450}, t_ghost2:{elapsedMs:28470} },
-    5:{ t_ghost1:{elapsedMs:28900}, t_ghost2:{elapsedMs:28920} },
-    6:{ t_ghost1:{elapsedMs:29200}, t_ghost2:{elapsedMs:29230} }
-  };
-  const seed004Lanes = {
-    1:{name:'Sam Ahmed'},   2:{name:'Jordan Blake'},
-    3:{name:'Casey Morgan'},4:{name:'Riley Johnson'},
-    5:{name:'Taylor White'},6:{name:'Alex Carter'}
-  };
-  await cRef('race/current').set({
-    raceId:'seed004', age:'11 Years', gender:'Mixed', event:'200m Sprint',
-    state:'done', armedAt: now - 90000, startedAtServer: now - 30000,
-    lanes: seed004Lanes, splits: seed004Splits
-  });
-  // Also publish averaged times to results/ so Results Board shows them
-  const seed004Results = Object.entries(seed004Splits).map(([lane, timerSplits]) => {
-    const vals = Object.values(timerSplits).map(s => s.elapsedMs);
-    const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
-    return { lane: parseInt(lane), name: seed004Lanes[lane]?.name || ('Lane '+lane), timeMs: Math.round(mean) };
-  }).sort((a,b) => a.timeMs - b.timeMs).map((r,i) => ({...r, place: i+1}));
-  await pub('11 Years-Mixed-200m Sprint-seed004', {
-    type:'lane', age:'11 Years', gender:'Mixed', event:'200m Sprint',
-    raceId:'seed004', results: seed004Results, publishedAt: now - 25000
-  });
-
-  // Armed XC race ready to use immediately
-  await cRef('xc/current').set({
-    raceId:'seed005', age:'12/13 Years', gender:'Mixed', event:'Cross Country 2km',
-    state:'armed', finishes:{}, armedAt: now
-  });
-}
-
-// ════════════════════════════════════════
-// URL DEEP-LINK INIT
-// ════════════════════════════════════════
-(async function initFromURL() {
-  const p    = new URLSearchParams(location.search);
-  const code = (p.get('code') || '').trim().toUpperCase();
-  const name = (p.get('name') || '').trim();
-  const role = (p.get('role') || '').trim();
-  const seed = p.get('seed') === '1';
-  if (!code || code.length < 4) return;
-
-  carnivalCode = code;
-  try { await _wsReady2(); } catch(e) {}
-
-  const snap = await cRef('meta').once('value');
-  let isNew = false;
-  if (!snap.exists()) {
-    if (seed || code.startsWith('DEMO')) {
-      carnivalMeta = {
-        school:'Westside Athletics', name:'Test Carnival 2026',
-        sport:'mixed', createdAt: Date.now(),
-        expiresAt: Date.now() + 7*24*3600*1000
-      };
-      await cRef('meta').set(carnivalMeta);
-      isNew = true;
-    }
-  } else {
-    carnivalMeta = snap.val();
-  }
-
-  if (isNew && seed) {
-    try { await _seedTestCarnival(); } catch(e) { console.warn('Seed failed:', e); }
-  }
-
-  myName = name;
-  try { localStorage.setItem('fl_name', name); } catch(e){}
-  try { localStorage.setItem('fl_last_code', code); } catch(e){}
-
-  // If role=observer, go straight in — no name needed
-  if (role === 'observer') {
-    enterRole('observer');
-    return;
-  }
-  showRolePicker();
-
-  if (role) {
-    setTimeout(() => {
-      if (role === 'timer') {
-        enterRole('timer');
-        setTimeout(() => { try { enterTimerLane(1); } catch(e){} }, 200);
-      } else {
-        try { enterRole(role); } catch(e) {}
-      }
-    }, 200);
-  }
-})();
-
-// ════════════════════════════════════════
-// SHARE MODAL
-// ════════════════════════════════════════
-function initResultsView() {
-  watchConn('observer-dot');  // reuse observer dot if present
-  const resRef = cRef('results');
-  resRef.on('value', snap => {
-    const data = snap.val();
-    const el   = document.getElementById('results-all');
-    if (!el) return;
-    if (!data || !Object.keys(data).length) {
-      el.innerHTML = '<div class="text-muted text-center mt-32">No results published yet.</div>';
-      return;
-    }
-    const events = Object.values(data).sort((a,b) => (b.publishedAt||0) - (a.publishedAt||0));
-    el.innerHTML = events.map(ev => {
-      const isXC  = ev.type === 'xc';
-      const places = isXC ? (ev.places||[]) : (ev.results||[]);
-      const rows   = places.map((r,i) => {
-        const isDQ = !isXC && r.dq;
-        const pos  = isXC ? r.place : (isDQ ? null : (i+1));
-        const name = r.name || (isXC ? '' : `Lane ${r.lane}`);
-        const time = fmtSec(isXC ? r.elapsedMs : r.timeMs);
-        return `<div class="lane-row" style="padding:6px 4px;${isDQ?'opacity:.45':''}" >
-          <div class="medal ${isDQ?'pN':medalCls(pos)}" style="${isDQ?'background:var(--warn);color:#fff':''}">${isDQ?'DQ':(pos)}</div>
-          <div class="lane-name">${name}</div>
-          <div class="lane-time font-mono">${isDQ?'—':time}</div>
-        </div>`;
-      }).join('');
-      return `<div class="card" style="margin-bottom:8px">
-        <div class="card-title" style="font-size:.8rem;color:var(--muted)">
-          ${ev.age||''} ${ev.gender||''} · ${ev.event||''}
-        </div>
-        ${rows || '<div class="text-muted text-sm">No times recorded</div>'}
-      </div>`;
-    }).join('');
-  });
-  activeListeners.push(()=>resRef.off());
-}
-
-function showSharePage() {
-  // Populate share screen (join QR for participants)
-  const joinUrl = `${location.origin}/?code=${carnivalCode}`;
-  document.getElementById('share-school-name').textContent =
-    carnivalMeta?.school || 'Join Page';
-  document.getElementById('share-carnival-name').textContent =
-    carnivalMeta?.name || '';
-  const codeEl = document.getElementById('share-join-code');
-  if (codeEl) codeEl.textContent = carnivalCode;
-
-  showScreen('share');
-
-  const qrEl = document.getElementById('share-qr');
-  if (qrEl && typeof QRCode !== 'undefined') {
-    qrEl.innerHTML = '';
-    new QRCode(qrEl, { text: joinUrl, width: 164, height: 164,
-      colorDark: '#000000', colorLight: '#ffffff' });
-  }
-}
-
-function showShareModal() {
-  const url = `${location.origin}/?code=${carnivalCode}&role=observer`;
-  const existing = document.getElementById('share-modal');
-  if (existing) existing.remove();
-
-  const modal = document.createElement('div');
-  modal.id = 'share-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px';
-  modal.innerHTML = `
-    <div style="background:var(--surface);border-radius:16px;padding:24px;max-width:340px;width:100%;text-align:center">
-      <div style="font-weight:700;font-size:1.1rem;margin-bottom:4px">Share Results</div>
-      <div style="color:var(--muted);font-size:.85rem;margin-bottom:16px">Parents scan to follow live results</div>
-      <div id="share-qr" style="display:flex;justify-content:center;margin-bottom:16px"></div>
-      <div style="font-family:monospace;font-size:.75rem;word-break:break-all;background:var(--bg);padding:8px 10px;border-radius:8px;margin-bottom:12px;cursor:pointer"
-           onclick="navigator.clipboard.writeText('${url}').then(()=>toast('Link copied!'))">${url}</div>
-      <button class="btn btn-secondary" style="width:100%;margin-bottom:8px"
-        onclick="navigator.clipboard.writeText('${url}').then(()=>toast('Copied!'))">Copy Link</button>
-      <button class="btn btn-secondary" style="width:100%" onclick="document.getElementById('share-modal').remove()">Close</button>
-    </div>`;
-  document.body.appendChild(modal);
-  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-
-  // Generate QR
-  const qrEl = document.getElementById('share-qr');
-  if (qrEl && typeof QRCode !== 'undefined') {
-    new QRCode(qrEl, { text: url, width: 160, height: 160, colorDark:'#000', colorLight:'#fff' });
-  }
-}
-
-</script>
-
-<div id="ct-footer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(13,27,62,0.92);backdrop-filter:blur(6px);color:rgba(255,255,255,0.5);font-size:11px;text-align:center;padding:6px 16px;z-index:100;display:flex;justify-content:center;gap:16px;align-items:center;flex-wrap:wrap;">
-  <span>© 2026 Luck Dragon Pty Ltd</span>
-  <span>·</span>
-  <a href="https://schoolsportportal.com.au/privacy" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Privacy</a>
-  <span>·</span>
-  <a href="https://schoolsportportal.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">School Sport Portal</a>
-  <span>·</span>
-  <a href="https://sportcarnival.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Carnival Planner</a>
-</div>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6cf8d2e29c0d40b7884de3d1a632b1c5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-
-<!-- ════ XC AUTO-DETECT LINE SETUP OVERLAY ════ -->
-<div id="xc-line-setup-overlay">
-  <video id="xc-setup-vid" autoplay playsinline muted></video>
-  <canvas id="xc-line-canvas-overlay"></canvas>
-  <div id="xc-line-instruction">Tap the LEFT edge of your finish line</div>
-  <div id="xc-line-setup-btns">
-    <button class="btn btn-secondary" style="flex:1" onclick="xcResetLine()">↺ Reset</button>
-    <button id="xc-start-detect-btn" class="btn btn-primary" style="flex:2;display:none" onclick="xcStartDetect()">▶ Start Auto-Detect</button>
-    <button class="btn btn-secondary" style="flex:1" onclick="xcCloseLineSetup()">✕</button>
-  </div>
-</div>
-
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6cf8d2e29c0d40b7884de3d1a632b1c5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-</body>
-</html><!-- v8.5.2 new helper functions injected below </script> to keep patch clean -->
-<script>
-// ════════════════════════════════════════════════════════════
-// v8.5.2 HELPERS
-// ════════════════════════════════════════════════════════════
-
-// ── TASK 5: Generic confirm modal ────────────────────────────
-function _confirmModal(title, body, confirmLabel) {
-  return new Promise(resolve => {
-    const el = document.createElement('div');
-    el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
-    el.innerHTML = `
-      <div style="background:var(--surface);border-radius:16px;padding:24px;max-width:320px;width:100%;text-align:center">
-        <div style="font-weight:700;font-size:1.05rem;margin-bottom:8px">${title}</div>
-        <div style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">${body}</div>
-        <div style="display:flex;gap:10px">
-          <button class="btn btn-secondary" style="flex:1" id="_conf-cancel">Cancel</button>
-          <button class="btn btn-primary"   style="flex:1" id="_conf-ok">${confirmLabel}</button>
-        </div>
-      </div>`;
-    document.body.appendChild(el);
-    el.querySelector('#_conf-cancel').onclick = () => { document.body.removeChild(el); resolve(false); };
-    el.querySelector('#_conf-ok').onclick     = () => { document.body.removeChild(el); resolve(true);  };
-  });
-}
-
-// ── TASK 6: Gun countdown + recalibrate ──────────────────────
-let _starterCountdownTimer = null;
-
-function starterGunCountdown() {
-  // Cancel any existing
-  if (_starterCountdownTimer) { clearTimeout(_starterCountdownTimer); _starterCountdownTimer = null; }
-
-  const el = document.createElement('div');
-  el.id = 'starter-gun-overlay';
-  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px';
-  el.innerHTML = `
-    <div style="font-size:5rem;animation:vf-pulse 0.5s infinite">🔫</div>
-    <div style="font-size:1.8rem;font-weight:900;color:#ef4444;letter-spacing:.02em" id="_gcd-lbl">FIRING IN 1s…</div>
-    <button class="btn btn-secondary" style="font-size:1.1rem;padding:14px 36px;background:var(--surface)" id="_gcd-cancel">TAP TO CANCEL</button>`;
-  document.body.appendChild(el);
-
-  let cancelled = false;
-  el.querySelector('#_gcd-cancel').onclick = () => {
-    cancelled = true;
-    clearTimeout(_starterCountdownTimer);
-    document.body.removeChild(el);
-    toast('GO cancelled');
-    // Restart listening
-    starterListenStart();
-  };
-
-  _starterCountdownTimer = setTimeout(() => {
-    if (cancelled) return;
-    if (document.body.contains(el)) document.body.removeChild(el);
-    // FIRE GO
-    toast('🔫 Gun detected — GO!');
-    vibrate([200,60,200]);
-    flash('go', 600);
-    cRef('race/current').update({
-      state:'live',
-      startedAtServer: firebase.database.ServerValue.TIMESTAMP
-    });
-  }, 1000);
-}
-
-function starterRecalibrate() {
-  starterNoiseFloor = 0;
-  starterNoiseCount = 0;
-  const calLbl = document.getElementById('starter-cal-lbl');
-  if (calLbl) calLbl.textContent = 'Calibrating…';
-  toast('Recalibrating noise floor…');
-}
-
-// ── TASK 7: VF camera flip + retry ───────────────────────────
-let vfFacingMode = 'environment';
-
+// ── Camera flip & retry ───────────────────────────────────────────────────────
 function vfFlipCamera() {
-  vfFacingMode = (vfFacingMode === 'environment') ? 'user' : 'environment';
-  toast(`Switching to ${vfFacingMode === 'user' ? 'front' : 'back'} camera…`);
-  // Remove existing error div if present
+  vfFacingMode2 = (vfFacingMode2 === 'environment') ? 'user' : 'environment';
+  toast(`Switching to ${vfFacingMode2 === 'user' ? 'front' : 'back'} camera…`);
   const errDiv = document.getElementById('vf-cam-error');
   if (errDiv) errDiv.remove();
   const canvas = document.getElementById('vf-live-canvas');
   if (canvas) canvas.style.display = '';
-  // Stop existing stream
-  if (typeof vfStream !== 'undefined' && vfStream) {
-    vfStream.getTracks().forEach(t => t.stop());
-    vfStream = null;
-  }
-  // Restart camera with new facing mode
-  navigator.mediaDevices.getUserMedia({
-    video: { facingMode: vfFacingMode, width:{ideal:1920}, height:{ideal:1080} },
-    audio: false
-  }).then(stream => {
-    vfStream = stream;
-    const vid = document.getElementById('vf-video-preview');
-    vid.srcObject = stream; vid.play();
-    vid.addEventListener('playing', () => {
-      vfRestartCalibration();
-      toast('Camera switched — calibrating…');
-    }, {once:true});
-  }).catch(err => {
-    toast('Camera switch failed: ' + (err?.message || err));
-    vfSetStatus('⚠ Camera error', '#ef4444');
-  });
+  if (vfStream)    { vfStream.getTracks().forEach(t=>t.stop()); vfStream=null; }
+  if (vfLiveRafId) { cancelAnimationFrame(vfLiveRafId); vfLiveRafId=null; }
+  vfLiveState = 'idle';
+  vfStartCamera();
 }
-
 function vfRetryCamera() {
   const errDiv = document.getElementById('vf-cam-error');
   if (errDiv) errDiv.remove();
   const canvas = document.getElementById('vf-live-canvas');
   if (canvas) canvas.style.display = '';
   vfSetStatus('Starting camera…', 'var(--muted)');
-  navigator.mediaDevices.getUserMedia({
-    video: { facingMode: vfFacingMode, width:{ideal:1920}, height:{ideal:1080} },
-    audio: false
-  }).then(stream => {
-    vfStream = stream;
-    const vid = document.getElementById('vf-video-preview');
-    vid.srcObject = stream; vid.play();
-    vid.addEventListener('playing', () => {
-      vfStartCalibration();
-      toast('Camera ready — calibrating…');
-    }, {once:true});
-  }).catch(err => {
-    const msg = err?.name === 'NotFoundError' ? 'No camera found' : 'Camera error: ' + (err?.message || err);
-    toast(msg);
-    vfSetStatus('⚠ ' + msg, '#ef4444');
-  });
+  vfStartCamera();
 }
 
-// ── TASK 8: VF manual add finish ─────────────────────────────
+// ── Cleanup ───────────────────────────────────────────────────────────────────
+function vfExit() {
+  if (vfLiveRafId) { cancelAnimationFrame(vfLiveRafId); vfLiveRafId = null; }
+  if (vfStream)    { vfStream.getTracks().forEach(t=>t.stop()); vfStream = null; }
+  window.removeEventListener('mouseup',  vfDragEnd);
+  window.removeEventListener('touchend', vfDragEnd);
+  vfLiveState = 'idle'; vfDetections = [];
+  vfSlitInternal = null; vfSlitICtx = null;
+  enterRole('role');
+}
+
+// ── Manual add ────────────────────────────────────────────────────────────────
 function vfManualAdd() {
-  const maxLane = typeof vfLaneCount !== 'undefined' ? vfLaneCount : 8;
   const el = document.createElement('div');
   el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
   el.innerHTML = `
     <div style="background:var(--surface);border-radius:16px;padding:24px;max-width:320px;width:100%">
       <div style="font-weight:700;font-size:1rem;margin-bottom:16px">Add Manual Finish</div>
-      <div style="margin-bottom:12px">
-        <label style="font-size:0.8rem;color:var(--muted)">Lane</label>
-        <select id="_mf-lane" style="width:100%;margin-top:4px;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:1rem">
-          ${Array.from({length:maxLane},(_,i)=>`<option value="${i+1}">Lane ${i+1}</option>`).join('')}
-        </select>
-      </div>
       <div style="margin-bottom:20px">
-        <label style="font-size:0.8rem;color:var(--muted)">Time (seconds, e.g. 12.45)</label>
-        <input type="number" id="_mf-time" step="0.01" min="0" placeholder="0.00"
-          style="width:100%;margin-top:4px;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:1rem;box-sizing:border-box">
+        <label style="font-size:0.8rem;color:var(--muted)">Time (m:ss.ms or ss.ms)</label>
+        <input id="_mf-time" type="text" placeholder="e.g. 1:23.45 or 83.45"
+          style="width:100%;margin-top:4px;padding:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:1rem">
       </div>
-      <div style="display:flex;gap:10px">
-        <button class="btn btn-secondary" style="flex:1" id="_mf-cancel">Cancel</button>
-        <button class="btn btn-primary"   style="flex:1" id="_mf-ok">Add Finish</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" style="flex:1" onclick="this.closest('[style]').remove()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1" onclick="vfManualSubmit(this)">Add</button>
       </div>
     </div>`;
   document.body.appendChild(el);
-  el.querySelector('#_mf-cancel').onclick = () => document.body.removeChild(el);
-  el.querySelector('#_mf-ok').onclick = () => {
-    const lane  = parseInt(el.querySelector('#_mf-lane').value);
-    const timeSec = parseFloat(el.querySelector('#_mf-time').value);
-    if (!isFinite(timeSec) || timeSec <= 0) { toast('Enter a valid time'); return; }
-    const elapsedMs = Math.round(timeSec * 1000);
-    if (typeof vfDetections !== 'undefined') {
-      vfDetections.push({ lane, elapsedMs, manual: true });
-      if (typeof vfRenderDetections === 'function') vfRenderDetections();
-    }
-    document.body.removeChild(el);
-    toast(`Lane ${lane} manually added — ${timeSec.toFixed(2)}s`);
-  };
-  setTimeout(() => el.querySelector('#_mf-time').focus(), 100);
+  setTimeout(() => document.getElementById('_mf-time')?.focus(), 100);
+}
+function vfManualSubmit(btn) {
+  const raw = (document.getElementById('_mf-time')?.value || '').trim();
+  let ms = 0;
+  if (raw.includes(':')) { const [m,s] = raw.split(':'); ms = (parseFloat(m)*60 + parseFloat(s)) * 1000; }
+  else ms = parseFloat(raw) * 1000;
+  if (!ms || isNaN(ms) || ms <= 0) { toast('Enter a valid time'); return; }
+  btn.closest('[style]').remove();
+  vfDetections.push({ place: vfDetections.length+1, elapsedMs: Math.round(ms), still: null, _col: -1 });
+  vfDetections.sort((a,b) => a.elapsedMs - b.elapsedMs);
+  vfDetections.forEach((d,i) => d.place = i+1);
+  vfRenderDetections();
+  toast(`Manual finish added: ${fmtMs(Math.round(ms))}`);
 }
 
 // ── TASK 9: Athlete name persistence ─────────────────────────
@@ -4610,9 +4417,13 @@ function adminPrintResults() {
 <div id="ct-footer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(13,27,62,0.92);backdrop-filter:blur(6px);color:rgba(255,255,255,0.5);font-size:11px;text-align:center;padding:6px 16px;z-index:100;display:flex;justify-content:center;gap:16px;align-items:center;flex-wrap:wrap;">
   <span>© 2026 Luck Dragon Pty Ltd</span>
   <span>·</span>
-  <a href="https://schoolsportportal.com.au/privacy" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Privacy</a>
+  <a href="/privacy" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Privacy</a>
+  <span>·</span>
+  <a href="/terms" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Terms</a>
   <span>·</span>
   <a href="https://schoolsportportal.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">School Sport Portal</a>
+  <span>·</span>
+  <a href="https://sportcarnival.com.au" style="color:rgba(255,255,255,0.5);text-decoration:none;" target="_blank">Sport Carnival</a>
 </div>
 </body></html>`);
   win.document.close();
@@ -4622,7 +4433,7 @@ function adminPrintResults() {
 setTimeout(_attachLaneNameAutoLoad, 1500);
 
 // ════════════════════════════════════════════════════════
-//  CT v8.5.2 — Auto Finish Line Detection
+//  CT v8.5.1 — Auto Finish Line Detection
 // ════════════════════════════════════════════════════════
 let xcAutoDetectMode = false;
 let xcAutoPlaceCounter = 0; // local counter, incremented immediately to avoid race
@@ -4763,7 +4574,7 @@ function xcStartDetect() {
   xcCloseLineSetup();
   xcPrevSamples    = null;
   xcLastTrigger    = 0;
-  // FIX 4: sync local counter with current Firebase finish count before starting
+  // FIX 4: sync local counter with current finish count before starting
   xcAutoPlaceCounter = Object.keys(xcState?.finishes || {}).length;
   document.getElementById('xc-detect-status').textContent = '🔴 Detecting — runners auto-recorded';
   xcDetectInterval = setInterval(xcAnalyseFrame, 110); // ~9 fps
@@ -4830,8 +4641,8 @@ async function xcAutoFinish() {
   if (!xcState || xcState.state !== 'live') return;
 
   const elapsed = nowServer() - xcState.startedAtServer;
-  // FIX 4: increment local counter immediately — don't read Firebase state
-  // (Firebase snapshot may lag, causing two fast finishes to get the same place)
+  // FIX 4: increment local counter immediately — don't read remote state
+  // (remote snapshot may lag, causing two fast finishes to get the same place)
   xcAutoPlaceCounter++;
   const place = xcAutoPlaceCounter;
 
@@ -4842,14 +4653,14 @@ async function xcAutoFinish() {
   const key = myId.slice(0, 4) + '-' + Date.now().toString(36);
   xcCapturePhoto(key); // burst capture
 
-  // Write to Firebase (same structure as marshalTap)
+  // Write via WS (same structure as marshalTap)
   await cRef(`xc/current/finishes/${key}`).set({
     marshalId:   myId,
     marshalName: myName || 'Auto',
     bib:         '',
     name:        '',
     elapsedMs:   elapsed,
-    tapAt:       firebase.database.ServerValue.TIMESTAMP,
+    tapAt:       SERVER_TIMESTAMP,
     autoDetected: true,
   });
 
